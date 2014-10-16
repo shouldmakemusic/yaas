@@ -5,33 +5,22 @@ import time # We will be using time functions for time-stamping our log file out
 import sys
 import inspect
 
+""" Constants and configuration """
 from consts import *
+
+""" These handle the tasks """
 from SongHelper import SongHelper
 from LooperHelper import LooperHelper
 from PedalHelper import PedalHelper
 from DeviceHelper import DeviceHelper
 from ValueContainer import ValueContainer
 
-""" All of the Framework files are listed below, but we are only using using some of them in this script (the rest are commented out) """
-from _Framework.ButtonElement import ButtonElement # Class representing a button a the controller
-from _Framework.ChannelStripComponent import ChannelStripComponent # Class attaching to the mixer of a given track
-from _Framework.ChannelTranslationSelector import ChannelTranslationSelector # Class switches modes by translating the given controls' message channel
-from _Framework.ClipSlotComponent import ClipSlotComponent # Class representing a ClipSlot within Live
-from _Framework.CompoundComponent import CompoundComponent # Base class for classes encompasing other components to form complex components
-from _Framework.ControlElement import ControlElement # Base class for all classes representing control elements on a controller
+""" Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent # Base class for all classes encapsulating functions in Live
-from _Framework.DeviceComponent import DeviceComponent # Class representing a device in Live
-from _Framework.EncoderElement import EncoderElement # Class representing a continuous control on the controller
-from _Framework.InputControlElement import * # Base class for all classes representing control elements on a controller
 from _Framework.MixerComponent import MixerComponent # Class encompassing several channel strips to form a mixer
-from _Framework.SceneComponent import SceneComponent # Class representing a scene in Live
 from _Framework.SessionComponent import SessionComponent # Class encompassing several scene to cover a defined section of Live's session
-from _Framework.SessionZoomingComponent import SessionZoomingComponent # Class using a matrix of buttons to choose blocks of clips in the session
-from _Framework.SliderElement import SliderElement # Class representing a slider on the controller
 
 """ Here we define some global variables """
-CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
 session = None #Global session object - global so that we can manipulate the same session object from within any of our methods
 mixer = None #Global mixer object - global so that we can manipulate the same mixer object from within any of our methods
 scene = None
@@ -42,7 +31,7 @@ sceneindex = None
 track_index = 0
 track_volume_element = None
 mixer_controller = None
-emulatedLoopClip = {}
+
 arrayLastPlayedClipForTrack = {}
 looper_start_time = None
 looper_last_track_index = None
@@ -56,19 +45,18 @@ class YAAS(ControlSurface):
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
 	
-
-		"""everything except the '_on_selected_track_changed' override and 'disconnect' runs from here"""
 		ControlSurface.__init__(self, c_instance)
 
 		with self.component_guard():
 			self._setup_mixer_control() # Setup the mixer object
 			self._setup_session_control()  # Setup the session object
+			
 			self._song_helper = SongHelper(self)
 			self._pedal_helper = PedalHelper(self)
 			self._device_helper = DeviceHelper(self)
 			self._looper_helper = LooperHelper(self)
-			#self._setup_device_control()
-		
+
+		# store and retrieve values
 		self._value_container = ValueContainer(self)
 		
 		self.log_message(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
@@ -78,70 +66,65 @@ class YAAS(ControlSurface):
 		self.log_message("build_midi_map() called")
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, 0)
-		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, 1)
-		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, 6)
+		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 1)
+		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 6)
 		for index in range(len(rec_all_notes)):
 			#self.log_message("forwarding note " + str(rec_all_notes[index]) + " as rec all note")
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, rec_all_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, rec_all_notes[index])
 
 		for index in range(len(click_notes)):
 			#self.log_message("forwarding note " + str(click_notes[index]) + " as click switch")
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, click_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, click_notes[index])
 
 		for index in range(len(tap_tempo_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, tap_tempo_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, tap_tempo_notes[index])
 
 		#select track
 		for index in range(len(select_track_notes)):
 			#self.log_message("select track note registered" + str(select_track_notes[index]))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, select_track_notes[index])
-		
-		#emulate loopers
-		for index in range(len(looper_notes)):
-			#self.log_message("looper note registered" + str(looper_notes[index]))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, looper_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_track_notes[index])
 
 		#stop playing clips in this track
 		for index in range(len(stop_clips_notes)):
 			#self.log_message("stop clips note registered" + str(stop_clips_notes[index]))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, stop_clips_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_clips_notes[index])
 
 		#start playing clips in this track
 		for index in range(len(clip_launch_notes)):
 			#self.log_message("start clips note registered" + str(clip_launch_notes[index]))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, clip_launch_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, clip_launch_notes[index])
 
 		#stop playing clips in this track
 		for index in range(len(track_stop_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, track_stop_notes[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, track_stop_notes[index])
 		
 		#move red box
 		for index in range(len(select_box_right)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, select_box_right[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_right[index])
 		for index in range(len(select_box_left)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, select_box_left[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_left[index])
 		for index in range(len(select_box_down)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, select_box_down[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_down[index])
 		for index in range(len(select_box_up)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, select_box_up[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_up[index])
 
 		#scene
 		for index in range(len(scene_down)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, scene_down[index])
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_down[index])
 		for index in range(len(scene_up)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, scene_up[index])
-		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, stop_all_clips)
-		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, play_current_scene)
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_up[index])
+		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_all_clips)
+		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, play_current_scene)
 		
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
 			#self.log_message('registered ' + str(k))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, k)
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions
 		for k, v in midi_cc_definitions.iteritems():
 			#self.log_message('registered ' + str(k))
-			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, 0, k)
+			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 	def receive_midi(self, midi_bytes):
 
@@ -157,14 +140,12 @@ class YAAS(ControlSurface):
 			midi_note = midi_bytes[1]
 			value = midi_bytes[2]
 
-			if (message_type == 128):
+			if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
 				
-				return
 				#self.log_message("Button released");
-				#if (midi_note in looper_notes):
-					#self.emulateLooper(midi_note//10, False, True)
+				return
 
-			elif (message_type == 144):
+			elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
 				
 				#self.log_message("Received Midi Note: " + str(midi_note))
 				
@@ -183,11 +164,7 @@ class YAAS(ControlSurface):
 					looper = track_helper.get_device(LOOPER)
 					self._device_helper.log_parameters_for_device(looper)
 					
-					
-				if (midi_note in looper_notes):
-					self.emulateLooper(track_id)
-					
-				elif (midi_note in stop_clips_notes):
+				if (midi_note in stop_clips_notes):
 					# todo: this is a workaround for 10 -> repair
 					self.stopClips((track_id)-1)
 					
@@ -231,9 +208,9 @@ class YAAS(ControlSurface):
 				# metronome
 				elif (midi_note in click_notes):
 					if (self.song().metronome):
-						self.song().metronome = 0
+						self.song().metronome = OFF
 					else:
-						self.song().metronome = 1
+						self.song().metronome = ON
 						
 
 				elif midi_note == stop_all_clips:
@@ -246,7 +223,7 @@ class YAAS(ControlSurface):
 					self.log_message("For the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)
 					
-			elif (message_type == 176):
+			elif (message_type == MESSAGE_TYPE_MIDI_CC):
 				
 				#self.log_message("Received Midi CC: " + str(midi_note))
 				
@@ -267,7 +244,7 @@ class YAAS(ControlSurface):
 			ControlSurface.receive_midi(self, midi_bytes)
 		#self.set_suppress_rebuild_requests(False)		
 
-	def recAll(self, trackIndex):
+	def recAll(self, track_index):
 		
 		current_song_time = 0
 		if (self.song().is_playing):
@@ -283,11 +260,11 @@ class YAAS(ControlSurface):
 		#self.song().current_song_time = current_song_time
 		#self.song().continue_playing()
 		
-	def selectTrack(self, trackIndex):
+	def selectTrack(self, track_index):
 		
-		track = self.song().tracks[trackIndex]
+		track = self.song().tracks[track_index]
 		#all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
-		#self.song().view.selected_track = all_tracks[trackIndex]
+		#self.song().view.selected_track = all_tracks[track_index]
 		
 		self.song().view.selected_track = track
 		self.application().view.focus_view("Detail") 
@@ -303,8 +280,8 @@ class YAAS(ControlSurface):
 		self.log_message("launch clip " + str(sceneIndex))
 		self.song().view.selected_track.clip_slots[sceneIndex].fire();
 		
-#	def stopClip(self, trackIndex):
-#		self.log_message("stop clip " + str(trackIndex))
+#	def stopClip(self, track_index):
+#		self.log_message("stop clip " + str(track_index))
 #		self.song().view.selected_track.stop_all_clips();
 		
 			
@@ -335,80 +312,32 @@ class YAAS(ControlSurface):
 		if helper_name == PEDAL_HELPER:
 			return self._pedal_helper
 			
-	def stopClips(self, trackIndex):
+	def stopClips(self, track_index):
 		
-		self.log_message("Stopping clips for track " + str(trackIndex))
+		self.log_message("Stopping clips for track " + str(track_index))
 			
-		track = self.song().tracks[trackIndex]
+		track = self.song().tracks[track_index]
 		# before stopping - is some clip currently playing?
 		was_playing = False
 		for i in range(len(track.clip_slots)):
 			if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording:
 				global arrayLastPlayedClipForTrack
 				# remember track number
-				arrayLastPlayedClipForTrack[str(trackIndex)] = i
+				arrayLastPlayedClipForTrack[str(track_index)] = i
 				was_playing = True 
 		
 		if was_playing:
 			# stop
 			track.stop_all_clips()
 			# if track was used in looper - free it
-			if str(trackIndex) in emulatedLoopClip:
-				del emulatedLoopClip[str(trackIndex)]
+			if str(track_index) in self._looper_helper.emulatedLoopClip:
+				del self._looper_helper.emulatedLoopClip[str(track_index)]
 		else:
 			# if there is a remembered track - play it
-			if str(trackIndex) in arrayLastPlayedClipForTrack:
-				track.clip_slots[arrayLastPlayedClipForTrack[str(trackIndex)]].fire()			
+			if str(track_index) in arrayLastPlayedClipForTrack:
+				track.clip_slots[arrayLastPlayedClipForTrack[str(track_index)]].fire()			
 
 		
-	def emulateLooper(self, trackIndex):
-		
-		global emulatedLoopClip
-		current_slot = None;
-		if str(trackIndex) in emulatedLoopClip:
-			current_slot = emulatedLoopClip[str(trackIndex)]
-		self.log_message("Emulate Looper 2 for track " + str(trackIndex) + " with slot " + str(current_slot))
-		
-		track = self.song().tracks[trackIndex]
-		i = 0
-		foundClip = None
-		while i<50:			
-			if i>=len(track.clip_slots):
-				self.log_message("did not find empty clip until " + str(i))
-				break;
-			clip = track.clip_slots[i].clip
-
-			if clip == None and (len(track.clip_slots) > i+1 and track.clip_slots[i+1].clip == None) and (len(track.clip_slots) > i+2 and track.clip_slots[i+2].clip == None): 
-				self.log_message("Clip " + str(i+1) + " is empty");
-				foundClip = i
-				i = 50;
-			i = i + 1
-
-		if foundClip != None:
-			if current_slot != None:
-				
-				if track.clip_slots[current_slot].is_recording:
-					
-					track.clip_slots[current_slot].stop()
-					track.clip_slots[current_slot].fire()
-					del emulatedLoopClip[str(trackIndex)]
-				else:
-					self.log_message("else")
-					i = current_slot
-					while i<50:			
-						clip = track.clip_slots[i].clip
-						#self.log_message("Clip " + str(clip));
-						if clip == None:
-							#self.log_message("Clip " + str(i) + " is empty");
-							foundClip = i
-							i = 50;
-						i = i + 1
-					track.clip_slots[foundClip].fire()
-					emulatedLoopClip[str(trackIndex)] = foundClip
-			else:
-				self.log_message("Switch Looper 1")
-				track.clip_slots[foundClip].fire()
-				emulatedLoopClip[str(trackIndex)] = foundClip
 
 	def _setup_mixer_control(self):
 

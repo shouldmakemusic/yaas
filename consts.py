@@ -6,12 +6,20 @@ IS_LIVE_9_2 = IS_LIVE_9 and Live.Application.get_application().get_minor_version
 
 CURRENT = -1
 LOOPER = "Looper"
+CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
+OFF = 0
+ON = 1
+
 
 MIDI_NOTE_TYPE = 0
 MAX = 1000
 MIN = -1000
 MAX_LOOPER = 1.0
 MIN_LOOPER = 0.0
+
+MESSAGE_TYPE_MIDI_NOTE_PRESSED = 144
+MESSAGE_TYPE_MIDI_NOTE_RELEASED = 128
+MESSAGE_TYPE_MIDI_CC = 176
 
 #track
 num_tracks = 7 
@@ -23,7 +31,7 @@ clip_launch_notes = [92, 93, 94, 95, 97, 98, 99] #this is a set of seven "white"
 
 # track
 select_track_notes = [11, 21, 31, 41, 51, 61]
-looper_notes = [15, 25, 35, 45, 55, 65]
+
 stop_clips_notes = [20, 30, 40, 50, 60, 70]
 # 101 und 111 sind die beiden pedale bei bank 0 ...
 track_stop_notes = [100] #momentan ist nur ein track selectiert - das stopt ihn
@@ -63,6 +71,7 @@ midi_note_definitions = {
     46 : [[TRACK_HELPER, 3      ], 'arm', []],
     56 : [[TRACK_HELPER, 4      ], 'arm', []],
     66 : [[TRACK_HELPER, 5      ], 'arm', []],
+    1  : [DEVICE_HELPER, 'use_trigger_device_chain_for_pedals', [0]],
     2  : [DEVICE_HELPER, 'set_chain_selector', [0, 0]],
     3  : [DEVICE_HELPER, 'set_chain_selector', [0, 1]],
     4  : [DEVICE_HELPER, 'set_chain_selector', [0, 2]],
@@ -101,8 +110,14 @@ midi_note_definitions = {
     44 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     54 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     64 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
-    1  : [DEVICE_HELPER, 'use_trigger_device_chain_for_pedals', [0]],
+    15 : [LOOPER_HELPER, 'clipLooper', [0]],
+    25 : [LOOPER_HELPER, 'clipLooper', [1]],
+    35 : [LOOPER_HELPER, 'clipLooper', [2]],
+    45 : [LOOPER_HELPER, 'clipLooper', [3]],
+    55 : [LOOPER_HELPER, 'clipLooper', [4]],
+    65 : [LOOPER_HELPER, 'clipLooper', [5]],
 }
+
 midi_cc_definitions = {
     101: [PEDAL_HELPER,  'handle_effect_slider', [0, 1]],
     111: [PEDAL_HELPER,  'handle_effect_slider', [0, 2]],
