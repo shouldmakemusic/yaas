@@ -211,24 +211,76 @@ class DeviceHelper(ControlSurfaceComponent):
                     if self._parent._value_container.has_value(chain_name + device.parameters[4].name):
                         device.parameters[4].value = self._parent._value_container.get_single_value(chain_name + device.parameters[4].name)
 
-    def use_trigger_device_chain_for_pedals(self, params, value):
+    hash_device_track_id = 0
+    hash_device_track_helper = None
+    hash_device = None
+    
+    """ Stores the device in this class """
+    def store_hash_device(self, track_id, device):
         
-        track_id = params[0]        
-        track_helper = self._parent._song_helper.get_track(track_id)
-        track_helper.get_focus(None, None)
-        self.application().view.focus_view("Detail/DeviceChain") 
-        
-        #number = chain[:-1]
-        found_track_id = None
-        for i in range(len(track_helper.get_track().devices)):
-            device_name = track_helper.get_track().devices[i].name
-            if device_name == TRIGGER_DEVICE_CHAIN_NAME_INC or device_name == TRIGGER_DEVICE_CHAIN_NAME_EXC or device_name in TRIGGER_DEVICE_CHAIN_NAME:
-                found_track_id = i
-        
-        if found_track_id is not None:
-            device = track_helper.get_device_for_id(found_track_id)
-            self.set_active_device(device)
-            self.song().view.select_device(device)
+        self.hash_device_track_id = track_id
+        self.hash_device_track_helper = self._parent._song_helper.get_track(track_id)
+        self.hash_device = device
             
+    """ 
+        First call select first device that starts with '#'
+        If the name of the appointed device starts with '#' find a new '#'-device
+        Store this device - from now on the first call selects this one
+         
+        params[0] = trackid i.e. [0] 
+        value = unused
+    """
+    def select_current_then_select_next_hash_device(self, params, value):
         
+        self.log_message("select_current_then_select_next_hash_device")
+        track_id = params[0]        
+        #track_helper = self._parent._song_helper.get_track(track_id)
+        selected_track_helper = self._parent._song_helper.get_selected_track()
+        
+        if self.hash_device_track_helper is None:
+            self.log_message("no device was selected so far")
+            self.select_next_hash_device(0)
+        #elif self.song().appointed_device.name.startswith('#'):
+        elif selected_track_helper.get_track_index() != self.hash_device_track_id:
+            self.log_message("there was a different track selected")
+            self._parent._song_helper.set_selected_track(self.hash_device_track_helper)
+            
+        elif self.song().appointed_device.name.startswith('#'):
+            self.log_message("focus was already on hash device")
+            self.select_next_hash_device(self.hash_device_track_id)
+
+        # get the focus to the selected device
+        if self.hash_device is not None:
+            self.focus(self.hash_device)
+            
+    def focus(self, device):        
+        self.log_message("get focus")
+        self.hash_device_track_helper.get_focus(None, None)
+        self.application().view.focus_view("Detail/DeviceChain")  
+        self.song().view.select_device(device)      
+        
+    def select_next_hash_device(self, track_id):
+
+        # iterate through devices and tracks until the next device that startswith '#'        
+        max = len(self.song().tracks)
+        for i in range(track_id, max):
+            track = self._parent._song_helper.get_track(i)
+            #self.log_message("track " + str(i))
+            for j in range(len(track.get_devices())):
+                device = track.get_devices()[j]
+                #self.log_message("device " + str(j) + ": " + device.name)
+                if device.name.startswith('#'):
+                    #if self.hash_device is not None:
+                    #    self.log_message("hash_device.name " + self.hash_device.name + ", hash_track_id " + str(self.hash_device_track_id))
+                    if (self.hash_device is None) or not (device.name == self.hash_device.name and i == self.hash_device_track_id):
+                        self.store_hash_device(i, device)
+                        self.log_message("found hash device on track " + str(i))
+                        return 
+        if track_id > 0:
+            self.log_message("start from beginning ")
+            self.select_next_hash_device(0)
+        else:
+            self.hash_device_track_helper = None
+            self.hash_device_track_id = 0
+            self.hash_device = None
         

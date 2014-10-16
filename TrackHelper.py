@@ -81,6 +81,9 @@ class TrackHelper(ControlSurfaceComponent):
             if lastPlayedClipForTrack != None:
                 self._track.clip_slots[lastPlayedClipForTrack].fire()
                 
+    def get_devices(self):
+        return self._track.devices
+
     def get_device(self, name):
         
         device = None

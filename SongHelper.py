@@ -27,7 +27,10 @@ class SongHelper(ControlSurfaceComponent):
     def get_selected_track(self):
         selected_track = self.song().view.selected_track
         return self.createTrackHelper(selected_track)
-    
+
+    def set_selected_track(self, track_helper):
+        self.song().view.selected_track = track_helper.get_track()
+        
     def get_track(self, track_index):
         if (track_index == CURRENT):
             return self.get_selected_track()

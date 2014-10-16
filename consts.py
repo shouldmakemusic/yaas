@@ -1,8 +1,6 @@
 import Live 
 
 IS_LIVE_9 = Live.Application.get_application().get_major_version() == 9
-IS_LIVE_9_1 = IS_LIVE_9 and Live.Application.get_application().get_minor_version() >= 1
-IS_LIVE_9_2 = IS_LIVE_9 and Live.Application.get_application().get_minor_version() >= 2
 
 CURRENT = -1
 LOOPER = "Looper"
@@ -62,24 +60,29 @@ PEDAL_HELPER = 'pedal_helper'
 
 NEXT = True
 PREV = False
+
 midi_note_definitions = {
-#    1  : [[TRACK_HELPER, CURRENT], 'arm', []],
-    6  : [[TRACK_HELPER, 0], 'get_focus', []],
-    16 : [[TRACK_HELPER, 0      ], 'arm', []],
-    26 : [[TRACK_HELPER, 1      ], 'arm', []],
-    36 : [[TRACK_HELPER, 2      ], 'arm', []],
-    46 : [[TRACK_HELPER, 3      ], 'arm', []],
-    56 : [[TRACK_HELPER, 4      ], 'arm', []],
-    66 : [[TRACK_HELPER, 5      ], 'arm', []],
-    1  : [DEVICE_HELPER, 'use_trigger_device_chain_for_pedals', [0]],
+    
+    # Bank 00
+    1  : [DEVICE_HELPER, 'select_current_then_select_next_hash_device', [0]],
     2  : [DEVICE_HELPER, 'set_chain_selector', [0, 0]],
     3  : [DEVICE_HELPER, 'set_chain_selector', [0, 1]],
     4  : [DEVICE_HELPER, 'set_chain_selector', [0, 2]],
     5  : [DEVICE_HELPER, 'set_chain_selector', [0, 3]],
+
+    6  : [[TRACK_HELPER, 0], 'get_focus', []],
     7  : [DEVICE_HELPER, 'set_chain_selector', [0, 4]],
     8  : [DEVICE_HELPER, 'set_chain_selector', [0, 5]],
     9  : [DEVICE_HELPER, 'set_chain_selector', [0, 6]],
     10 : [DEVICE_HELPER, 'set_chain_selector', [0, 7]],
+
+    # Bank 01    
+    12 : [DEVICE_HELPER, 'navigate_device_focus', [0, PREV]],
+    13 : [DEVICE_HELPER, 'navigate_device_focus', [0, NEXT]],
+    14 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
+    15 : [LOOPER_HELPER, 'clipLooper', [0]],
+    16 : [[TRACK_HELPER, 0], 'arm', []],
+    
 #    2  : [DEVICE_HELPER, 'trigger_device_chain', [0, 0]],
 #    3  : [DEVICE_HELPER, 'trigger_device_chain', [0, 1]],
 #    4  : [DEVICE_HELPER, 'trigger_device_chain', [0, 2]],
@@ -88,29 +91,31 @@ midi_note_definitions = {
 #    8  : [DEVICE_HELPER, 'trigger_device_chain', [0, 5]],
 #    9  : [DEVICE_HELPER, 'trigger_device_chain', [0, 6]],
 #    10 : [DEVICE_HELPER, 'trigger_device_chain', [0, 7]],
+    26 : [[TRACK_HELPER, 1      ], 'arm', []],
+    36 : [[TRACK_HELPER, 2      ], 'arm', []],
+    46 : [[TRACK_HELPER, 3      ], 'arm', []],
+    56 : [[TRACK_HELPER, 4      ], 'arm', []],
+    66 : [[TRACK_HELPER, 5      ], 'arm', []],
+
     72 : [LOOPER_HELPER, 'activate_looper', [1]],     
     74 : [LOOPER_HELPER, 'activate_looper', [2]], 
     77 : [LOOPER_HELPER, 'switch_view', [1]],
     79 : [LOOPER_HELPER, 'switch_view', [2]],
-    12 : [DEVICE_HELPER, 'navigate_device_focus', [0, PREV]],
     22 : [DEVICE_HELPER, 'navigate_device_focus', [1, PREV]],
     32 : [DEVICE_HELPER, 'navigate_device_focus', [2, PREV]],
     42 : [DEVICE_HELPER, 'navigate_device_focus', [3, PREV]],
     52 : [DEVICE_HELPER, 'navigate_device_focus', [4, PREV]],
     62 : [DEVICE_HELPER, 'navigate_device_focus', [5, PREV]],
-    13 : [DEVICE_HELPER, 'navigate_device_focus', [0, NEXT]],
     23 : [DEVICE_HELPER, 'navigate_device_focus', [1, NEXT]],
     33 : [DEVICE_HELPER, 'navigate_device_focus', [2, NEXT]],
     43 : [DEVICE_HELPER, 'navigate_device_focus', [3, NEXT]],
     53 : [DEVICE_HELPER, 'navigate_device_focus', [4, NEXT]],
     63 : [DEVICE_HELPER, 'navigate_device_focus', [5, NEXT]],
-    14 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     24 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     34 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     44 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     54 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
     64 : [DEVICE_HELPER, 'toggle_device', [0, CURRENT]],
-    15 : [LOOPER_HELPER, 'clipLooper', [0]],
     25 : [LOOPER_HELPER, 'clipLooper', [1]],
     35 : [LOOPER_HELPER, 'clipLooper', [2]],
     45 : [LOOPER_HELPER, 'clipLooper', [3]],
@@ -141,7 +146,4 @@ midi_cc_definitions = {
     120: [PEDAL_HELPER,  'handle_volume', [CURRENT, 1]],
 }
 
-TRIGGER_DEVICE_CHAIN_NAME_INC = "Effekte Inc"
-TRIGGER_DEVICE_CHAIN_NAME_EXC = "Effekte Exc"
-TRIGGER_DEVICE_CHAIN_NAME = ["Effekte", "Didge Effekt Rack"]
 CHAIN_MODE_SHORTENED = True
