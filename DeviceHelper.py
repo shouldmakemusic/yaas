@@ -37,11 +37,12 @@ class DeviceHelper(ControlSurfaceComponent):
         for index in range(len(device.parameters)):
             self.log_message("Param " + str(index) + " = " + device.parameters[index].name)
                 
-    # effect has to be named like TRIGGER_DEVICE_CHAIN_NAME_ INC/EXC
-    # exclusive means only one chain is not muted
-    # inclusive means the selected chain gets switched
     def trigger_device_chain(self, params, value):
-        
+        """
+            effect has to be named like TRIGGER_DEVICE_CHAIN_NAME_ INC/EXC
+            exclusive means only one chain is not muted
+            inclusive means the selected chain gets switched
+        """
         track_id = params[0]
         chain_id = params[1]
         
@@ -76,10 +77,10 @@ class DeviceHelper(ControlSurfaceComponent):
                 else:           
                     device.chains[chain_id].mute = True
 
-    """
-        Return TrackHelper of the currently selected device
-    """
     def get_currently_selected_device(self, track_id):
+        """
+            Return TrackHelper of the currently selected device
+        """
         
         track_helper = self._parent._song_helper.get_track(track_id)        
         device = track_helper.get_selected_device()
@@ -89,10 +90,10 @@ class DeviceHelper(ControlSurfaceComponent):
 
         return device
     
-    """
-        Selects next or previous device
-    """
     def navigate_device_focus(self, params, value):
+        """
+            Selects next or previous device
+        """
         
         # ensures there is an active device
         track_id = params[0]
@@ -121,13 +122,16 @@ class DeviceHelper(ControlSurfaceComponent):
             else:
                 self.song().view.select_device(device)
 
-    """
-        Switches defined device on/off
-    """
     def toggle_device(self, params, value):
+        """
+            Switches selected of defined device on/off
+        """
 
         track_id = params[0]
         device_id = params[1]
+        
+        if track_id == CURRENT:
+            track_id = self._parent._song_helper.get_selected_track().get_track_index()
         
         if device_id == CURRENT:
             device = self.get_currently_selected_device(track_id)
@@ -142,12 +146,12 @@ class DeviceHelper(ControlSurfaceComponent):
 
             device.parameters[0].value = 1.0
             active_device = device.name
-            #self.log_message("arrayActiveDevices set to " + device.name)
+            self.log_message("toogle " + device.name + " on")
 
         else:
             device.parameters[0].value = 0.0
             active_device = None
-            #self.log_message("arrayActiveDevices removed ")
+            self.log_message("toogle " + device.name + " off")
         
     def set_chain_selector(self, params, value):
         

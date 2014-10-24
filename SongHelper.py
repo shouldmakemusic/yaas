@@ -26,7 +26,7 @@ class SongHelper(ControlSurfaceComponent):
             
     def get_selected_track(self):
         selected_track = self.song().view.selected_track
-        return self.createTrackHelper(selected_track)
+        return self.getOrCreateTrackHelper(selected_track)
 
     def set_selected_track(self, track_helper):
         self.song().view.selected_track = track_helper.get_track()
@@ -36,7 +36,7 @@ class SongHelper(ControlSurfaceComponent):
             return self.get_selected_track()
         
         track = self.song().tracks[track_index]
-        return self.createTrackHelper(track)
+        return self.getOrCreateTrackHelper(track)
     
     def get_all_tracks(self):
         all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
@@ -48,7 +48,7 @@ class SongHelper(ControlSurfaceComponent):
     def update(self):    
         pass
     
-    def createTrackHelper(self, track):                
+    def getOrCreateTrackHelper(self, track):                
         
         with self._parent.component_guard():
             new_track_helper = TrackHelper(self, track)

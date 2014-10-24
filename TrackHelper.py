@@ -135,6 +135,9 @@ class TrackHelper(ControlSurfaceComponent):
         else:
             self._track.arm = True;
             
+    def get_focus(self):
+        self._song_helper._parent.song().view.selected_track = self._track
+            
     def get_focus(self, params, value):
         self._song_helper._parent.song().view.selected_track = self._track
         
