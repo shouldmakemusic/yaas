@@ -217,15 +217,15 @@ class DeviceHelper(ControlSurfaceComponent):
     def get_hash_device_helper(self):
         return self.hash_device_track_helper
             
-    """ 
-        First call select first device that starts with '#'
-        If the name of the appointed device starts with '#' find a new '#'-device
-        Store this device - from now on the first call selects this one
-         
-        params[0] = trackid i.e. [0] 
-        value = unused
-    """
     def select_current_then_select_next_hash_device(self, params, value):
+        """ 
+            First call select first device that starts with '#'
+            If the name of the appointed device starts with '#' find a new '#'-device
+            Store this device - from now on the first call selects this one
+             
+            params[0] = trackid i.e. [0] 
+            value = unused
+        """
         
         self.log_message("select_current_then_select_next_hash_device")
         track_id = params[0]        
