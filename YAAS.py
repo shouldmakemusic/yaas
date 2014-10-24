@@ -270,7 +270,6 @@ class YAAS(ControlSurface):
 		self.application().view.focus_view("Detail") 
 		self.application().view.focus_view("Detail/DeviceChain") 
 		
-		#self._device_helper.set_active_device(None)
 		#self.log_message("arrayActiveDevices removed ")
 			
 	def launchClip(self, sceneIndex):

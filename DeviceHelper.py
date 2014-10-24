@@ -76,6 +76,9 @@ class DeviceHelper(ControlSurfaceComponent):
                 else:           
                     device.chains[chain_id].mute = True
 
+    """
+        Return TrackHelper of the currently selected device
+    """
     def get_currently_selected_device(self, track_id):
         
         track_helper = self._parent._song_helper.get_track(track_id)        
@@ -86,6 +89,9 @@ class DeviceHelper(ControlSurfaceComponent):
 
         return device
     
+    """
+        Selects next or previous device
+    """
     def navigate_device_focus(self, params, value):
         
         # ensures there is an active device
@@ -115,6 +121,9 @@ class DeviceHelper(ControlSurfaceComponent):
             else:
                 self.song().view.select_device(device)
 
+    """
+        Switches defined device on/off
+    """
     def toggle_device(self, params, value):
 
         track_id = params[0]
@@ -139,31 +148,11 @@ class DeviceHelper(ControlSurfaceComponent):
             device.parameters[0].value = 0.0
             active_device = None
             #self.log_message("arrayActiveDevices removed ")
-
-    def set_active_device(self, device):
-        global active_device
-        active_device = device
-        
-    def get_active_device(self):
-        return active_device
-    
-    def get_effect_device(self, track_id):
-        
-        track_helper = self._parent._song_helper.get_track(track_id)
-        device = None
-        for index in range(len(TRIGGER_DEVICE_CHAIN_NAME)):
-            #self.log_message('looking for ' + TRIGGER_DEVICE_CHAIN_NAME[index])
-            if device is None:
-                device = track_helper.get_device(TRIGGER_DEVICE_CHAIN_NAME[index])
-        return device
-
         
     def set_chain_selector(self, params, value):
         
-        track_id = params[0]
-        chain_id = params[1]
-        #number = chain[:-1]
-        device = self.get_effect_device(track_id)
+        chain_id = params[0]
+        device = self.get_hash_device()
         
         if device is not None:
             
@@ -221,6 +210,12 @@ class DeviceHelper(ControlSurfaceComponent):
         self.hash_device_track_id = track_id
         self.hash_device_track_helper = self._parent._song_helper.get_track(track_id)
         self.hash_device = device
+        
+    def get_hash_device(self):
+        return self.hash_device
+            
+    def get_hash_device_helper(self):
+        return self.hash_device_track_helper
             
     """ 
         First call select first device that starts with '#'

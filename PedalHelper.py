@@ -72,7 +72,7 @@ class PedalHelper(ControlSurfaceComponent):
         parameter_id = params[1]
         global _parameter_names_for_device_in_set
         
-        device = self._parent._device_helper.get_effect_device(track_id)
+        device = self._parent._device_helper.get_hash_device()
                     
         if device is not None:
             

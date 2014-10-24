@@ -65,16 +65,16 @@ midi_note_definitions = {
     
     # Bank 00
     1  : [DEVICE_HELPER, 'select_current_then_select_next_hash_device', [0]],
-    2  : [DEVICE_HELPER, 'set_chain_selector', [0, 0]],
-    3  : [DEVICE_HELPER, 'set_chain_selector', [0, 1]],
-    4  : [DEVICE_HELPER, 'set_chain_selector', [0, 2]],
-    5  : [DEVICE_HELPER, 'set_chain_selector', [0, 3]],
+    2  : [DEVICE_HELPER, 'set_chain_selector', [0]],
+    3  : [DEVICE_HELPER, 'set_chain_selector', [1]],
+    4  : [DEVICE_HELPER, 'set_chain_selector', [2]],
+    5  : [DEVICE_HELPER, 'set_chain_selector', [3]],
 
     6  : [[TRACK_HELPER, 0], 'get_focus', []],
-    7  : [DEVICE_HELPER, 'set_chain_selector', [0, 4]],
-    8  : [DEVICE_HELPER, 'set_chain_selector', [0, 5]],
-    9  : [DEVICE_HELPER, 'set_chain_selector', [0, 6]],
-    10 : [DEVICE_HELPER, 'set_chain_selector', [0, 7]],
+    7  : [DEVICE_HELPER, 'set_chain_selector', [4]],
+    8  : [DEVICE_HELPER, 'set_chain_selector', [5]],
+    9  : [DEVICE_HELPER, 'set_chain_selector', [6]],
+    10 : [DEVICE_HELPER, 'set_chain_selector', [7]],
 
     # Bank 01    
     12 : [DEVICE_HELPER, 'navigate_device_focus', [0, PREV]],
