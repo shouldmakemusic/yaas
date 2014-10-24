@@ -52,3 +52,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Value Container
+ValueContainer.pyc_data.pkl
