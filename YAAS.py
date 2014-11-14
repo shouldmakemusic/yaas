@@ -80,6 +80,24 @@ class YAAS(ControlSurface):
 		
 		self.log_message(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
 		
+	def connect_script_instances(self, instanciated_scripts):
+		"""
+		Called by the Application as soon as all scripts are initialized.
+		You can connect yourself to other running scripts here, as we do it
+		connect the extension modules
+		"""
+		print('(YAAS) connect_script_instances')
+		return
+
+	def update_display(self):
+		"""
+		This function is run every 100ms, so we use it to initiate our Song.current_song_time
+		listener to allow us to process incoming OSC commands as quickly as possible under
+		the current listener scheme.
+		"""
+		#print('(YAAS) update_display')
+		self._LIVEOSC.update_display()
+		
 	def build_midi_map(self, midi_map_handle):
 
 		self.log_message("build_midi_map() called")
