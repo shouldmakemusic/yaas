@@ -4,6 +4,7 @@ import Live # This allows us (and the Framework methods) to use the Live API on 
 import time # We will be using time functions for time-stamping our log file outputs
 import sys
 import inspect
+import os
 
 """ Constants and configuration """
 from consts import *
@@ -14,6 +15,23 @@ from LooperHelper import LooperHelper
 from PedalHelper import PedalHelper
 from DeviceHelper import DeviceHelper
 from ValueContainer import ValueContainer
+
+""" Classes for LiveOSC """
+from LiveOSC.LiveOSCCallbacks import LiveOSCCallbacks
+
+# RemixNet
+from LiveOSC.OSCClient import OSCClient
+from LiveOSC.OSCServer import OSCServer
+from LiveOSC.UDPClient import UDPClient
+from LiveOSC.UDPServer import UDPServer
+
+# OSC
+from LiveOSC.OSCMessage import OSCMessage
+from LiveOSC.CallbackManager import CallbackManager
+from LiveOSC.OSCUtils import *
+
+from LiveOSC.LiveUtils import *
+from LiveOSC.LiveOSC import LiveOSC
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -44,6 +62,7 @@ class YAAS(ControlSurface):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
+		self._LIVEOSC = LiveOSC(c_instance)
 	
 		ControlSurface.__init__(self, c_instance)
 
