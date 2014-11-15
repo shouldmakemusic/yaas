@@ -29,9 +29,13 @@ from LiveOSC.UDPServer import UDPServer
 from LiveOSC.OSCMessage import OSCMessage
 from LiveOSC.CallbackManager import CallbackManager
 from LiveOSC.OSCUtils import *
-
 from LiveOSC.LiveUtils import *
+
+# LiveOSC
 from LiveOSC.LiveOSC import LiveOSC
+
+# YAAS OSC
+from OSCCallbacks import OSCCallbacks
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -62,7 +66,14 @@ class YAAS(ControlSurface):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
+		
+		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
+		# setting up the YAAS OSC Server
+		self.basicAPI = 0	
+		self.oscServer = OSCServer('localhost', 9191, None, 9190)
+		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
+		print('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9191')
 	
 		ControlSurface.__init__(self, c_instance)
 
@@ -95,8 +106,56 @@ class YAAS(ControlSurface):
 		listener to allow us to process incoming OSC commands as quickly as possible under
 		the current listener scheme.
 		"""
-		#print('(YAAS) update_display')
+		# Enable LiveOSC functions
 		self._LIVEOSC.update_display()
+		
+		######################################################
+		# START OSC LISTENER SETUP
+			  
+		if self.basicAPI == 0:
+			# By default we have set basicAPI to 0 so that we can assign it after
+			# initialization. We try to get the current song and if we can we'll
+			# connect our basicAPI callbacks to the listener allowing us to 
+			# respond to incoming OSC every 60ms.
+			#
+			# Since this method is called every 100ms regardless of the song time
+			# changing, we use both methods for processing incoming UDP requests
+			# so that from a resting state you can initiate play/clip triggering.
+			
+			try:
+				doc = self.song()
+			except:
+				return
+			try:
+				self.basicAPI = OSCCallbacks(self.oscServer)
+				# Commented for stability
+				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
+				print('Basic API Setup (' + str(self.basicAPI) + ')')
+				self.oscServer.sendOSC('/remix/echo', 'basicAPI setup complete')
+			except:
+				return
+			
+			# If our OSC server is listening, try processing incoming requests.
+			# Any 'play' initiation will trigger the current_song_time listener
+			# and bump updates from 100ms to 60ms.
+			
+		if self.oscServer:
+			try:
+				self.oscServer.processIncomingUDP()
+			except:
+				pass
+			
+		# END OSC LISTENER SETUP
+		######################################################
+
+			
+	def send_midi(self, midi_event_bytes):
+		"""
+		Use this function to send MIDI events through Live to the _real_ MIDI devices 
+		that this script is assigned to.
+		"""
+		print('(YAAS) send_midi')
+		pass
 		
 	def build_midi_map(self, midi_map_handle):
 
