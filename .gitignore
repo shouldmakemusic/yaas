@@ -1,3 +1,9 @@
+logs/stderr.txt
+logs/stdout.txt
+
+.DS_Store
+_Framework
+
 .project
 .pydevproject
 _Framework/
