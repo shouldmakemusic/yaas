@@ -23,6 +23,7 @@ This file contains all the current Live OSC callbacks.
 """
 import Live
 
+from util.RangeUtil import RangeUtil
 # OSC
 from LiveOSC.OSCMessage import OSCMessage
 from LiveOSC.CallbackManager import CallbackManager
@@ -36,6 +37,7 @@ import LiveOSC.UDPServer
 
 
 class OSCCallbacks:
+    
     def __init__(self, oscServer):
         
         print('(OSCCallbacks) init')
@@ -43,11 +45,20 @@ class OSCCallbacks:
             self.oscServer = oscServer
             self.callbackManager = oscServer.callbackManager
             self.oscClient = oscServer.oscClient
+                        
         else:
+            print('(OSCCallbacks) will not work because no oscServer has been given')
             return
-
+        
         self.callbackManager.add(self.sensorX, "/yaas/sensor")
-
+    
+    def setMainScript(self, mainScript):
+        self._parent = mainScript
+        self._pedal_helper = self._parent._pedal_helper
+        # for now
+        self._parent._device_helper.select_current_then_select_next_hash_device([0], None)
+        device = self._parent._device_helper.get_hash_device()
+        print('Using device ' + device.name)            
 
     def sensorX(self, msg):
         """Called when a /yaas/sensor measurement is received.
@@ -60,6 +71,16 @@ class OSCCallbacks:
             y = msg[3]
             z = msg[4]
             print('Received values: ' + str(x) + ", " + str(y) + ", " + str(z))
-            #LiveUtils.setTempo(tempo)
         
+            device = self._parent._device_helper.get_hash_device()
+            
+            range_util = RangeUtil(-10, 10)
+            valueX = range_util.get_value(device.parameters[1], x);
+            valueY = range_util.get_value(device.parameters[2], y);
+            valueZ = range_util.get_value(device.parameters[3], z);
+            print('Normalized values: ' + str(valueX) + ", " + str(valueY) + ", " + str(valueZ))
 
+            device.parameters[1].value = valueX
+            device.parameters[2].value = valueY
+            device.parameters[3].value = valueZ
+            

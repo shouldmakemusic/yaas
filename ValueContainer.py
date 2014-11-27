@@ -33,6 +33,34 @@ class ValueContainer():
         
     def values(self):
         return self._values
+    
+    '''
+    #!/usr/local/bin/python
+
+# Python: Retrieve filename of currently-open Ableton Live set
+# based on inspecting Live's last Log.txt.
+
+import re
+import os
+import glob
+
+# Use Log.txt corresponding to latest Live version. eg:
+# ~/Library/Preferences/Ableton/Live\ 9.0.6/Log.txt 
+
+root = os.path.expanduser("~/Library/Preferences/Ableton")
+logfiles = glob.glob("%s/Live */Log.txt" % root)
+regexp = "file://.*\.als$"
+
+if logfiles:
+    logfile = list(sorted(logfiles))[-1]
+    # print "(using logfile %s)" % logfile
+    contents = file(logfile).readlines()
+    projects = filter(lambda line: re.search(regexp, line), contents)
+    project = projects[-1].strip()
+    project = os.path.basename(project)
+    print project
+
+'''
         
     def loadValues(self):
         self._values = {}

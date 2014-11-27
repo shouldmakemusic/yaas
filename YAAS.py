@@ -71,7 +71,7 @@ class YAAS(ControlSurface):
 		self._LIVEOSC = LiveOSC(c_instance)
 		# setting up the YAAS OSC Server
 		self.basicAPI = 0	
-		self.oscServer = OSCServer('localhost', 9191, None, 9190)
+		self.oscServer = OSCServer('localhost', 9191, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
 		print('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9191')
 	
@@ -128,6 +128,7 @@ class YAAS(ControlSurface):
 				return
 			try:
 				self.basicAPI = OSCCallbacks(self.oscServer)
+				self.basicAPI.setMainScript(self)
 				# Commented for stability
 				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
 				print('Basic API Setup (' + str(self.basicAPI) + ')')
