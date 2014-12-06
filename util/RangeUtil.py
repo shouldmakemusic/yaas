@@ -50,9 +50,9 @@ class RangeUtil:
         return (source_value * factor) + abs(factor * self.source_min_value) - abs(self.target_min_value)
     
     def get_value(self, device_parameter, source_value):
-        print('Setting min: ' + str(device_parameter.min)) 
+        #print('Setting min: ' + str(device_parameter.min)) 
         self.target_min_value = device_parameter.min
-        print('Setting max: ' + str(device_parameter.max)) 
+        #print('Setting max: ' + str(device_parameter.max)) 
         self.target_max_value = device_parameter.max
         return self.get_target_value(source_value)
     

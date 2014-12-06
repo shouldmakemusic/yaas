@@ -70,7 +70,7 @@ class OSCCallbacks:
             x = msg[2]
             y = msg[3]
             z = msg[4]
-            print('Received values: ' + str(x) + ", " + str(y) + ", " + str(z))
+            #print('Received values: ' + str(x) + ", " + str(y) + ", " + str(z))
         
             device = self._parent._device_helper.get_hash_device()
             
@@ -78,7 +78,7 @@ class OSCCallbacks:
             valueX = range_util.get_value(device.parameters[1], x);
             valueY = range_util.get_value(device.parameters[2], y);
             valueZ = range_util.get_value(device.parameters[3], z);
-            print('Normalized values: ' + str(valueX) + ", " + str(valueY) + ", " + str(valueZ))
+            #print('Normalized values: ' + str(valueX) + ", " + str(valueY) + ", " + str(valueZ))
 
             device.parameters[1].value = valueX
             device.parameters[2].value = valueY
