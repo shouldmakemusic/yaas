@@ -8,6 +8,7 @@ import os
 
 """ Constants and configuration """
 from consts import *
+from config_midi import *
 
 """ These handle the tasks """
 from SongHelper import SongHelper
@@ -15,6 +16,7 @@ from LooperHelper import LooperHelper
 from PedalHelper import PedalHelper
 from DeviceHelper import DeviceHelper
 from ValueContainer import ValueContainer
+from LightHouseReceiver import LightHouseReceiver
 
 """ Classes for LiveOSC """
 from LiveOSC.LiveOSCCallbacks import LiveOSCCallbacks
@@ -74,7 +76,10 @@ class YAAS(ControlSurface):
 		self.oscServer = OSCServer('localhost', 9191, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
 		print('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9191')
-	
+			
+		# here i will handle messages from LightHouse
+		self._lighthouse_receiver = LightHouseReceiver(self, c_instance)
+		
 		ControlSurface.__init__(self, c_instance)
 
 		with self.component_guard():
@@ -162,6 +167,8 @@ class YAAS(ControlSurface):
 
 		self.log_message("build_midi_map() called")
 		ControlSurface.build_midi_map(self, midi_map_handle)
+		self._lighthouse_receiver.build_midi_map(midi_map_handle)
+		
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, 0)
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 1)
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 6)
@@ -212,7 +219,7 @@ class YAAS(ControlSurface):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_up[index])
 		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_all_clips)
 		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, play_current_scene)
-		
+				
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
 			#self.log_message('registered ' + str(k))
@@ -230,7 +237,6 @@ class YAAS(ControlSurface):
 		assert (midi_bytes != None)
 		assert isinstance(midi_bytes, tuple)
 
-		#self.set_suppress_rebuild_requests(True)
 		if (len(midi_bytes) is 3):
 			
 			message_type = midi_bytes[0]
@@ -331,6 +337,12 @@ class YAAS(ControlSurface):
 					self.log_message("CC for the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)				
 			
+			elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
+				
+				self._lighthouse_receiver.receive_midi(midi_bytes)
+			elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED):
+				
+				self._lighthouse_receiver.receive_midi(midi_bytes)
 			else:
 				self.log_message("Midi for the control surface: " + str(midi_bytes))
 				ControlSurface.receive_midi(self, midi_bytes)
