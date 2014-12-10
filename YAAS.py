@@ -38,6 +38,7 @@ from LiveOSC.LiveOSC import LiveOSC
 
 # YAAS OSC
 from OSCCallbacks import OSCCallbacks
+from util.Logger import Logger
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -68,14 +69,16 @@ class YAAS(ControlSurface):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
+		self._c_instance = c_instance
 		
 		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
 		# setting up the YAAS OSC Server
 		self.basicAPI = 0	
-		self.oscServer = OSCServer('localhost', 9191, None, 9190)		
+		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
-		print('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9191')
+		self.log = Logger(self, self.oscServer)
+		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
 			
 		# here i will handle messages from LightHouse
 		self._lighthouse_receiver = LightHouseReceiver(self, c_instance)
@@ -94,7 +97,7 @@ class YAAS(ControlSurface):
 		# store and retrieve values
 		self._value_container = ValueContainer(self)
 		
-		self.log_message(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
+		self.log.debug(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
 		
 	def connect_script_instances(self, instanciated_scripts):
 		"""
@@ -102,7 +105,7 @@ class YAAS(ControlSurface):
 		You can connect yourself to other running scripts here, as we do it
 		connect the extension modules
 		"""
-		print('(YAAS) connect_script_instances')
+		self.log.info('(YAAS) connect_script_instances')
 		return
 
 	def update_display(self):
@@ -136,7 +139,7 @@ class YAAS(ControlSurface):
 				self.basicAPI.setMainScript(self)
 				# Commented for stability
 				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
-				print('Basic API Setup (' + str(self.basicAPI) + ')')
+				self.log.info('Basic API Setup (' + str(self.basicAPI) + ')')
 				self.oscServer.sendOSC('/remix/echo', 'basicAPI setup complete')
 			except:
 				return
@@ -160,12 +163,12 @@ class YAAS(ControlSurface):
 		Use this function to send MIDI events through Live to the _real_ MIDI devices 
 		that this script is assigned to.
 		"""
-		print('(YAAS) send_midi')
+		self.log.debug('(YAAS) send_midi')
 		pass
 		
 	def build_midi_map(self, midi_map_handle):
 
-		self.log_message("build_midi_map() called")
+		self.log.debug("build_midi_map() called")
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 		
@@ -261,8 +264,8 @@ class YAAS(ControlSurface):
 				pedalnumber = midi_note%10
 				
 				if (midi_note == 70):
-					self.log_message("Looper test");
-					self.log_message("Selected Track Index: " + str(self._song_helper.get_selected_track().get_track_index()))
+					self.log.debug("Looper test");
+					self.log.debug("Selected Track Index: " + str(self._song_helper.get_selected_track().get_track_index()))
 					track_helper = self._song_helper.get_selected_track()
 					looper = track_helper.get_device(LOOPER)
 					self._device_helper.log_parameters_for_device(looper)
@@ -323,7 +326,7 @@ class YAAS(ControlSurface):
 					self.song().view.selected_scene.fire_as_selected()
 
 				else:
-					self.log_message("For the control surface: " + str(midi_bytes))
+					self.log.debug("For the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)
 					
 			elif (message_type == MESSAGE_TYPE_MIDI_CC):
@@ -334,7 +337,7 @@ class YAAS(ControlSurface):
 					self.handle_parametered_function(midi_cc_definitions, midi_note, value);
 				
 				else:
-					self.log_message("CC for the control surface: " + str(midi_bytes))
+					self.log.debug("CC for the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)				
 			
 			elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
@@ -344,11 +347,11 @@ class YAAS(ControlSurface):
 				
 				self._lighthouse_receiver.receive_midi(midi_bytes)
 			else:
-				self.log_message("Midi for the control surface: " + str(midi_bytes))
+				self.log.debug("Midi for the control surface: " + str(midi_bytes))
 				ControlSurface.receive_midi(self, midi_bytes)
 
 		else:
-			self.log_message("Different: " + str(midi_bytes))
+			self.log.debug("Different: " + str(midi_bytes))
 			self.handle_sysex(midi_bytes)
 			ControlSurface.receive_midi(self, midi_bytes)
 		#self.set_suppress_rebuild_requests(False)		
@@ -361,7 +364,7 @@ class YAAS(ControlSurface):
 			#self.song().stop_playing()
 
 		if (self.song().record_mode == 0):
-			self.log_message("Start recording from " + str(current_song_time));
+			self.log.info("Start recording from " + str(current_song_time));
 			self.song().set_or_delete_cue()
 			self.song().record_mode = 1
 		else:
@@ -385,7 +388,7 @@ class YAAS(ControlSurface):
 		if (sceneIndex > 4):
 			sceneIndex = sceneIndex -1
 		sceneIndex = session._scene_offset + sceneIndex
-		self.log_message("launch clip " + str(sceneIndex))
+		self.log.info("launch clip " + str(sceneIndex))
 		self.song().view.selected_track.clip_slots[sceneIndex].fire();
 		
 #	def stopClip(self, track_index):
@@ -422,7 +425,7 @@ class YAAS(ControlSurface):
 			
 	def stopClips(self, track_index):
 		
-		self.log_message("Stopping clips for track " + str(track_index))
+		self.log.info("Stopping clips for track " + str(track_index))
 			
 		track = self.song().tracks[track_index]
 		# before stopping - is some clip currently playing?
@@ -482,7 +485,7 @@ class YAAS(ControlSurface):
 		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
 		global track_index
 		track_index = list(all_tracks).index(selected_track) #and so is this
-		self.log_message("Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
+		self.log.debug("Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 
 		global session
 		session.set_offsets(track_index, session._scene_offset) #(track_offset, scene_offset); we leave scene_offset unchanged, but set track_offset to the selected track. This allows us to jump the red box to the selected track.		
@@ -496,17 +499,17 @@ class YAAS(ControlSurface):
 		selected_scene = self.song().view.selected_scene #this is how we get the currently selected scene, using the Live API
 		all_scenes = self.song().scenes #then get all of the scenes
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
-		self.log_message("Scene " + str(sceneindex+1) + " selected")
+		self.log.debug("Scene " + str(sceneindex+1) + " selected")
 		
 	def move_track_view_vertical(self, down):
 		if down:
-			self.log_message("track view down")
+			self.log.debug("track view down")
 			scene_offset = session._scene_offset + 1
 			session.set_offsets(session._track_offset, scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
 			self.song().view.selected_scene = self.song().scenes[scene_offset]
 
 		else:
-			self.log_message("track view up")
+			self.log.debug("track view up")
 			scene_offset = session._scene_offset - 1
 			if scene_offset < 0:
 				scene_offset = 0
@@ -515,13 +518,13 @@ class YAAS(ControlSurface):
 
 	def move_track_view_horizontal(self, down):
 		if down:
-			self.log_message("track view right")
+			self.log.debug("track view right")
 			track_offset = session._track_offset + 1
 			session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
 			self.song().view.selected_track = self.song().tracks[track_offset]
 
 		else:
-			self.log_message("track view left")
+			self.log.debug("track view left")
 			track_offset = session._track_offset - 1
 			if track_offset < 0:
 				track_offset = 0
@@ -534,20 +537,20 @@ class YAAS(ControlSurface):
 		global scene
 				
 		if down:
-			self.log_message("scene view down")
+			self.log.debug("scene view down")
 			sceneindex = sceneindex + 1
 			self.song().view.selected_scene = self.song().scenes[sceneindex]
 
 		else:
 			if sceneindex == 0:
 				return
-			self.log_message("scene view up")
+			self.log.debug("scene view up")
 			sceneindex = sceneindex - 1
 			self.song().view.selected_scene = self.song().scenes[sceneindex]
 
 	def disconnect(self):
 		"""clean things up on disconnect"""
-		self.log_message(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log closed =--------------") #Create entry in log file
+		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log closed =--------------") #Create entry in log file
 		ControlSurface.disconnect(self)
 		self._YAAS__main_script = None
 		return None
