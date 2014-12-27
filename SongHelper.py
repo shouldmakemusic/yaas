@@ -38,6 +38,12 @@ class SongHelper(ControlSurfaceComponent):
         track = self.song().tracks[track_index]
         return self.getOrCreateTrackHelper(track)
     
+    def get_track_for_name(self, name):
+        for i in range(len(self.song().tracks)):
+            if self.song().tracks[i].name == name:
+                return self.get_track(i)
+        return None
+    
     def get_all_tracks(self):
         all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
         return all_tracks
