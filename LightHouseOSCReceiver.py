@@ -36,18 +36,18 @@ import LiveOSC.UDPClient
 import LiveOSC.UDPServer
 
 
-class OSCCallbacks:
+class LightHouseOSCReceiver:
     
     def __init__(self, oscServer):
         
-        print('(OSCCallbacks) init')
+        print('(LightHouseOSCReceiver) init')
         if oscServer:
             self.oscServer = oscServer
             self.callbackManager = oscServer.callbackManager
             self.oscClient = oscServer.oscClient
                         
         else:
-            print('(OSCCallbacks) will not work because no oscServer has been given')
+            print('(LightHouseOSCReceiver) will not work because no oscServer has been given')
             return
         
         self.callbackManager.add(self.sensorX, "/yaas/sensor")

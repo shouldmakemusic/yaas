@@ -37,7 +37,7 @@ from LiveOSC.LiveUtils import *
 from LiveOSC.LiveOSC import LiveOSC
 
 # YAAS OSC
-from OSCCallbacks import OSCCallbacks
+from LightHouseOSCReceiver import LightHouseOSCReceiver
 from util.Logger import Logger
 
 """ Framework classes """
@@ -135,7 +135,7 @@ class YAAS(ControlSurface):
 			except:
 				return
 			try:
-				self.basicAPI = OSCCallbacks(self.oscServer)
+				self.basicAPI = LightHouseOSCReceiver(self.oscServer)
 				self.basicAPI.setMainScript(self)
 				# Commented for stability
 				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)

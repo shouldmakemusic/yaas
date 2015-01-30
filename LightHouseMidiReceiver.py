@@ -9,19 +9,19 @@ from consts import *
 from config_lighthouse import *
 from util.RangeUtil import RangeUtil
 
-class LightHouseReceiver:
+class LightHouseMidiReceiver:
     __module__ = __name__
-    __doc__ = "LightHouseReceiver handles incoming messages from LightHouse"
+    __doc__ = "LightHouseMidiReceiver handles incoming messages from LightHouse"
     
     def __init__(self, parent, c_instance):
-        self._LightHouseReceiver__c_instance = c_instance
+        self._LightHouseMidiReceiver__c_instance = c_instance
         self._parent = parent
         self._range_util_android = RangeUtil(0, 100)
         self._currentClipNumber = 0
 
     def build_midi_map(self, midi_map_handle):
 
-        print('(LightHouseReceiver) build_midi_map() called')
+        print('(LightHouseMidiReceiver) build_midi_map() called')
 
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 1)
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 2)
@@ -39,7 +39,7 @@ class LightHouseReceiver:
         return
     
     def receive_midi(self, midi_bytes):
-        print('(LightHouseReceiver) receive_midi() ' + str(midi_bytes))
+        print('(LightHouseMidiReceiver) receive_midi() ' + str(midi_bytes))
 
         assert (midi_bytes != None)
         assert isinstance(midi_bytes, tuple)
@@ -125,7 +125,7 @@ class LightHouseReceiver:
                 device.parameters[type].value = valueX
 
     def script_handle(self):
-        return self._LightHouseReceiver__c_instance.handle()
+        return self._LightHouseMidiReceiver__c_instance.handle()
     
     def song(self):
         return self._parent.song()
