@@ -125,14 +125,6 @@ class YAAS(ControlSurface):
 		# START OSC LISTENER SETUP
 			  
 		if self.basicAPI == 0:
-			# By default we have set basicAPI to 0 so that we can assign it after
-			# initialization. We try to get the current song and if we can we'll
-			# connect our basicAPI callbacks to the listener allowing us to 
-			# respond to incoming OSC every 60ms.
-			#
-			# Since this method is called every 100ms regardless of the song time
-			# changing, we use both methods for processing incoming UDP requests
-			# so that from a resting state you can initiate play/clip triggering.
 			
 			try:
 				doc = self.song()
@@ -142,8 +134,6 @@ class YAAS(ControlSurface):
 			try:
 				self.basicAPI = LightHouseOSCReceiver(self.oscServer, self.log)
 				self.basicAPI.setMainScript(self)
-				# Commented for stability
-				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
 				self.log.info('LightHouseOSCReceiver running')
 			except Exception, err:
 				self.log.error("Could not setup lighthouse osc recevier: " + str(err))
@@ -225,17 +215,17 @@ class YAAS(ControlSurface):
 				
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
-			self.log.debug('registered midi note ' + str(k))
+			self.log.verbose('registered midi note ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions
 		for k, v in midi_cc_definitions.iteritems():
-			self.log.debug('registered midi cc ' + str(k))
+			self.log.verbose('registered midi cc ' + str(k))
 			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 	def receive_midi(self, midi_bytes):
 
-		#self.log_message(str(midi_bytes))
+		#self.log.debug(str(midi_bytes))
 		
 		assert (midi_bytes != None)
 		assert isinstance(midi_bytes, tuple)
@@ -248,7 +238,7 @@ class YAAS(ControlSurface):
 
 			if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
 				
-				#self.log_message("Button released");
+				#self.log.debug("Button released");
 				return
 
 			elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
@@ -331,7 +321,7 @@ class YAAS(ControlSurface):
 					
 			elif (message_type == MESSAGE_TYPE_MIDI_CC):
 				
-				#self.log_message("Received Midi CC: " + str(midi_note))
+				#self.log.debug("Received Midi CC: " + str(midi_note))
 				
 				if (midi_note in midi_cc_definitions):					
 					self.handle_parametered_function(midi_cc_definitions, midi_note, value);
@@ -382,7 +372,7 @@ class YAAS(ControlSurface):
 		self.application().view.focus_view("Detail") 
 		self.application().view.focus_view("Detail/DeviceChain") 
 		
-		#self.log_message("arrayActiveDevices removed ")
+		#self.log.debug("arrayActiveDevices removed ")
 			
 	def launchClip(self, sceneIndex):
 		if (sceneIndex > 4):
@@ -392,7 +382,7 @@ class YAAS(ControlSurface):
 		self.song().view.selected_track.clip_slots[sceneIndex].fire();
 		
 #	def stopClip(self, track_index):
-#		self.log_message("stop clip " + str(track_index))
+#		self.log.debug("stop clip " + str(track_index))
 #		self.song().view.selected_track.stop_all_clips();
 		
 			

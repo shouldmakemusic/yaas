@@ -1,5 +1,8 @@
+from __future__ import with_statement
+
 import sys
 import time
+import os
 
 # RemixNet
 from ..LiveOSC.OSCClient import OSCClient
@@ -18,7 +21,11 @@ class Logger:
         
         # setting up the YAAS OSC Server
         self.basicAPI = 0    
-        self.oscServer = OSCServer('localhost', 9050, None, 9089)        
+        self.oscServer = OSCServer('localhost', 9050, None, 9089)
+        
+        filename = os.path.dirname(__file__)[:-4] + os.path.basename("stderr.txt")
+        self.oscServer.sendOSC("/yaas/log/errorfile", filename)
+           
         self.debug("Logger started")
         
     def set_yaas(self, yaas):
@@ -37,6 +44,10 @@ class Logger:
         self.log_to_yaas(msg)
         self.oscServer.sendOSC("/yaas/log/debug", msg)
         
+    def verbose(self,msg):
+        self.log_to_yaas(msg)
+        self.oscServer.sendOSC("/yaas/log/verbose", msg)
+        
     def info(self,msg):
         self.log_to_yaas(msg)
         self.oscServer.sendOSC("/yaas/log/info", msg)
@@ -44,3 +55,4 @@ class Logger:
     def write(self, data):
         if self.oscServer is not None:
             self.oscServer.sendOSC("/yaas/log/error", data)
+    

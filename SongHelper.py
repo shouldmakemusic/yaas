@@ -62,10 +62,10 @@ class SongHelper(ControlSurfaceComponent):
         index = new_track_helper.get_track_index()
         
         if index in track_helper:
-            self.log.debug("Has already track helper for " + str(index))
+            self.log.verbose("Has already track helper for " + str(index))
             new_track_helper = None
         else:
-            self.log.debug("Created track helper for " + str(index))
+            self.log.verbose("Created track helper for " + str(index))
             track_helper[index] = new_track_helper
             
         return track_helper[index]
