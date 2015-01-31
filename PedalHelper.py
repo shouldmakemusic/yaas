@@ -39,7 +39,7 @@ class PedalHelper(ControlSurfaceComponent):
         track_helper = self._parent._song_helper.get_track(track_id)
         
         new_value = self.get_normalized_value_from_target(track_helper.get_track().mixer_device.sends[send_id], value)        
-        #self.log_message("set send " + str(send_id) + " for track " + str(track_id) + " to value " + str(new_value))
+        #self.log.debug("set send " + str(send_id) + " for track " + str(track_id) + " to value " + str(new_value))
         track_helper.set_send_value(send_id, new_value)
         
     def get_normalized_value_from_target(self, target, value):
@@ -57,14 +57,14 @@ class PedalHelper(ControlSurfaceComponent):
             ((max + min) * value / 128) - min
         '''
         new_value = ((max + min) * value / 128.0) - min
-        #self.log_message("new value " + str(new_value))    
+        #self.log.debug("new value " + str(new_value))    
         return new_value
     
     def handle_volume(self, params, value):
         
         track_id = params[0]        
         track_helper = self._parent._song_helper.get_track(track_id)
-        #self.log_message("Volume note code " + str(value) + " and value " + str(midi_bytes[2]))
+        #self.log.debug("Volume note code " + str(value) + " and value " + str(midi_bytes[2]))
         # value is between 0 and 127 - for volume the wanted max value is 0.85
         value = (0.85 * value) / 128.0
         selected_track = track_helper.get_track()
@@ -89,7 +89,7 @@ class PedalHelper(ControlSurfaceComponent):
                 for index in range(len(device.parameters)):
                     parameter_name = device.parameters[index].name
                     parameter_names[parameter_name] = index
-                    #self._parent.log_message("added param " + parameter_name + " with index " + str(index))
+                    #self._parent.log.debug("added param " + parameter_name + " with index " + str(index))
                     
                 _parameter_names_for_device_in_set[name] = parameter_names
                 self.log.debug("stored parameters for " + name)
@@ -98,13 +98,13 @@ class PedalHelper(ControlSurfaceComponent):
             max = parameter.max
             
             max_name = "Max " + parameter.name
-            #self._parent.log_message("max name " + max_name)
+            #self._parent.log.debug("max name " + max_name)
             if max_name in _parameter_names_for_device_in_set[name]:
-                #self._parent.log_message("found")
+                #self._parent.log.debug("found")
                 index = _parameter_names_for_device_in_set[name][max_name]
-                #self._parent.log_message("index " + str(index))
+                #self._parent.log.debug("index " + str(index))
                 max = device.parameters[index].value + 1
-            #self._parent.log_message("max value " + str(max))
+            #self._parent.log.debug("max value " + str(max))
                 
             value = self.get_normalized_value(min, max, value)    
             parameter.value = value

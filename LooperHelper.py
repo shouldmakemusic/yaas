@@ -111,9 +111,9 @@ class LooperHelper(ControlSurfaceComponent):
                     i = current_slot
                     while i<50:            
                         clip = track.clip_slots[i].clip
-                        #self.log_message("Clip " + str(clip));
+                        #self.log.debug("Clip " + str(clip));
                         if clip == None:
-                            #self.log_message("Clip " + str(i) + " is empty");
+                            #self.log.debug("Clip " + str(i) + " is empty");
                             foundClip = i
                             i = 50;
                         i = i + 1
