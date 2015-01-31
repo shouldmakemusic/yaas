@@ -14,14 +14,15 @@ class LightHouseMidiReceiver:
     __doc__ = "LightHouseMidiReceiver handles incoming messages from LightHouse"
     
     def __init__(self, parent, c_instance):
+        self.log = parent.log
         self._LightHouseMidiReceiver__c_instance = c_instance
         self._parent = parent
         self._range_util_android = RangeUtil(0, 100)
-        self._currentClipNumber = 0
+        self._currentClipNumber = 0        
 
     def build_midi_map(self, midi_map_handle):
 
-        print('(LightHouseMidiReceiver) build_midi_map() called')
+        self.log.debug('(LightHouseMidiReceiver) build_midi_map() called')
 
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 1)
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 2)
@@ -33,13 +34,13 @@ class LightHouseMidiReceiver:
         
         # midi_note_definitions
         for k, v in midi_note_definitions_lighthouse.iteritems():
-            #self.log_message('registered ' + str(k))
+            #self.log.debug('registered ' + str(k))
             Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, k)
 
         return
     
     def receive_midi(self, midi_bytes):
-        print('(LightHouseMidiReceiver) receive_midi() ' + str(midi_bytes))
+        self.log.debug('(LightHouseMidiReceiver) receive_midi() ' + str(midi_bytes))
 
         assert (midi_bytes != None)
         assert isinstance(midi_bytes, tuple)
@@ -53,7 +54,7 @@ class LightHouseMidiReceiver:
             if (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
                 #print('found pressed'); 
                 if (midi_note in midi_note_definitions_lighthouse):
-                    print('found action');                    
+                    self.log.debug('found action');                    
                     self._parent.handle_parametered_function(midi_note_definitions_lighthouse, midi_note, value);
                 if (midi_note == 1):
                     if (value == 1):                        
@@ -89,7 +90,7 @@ class LightHouseMidiReceiver:
                 #    print('y: ' + str(value))
 
             elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED):
-                #self.log_message("released");
+                #self.log.debug("released");
                 return
         return
     def add_second_track(self, value):
@@ -129,6 +130,3 @@ class LightHouseMidiReceiver:
     
     def song(self):
         return self._parent.song()
-    
-    def log_message(self, message):
-        self._parent.log_message(message)

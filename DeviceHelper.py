@@ -14,12 +14,10 @@ class DeviceHelper(ControlSurfaceComponent):
     def __init__(self, parent):
         ControlSurfaceComponent.__init__(self)
         self._parent = parent
+        self.log = self._parent.log
     
     def song(self):
         return self._parent.song()
-    
-    def log_message(self, message):
-        self._parent.log_message(message)
     
     def disconnect(self):
         self._parent = None
@@ -35,7 +33,7 @@ class DeviceHelper(ControlSurfaceComponent):
     def log_parameters_for_device(self, device):
     
         for index in range(len(device.parameters)):
-            self.log_message("Param " + str(index) + " = " + device.parameters[index].name)
+            self.log.debug("Param " + str(index) + " = " + device.parameters[index].name)
                 
     def trigger_device_chain(self, params, value):
         """
@@ -52,9 +50,9 @@ class DeviceHelper(ControlSurfaceComponent):
         if device is not None:
             if len(device.chains) > chain_id:
                 
-                #self.log_message("Trigger chain " + str(chain_id + 1) + " with " + str(len(device.chains)) + " chains")                
+                #self.log.debug("Trigger chain " + str(chain_id + 1) + " with " + str(len(device.chains)) + " chains")                
                 if device.chains[chain_id].mute == True:
-                    self.log_message("was muted")
+                    self.log.debug("was muted")
                     for index in range(len(device.chains)):
                     
                         if index == chain_id:
@@ -62,7 +60,7 @@ class DeviceHelper(ControlSurfaceComponent):
                         else:           
                             device.chains[index].mute = True
                 else:
-                    self.log_message("was not muted")
+                    self.log.debug("was not muted")
                     device.chains[chain_id].mute = True
                     device.chains[0].mute = False
 
@@ -70,7 +68,7 @@ class DeviceHelper(ControlSurfaceComponent):
         if device is not None:
             if len(device.chains) > chain_id:
                 
-                self.log_message("Trigger chain " + str(chain_id + 1) + " with " + str(len(device.chains)) + " chains")
+                self.log.debug("Trigger chain " + str(chain_id + 1) + " with " + str(len(device.chains)) + " chains")
                 
                 if device.chains[chain_id].mute == True:
                     device.chains[chain_id].mute = False
@@ -102,7 +100,7 @@ class DeviceHelper(ControlSurfaceComponent):
         
         selected_track = self._parent._song_helper.get_selected_track()
         target_track = self._parent._song_helper.get_track(track_id)
-        self.log_message('target ' + target_track.name + ', selected ' + selected_track.name)
+        self.log.debug('target ' + target_track.name + ', selected ' + selected_track.name)
         
         if selected_track.get_track_index() == target_track.get_track_index() and self.application().view.is_view_visible("Detail/DeviceChain"):
             if next == True:
@@ -146,12 +144,12 @@ class DeviceHelper(ControlSurfaceComponent):
 
             device.parameters[0].value = 1.0
             active_device = device.name
-            self.log_message("toogle " + device.name + " on")
+            self.log.debug("toogle " + device.name + " on")
 
         else:
             device.parameters[0].value = 0.0
             active_device = None
-            self.log_message("toogle " + device.name + " off")
+            self.log.debug("toogle " + device.name + " off")
         
     def set_chain_selector(self, params, value):
         
@@ -163,7 +161,7 @@ class DeviceHelper(ControlSurfaceComponent):
             # find chain parameter
             chain_parameter = None
             if device.parameters[9].is_enabled == True:
-                self.log_message('chain 9 is enabled' )
+                self.log.debug('chain 9 is enabled' )
                 chain_parameter = device.parameters[9]
             else:
                 for i in range(len(device.parameters)):
@@ -178,18 +176,18 @@ class DeviceHelper(ControlSurfaceComponent):
             self._parent._value_container.set_value(chain_name + device.parameters[3].name, device.parameters[3].value)
             self._parent._value_container.set_value(chain_name + device.parameters[4].name, device.parameters[4].value)                            
             
-            self.log_message("set chain activator to " + str(chain_id + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name)
+            self.log.debug("set chain activator to " + str(chain_id + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name)
             if len(device.chains) > chain_id:
                 # set selector
                 value = chain_id
-                #self.log_message("max " + str(chain_parameter.max))
-                #self.log_message("min " + str(chain_parameter.min))
+                #self.log.debug("max " + str(chain_parameter.max))
+                #self.log.debug("min " + str(chain_parameter.min))
                 #if CHAIN_MODE_SHORTENED:
                 #    value = 127 / 7 * value
-                #self.log_message("new value " + str(value))
+                #self.log.debug("new value " + str(value))
                 chain_parameter.value = value
                 
-                #self.log_message("done for " + chain_parameter.name)
+                #self.log.debug("done for " + chain_parameter.name)
                             
                 # restore values of first four parameters
                 # only if new chain is not 0 (=normal)
@@ -231,21 +229,21 @@ class DeviceHelper(ControlSurfaceComponent):
             value = unused
         """
         
-        self.log_message("select_current_then_select_next_hash_device")
+        self.log.debug("select_current_then_select_next_hash_device")
         track_id = params[0]        
         #track_helper = self._parent._song_helper.get_track(track_id)
         selected_track_helper = self._parent._song_helper.get_selected_track()
         
         if self.hash_device_track_helper is None:
-            self.log_message("no device was selected so far")
+            self.log.debug("no device was selected so far")
             self.select_next_hash_device(0)
         #elif self.song().appointed_device.name.startswith('#'):
         elif selected_track_helper.get_track_index() != self.hash_device_track_id:
-            self.log_message("there was a different track selected")
+            self.log.debug("there was a different track selected")
             self._parent._song_helper.set_selected_track(self.hash_device_track_helper)
             
         elif self.song().appointed_device.name.startswith('#'):
-            self.log_message("focus was already on hash device")
+            self.log.debug("focus was already on hash device")
             self.select_next_hash_device(self.hash_device_track_id)
 
         # get the focus to the selected device
@@ -253,7 +251,7 @@ class DeviceHelper(ControlSurfaceComponent):
             self.focus(self.hash_device)
             
     def focus(self, device):        
-        self.log_message("get focus")
+        self.log.debug("get focus")
         self.hash_device_track_helper.get_focus(None, None)
         self.application().view.focus_view("Detail/DeviceChain")  
         self.song().view.select_device(device)      
@@ -264,19 +262,19 @@ class DeviceHelper(ControlSurfaceComponent):
         max = len(self.song().tracks)
         for i in range(track_id, max):
             track = self._parent._song_helper.get_track(i)
-            #self.log_message("track " + str(i))
+            #self.log.debug("track " + str(i))
             for j in range(len(track.get_devices())):
                 device = track.get_devices()[j]
-                #self.log_message("device " + str(j) + ": " + device.name)
+                #self.log.debug("device " + str(j) + ": " + device.name)
                 if device.name.startswith('#'):
                     #if self.hash_device is not None:
-                    #    self.log_message("hash_device.name " + self.hash_device.name + ", hash_track_id " + str(self.hash_device_track_id))
+                    #    self.log.debug("hash_device.name " + self.hash_device.name + ", hash_track_id " + str(self.hash_device_track_id))
                     if (self.hash_device is None) or not (device.name == self.hash_device.name and i == self.hash_device_track_id):
                         self.store_hash_device(i, device)
-                        self.log_message("found hash device on track " + str(i))
+                        self.log.debug("found hash device on track " + str(i))
                         return 
         if track_id > 0:
-            self.log_message("start from beginning ")
+            self.log.debug("start from beginning ")
             self.select_next_hash_device(0)
         else:
             self.hash_device_track_helper = None

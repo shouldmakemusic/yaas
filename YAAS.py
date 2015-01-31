@@ -140,12 +140,11 @@ class YAAS(ControlSurface):
 				self.log.error("Could not setup lighthouse osc recevier (song not found)")
 				return
 			try:
-				self.basicAPI = LightHouseOSCReceiver(self.oscServer)
+				self.basicAPI = LightHouseOSCReceiver(self.oscServer, self.log)
 				self.basicAPI.setMainScript(self)
 				# Commented for stability
 				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
-				self.log.info('Basic API Setup (' + str(self.basicAPI) + ')')
-				self.oscServer.sendOSC('/remix/echo', 'basicAPI setup complete')
+				self.log.info('LightHouseOSCReceiver running')
 			except Exception, err:
 				self.log.error("Could not setup lighthouse osc recevier: " + str(err))
 				return
@@ -182,11 +181,9 @@ class YAAS(ControlSurface):
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 1)
 		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 6)
 		for index in range(len(rec_all_notes)):
-			#self.log_message("forwarding note " + str(rec_all_notes[index]) + " as rec all note")
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, rec_all_notes[index])
 
 		for index in range(len(click_notes)):
-			#self.log_message("forwarding note " + str(click_notes[index]) + " as click switch")
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, click_notes[index])
 
 		for index in range(len(tap_tempo_notes)):
@@ -194,17 +191,14 @@ class YAAS(ControlSurface):
 
 		#select track
 		for index in range(len(select_track_notes)):
-			#self.log_message("select track note registered" + str(select_track_notes[index]))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_track_notes[index])
 
 		#stop playing clips in this track
 		for index in range(len(stop_clips_notes)):
-			#self.log_message("stop clips note registered" + str(stop_clips_notes[index]))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_clips_notes[index])
 
 		#start playing clips in this track
 		for index in range(len(clip_launch_notes)):
-			#self.log_message("start clips note registered" + str(clip_launch_notes[index]))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, clip_launch_notes[index])
 
 		#stop playing clips in this track
@@ -231,12 +225,12 @@ class YAAS(ControlSurface):
 				
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
-			#self.log_message('registered ' + str(k))
+			self.log.debug('registered midi note ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions
 		for k, v in midi_cc_definitions.iteritems():
-			#self.log_message('registered ' + str(k))
+			self.log.debug('registered midi cc ' + str(k))
 			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 	def receive_midi(self, midi_bytes):
@@ -259,7 +253,7 @@ class YAAS(ControlSurface):
 
 			elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
 				
-				#self.log_message("Received Midi Note: " + str(midi_note))
+				self.log.debug("Received Midi Note: " + str(midi_note))
 				
 				# bank
 				# 1 => 0, 11 => 1, 21 => 2
@@ -394,7 +388,7 @@ class YAAS(ControlSurface):
 		if (sceneIndex > 4):
 			sceneIndex = sceneIndex -1
 		sceneIndex = session._scene_offset + sceneIndex
-		self.log.info("launch clip " + str(sceneIndex))
+		self.log.debug("launch clip " + str(sceneIndex))
 		self.song().view.selected_track.clip_slots[sceneIndex].fire();
 		
 #	def stopClip(self, track_index):

@@ -38,16 +38,17 @@ import LiveOSC.UDPServer
 
 class LightHouseOSCReceiver:
     
-    def __init__(self, oscServer):
+    def __init__(self, oscServer, logger):
         
-        print('(LightHouseOSCReceiver) init')
+        self.log = logger
+        self.log.debug('(LightHouseOSCReceiver) init')
         if oscServer:
             self.oscServer = oscServer
             self.callbackManager = oscServer.callbackManager
             self.oscClient = oscServer.oscClient
                         
         else:
-            print('(LightHouseOSCReceiver) will not work because no oscServer has been given')
+            self.log.debug('(LightHouseOSCReceiver) will not work because no oscServer has been given')
             return
         
         self.callbackManager.add(self.sensorX, "/yaas/sensor")
@@ -58,7 +59,8 @@ class LightHouseOSCReceiver:
         # for now
         self._parent._device_helper.select_current_then_select_next_hash_device([0], None)
         device = self._parent._device_helper.get_hash_device()
-        print('Using device ' + device.name)            
+        if device is not None:
+            self.log.debug('Using device ' + device.name)            
 
     def sensorX(self, msg):
         """Called when a /yaas/sensor measurement is received.

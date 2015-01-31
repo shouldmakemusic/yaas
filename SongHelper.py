@@ -14,6 +14,7 @@ class SongHelper(ControlSurfaceComponent):
     def __init__(self, parent):
         ControlSurfaceComponent.__init__(self)
         self._parent = parent
+        self.log = self._parent.log
     
     def song(self):
         return self._parent.song()
@@ -61,10 +62,10 @@ class SongHelper(ControlSurfaceComponent):
         index = new_track_helper.get_track_index()
         
         if index in track_helper:
-            #self._parent.log_message("Has already track helper for " + str(index))
+            self.log.debug("Has already track helper for " + str(index))
             new_track_helper = None
         else:
-            self._parent.log_message("Created track helper for " + str(index))
+            self.log.debug("Created track helper for " + str(index))
             track_helper[index] = new_track_helper
             
         return track_helper[index]

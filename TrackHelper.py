@@ -12,6 +12,7 @@ class TrackHelper(ControlSurfaceComponent):
     def __init__(self, song_helper, track):
         ControlSurfaceComponent.__init__(self)
         self._song_helper = song_helper
+        self.log = self._song_helper._parent.log
                 
         # if the track given is a number
         if isinstance(track, int):            
@@ -34,9 +35,6 @@ class TrackHelper(ControlSurfaceComponent):
     def song(self):
         return self._song_helper._parent.song()
     
-    def log_message(self, message):
-        self._song_helper._parent.log_message(message)
-    
     def disconnect(self):
         self._song_helper = None
         self._track = None
@@ -58,7 +56,7 @@ class TrackHelper(ControlSurfaceComponent):
     
     def stop_clips_on_track(self):
         
-        self.log_message("Stopping clips for track " + self._track.name)
+        self.log.debug("Stopping clips for track " + self._track.name)
             
         # before stopping - is some clip currently playing?
         was_playing = False

@@ -14,12 +14,10 @@ class LooperHelper(ControlSurfaceComponent):
     def __init__(self, parent):
         ControlSurfaceComponent.__init__(self)
         self._parent = parent
+        self.log = self._parent.log
     
     def song(self):
         return self._parent.song()
-    
-    def log_message(self, message):
-        self._parent.log_message(message)
     
     def disconnect(self):
         self._parent = None
@@ -57,18 +55,18 @@ class LooperHelper(ControlSurfaceComponent):
         
         index = param[0]
         global looper_last_track_index
-        self._parent.log_message("test switch_view for " + str(index))
+        self.log.debug("test switch_view for " + str(index))
         
         looperindex = self.get_looper_index_in_returns(index)
         
         if looper_last_track_index is None:
             # gehe zu looper
-            self._parent.log_message("zum looper ")
+            self.log.debug("zum looper ")
             looper_last_track_index = self._parent._song_helper.get_selected_track().get_track_index() 
             self.song().view.selected_track = self.song().return_tracks[looperindex]
         else:        
 
-            self._parent.log_message("zur spur " + str(looper_last_track_index))
+            self.log.debug("zur spur " + str(looper_last_track_index))
             self.song().view.selected_track = self.song().tracks[looper_last_track_index]
             looper_last_track_index = None
             
@@ -83,19 +81,19 @@ class LooperHelper(ControlSurfaceComponent):
         current_slot = None;
         if str(track_index) in self.emulatedLoopClip:
             current_slot = self.emulatedLoopClip[str(track_index)]
-        self.log_message("Emulate Looper 2 for track " + str(track_index) + " with slot " + str(current_slot))
+        self.log.debug("Emulate Looper 2 for track " + str(track_index) + " with slot " + str(current_slot))
         
         track = self.song().tracks[track_index]
         i = 0
         foundClip = None
         while i<50:            
             if i>=len(track.clip_slots):
-                self.log_message("did not find empty clip until " + str(i))
+                self.log.debug("did not find empty clip until " + str(i))
                 break;
             clip = track.clip_slots[i].clip
 
             if clip == None and (len(track.clip_slots) > i+1 and track.clip_slots[i+1].clip == None) and (len(track.clip_slots) > i+2 and track.clip_slots[i+2].clip == None): 
-                self.log_message("Clip " + str(i+1) + " is empty");
+                self.log.debug("Clip " + str(i+1) + " is empty");
                 foundClip = i
                 i = 50;
             i = i + 1
@@ -109,7 +107,7 @@ class LooperHelper(ControlSurfaceComponent):
                     track.clip_slots[current_slot].fire()
                     del self.emulatedLoopClip[str(track_index)]
                 else:
-                    self.log_message("else")
+                    self.log.debug("else")
                     i = current_slot
                     while i<50:            
                         clip = track.clip_slots[i].clip
@@ -122,7 +120,7 @@ class LooperHelper(ControlSurfaceComponent):
                     track.clip_slots[foundClip].fire()
                     self.emulatedLoopClip[str(track_index)] = foundClip
             else:
-                self.log_message("Switch Looper 1")
+                self.log.debug("Switch Looper 1")
                 track.clip_slots[foundClip].fire()
                 self.emulatedLoopClip[str(track_index)] = foundClip
 

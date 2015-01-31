@@ -15,12 +15,10 @@ class PedalHelper(ControlSurfaceComponent):
     def __init__(self, parent):
         ControlSurfaceComponent.__init__(self)
         self._parent = parent
+        self.log = self._parent.log
     
     def song(self):
         return self._parent.song()
-    
-    def log_message(self, message):
-        self._parent.log_message(message)
     
     def disconnect(self):
         self._parent = None
@@ -94,7 +92,7 @@ class PedalHelper(ControlSurfaceComponent):
                     #self._parent.log_message("added param " + parameter_name + " with index " + str(index))
                     
                 _parameter_names_for_device_in_set[name] = parameter_names
-                self._parent.log_message("stored parameters for " + name)
+                self.log.debug("stored parameters for " + name)
 
             min = parameter.min
             max = parameter.max
