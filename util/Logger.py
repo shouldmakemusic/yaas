@@ -52,7 +52,6 @@ class Logger:
         self.oscServer.sendOSC("/yaas/log/debug", msg)
         
     def verbose(self,msg):
-        self.log_to_yaas(msg)
         self.oscServer.sendOSC("/yaas/log/verbose", msg)
         
     def info(self,msg):
@@ -65,5 +64,5 @@ class Logger:
             
     def log_object_attributes(self, obj):     
         for attr in dir(obj):
-            self.log.verbose( "obj.%s = %s" % (attr, getattr(obj, attr)))
+            self.verbose( "obj.%s = %s" % (attr, getattr(obj, attr)))
     

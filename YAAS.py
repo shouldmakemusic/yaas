@@ -6,6 +6,8 @@ import sys
 import inspect
 import os
 
+from controller.RedFrameController import RedFrameController
+
 """ Constants and configuration """
 from consts import *
 from config_midi import *
@@ -57,7 +59,7 @@ track_index = 0
 track_volume_element = None
 mixer_controller = None
 
-arrayLastPlayedClipForTrack = {}
+
 looper_start_time = None
 looper_last_track_index = None
 
@@ -94,12 +96,19 @@ class YAAS(ControlSurface):
 			self._setup_session_control()  # Setup the session object
 			
 			self._song_helper = SongHelper(self)
+			self.song_helper = self._song_helper
+			
 			self._pedal_helper = PedalHelper(self)
+			
 			self._device_helper = DeviceHelper(self)
+			self.device_helper = self._device_helper
+			
 			self._looper_helper = LooperHelper(self)
 
 		# store and retrieve values
 		self._value_container = ValueContainer(self)
+		
+		self.get_controller("RedFrameController")
 		
 		
 	def connect_script_instances(self, instanciated_scripts):
@@ -182,18 +191,7 @@ class YAAS(ControlSurface):
 		for index in range(len(select_track_notes)):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_track_notes[index])
 
-		#stop playing clips in this track
-		for index in range(len(stop_clips_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_clips_notes[index])
 
-		#start playing clips in this track
-		for index in range(len(clip_launch_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, clip_launch_notes[index])
-
-		#stop playing clips in this track
-		for index in range(len(track_stop_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, track_stop_notes[index])
-		
 		#move red box
 		for index in range(len(select_box_right)):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_right[index])
@@ -225,125 +223,116 @@ class YAAS(ControlSurface):
 	def receive_midi(self, midi_bytes):
 
 		#self.log.debug(str(midi_bytes))
-		
-		assert (midi_bytes != None)
-		assert isinstance(midi_bytes, tuple)
-
-		if (len(midi_bytes) is 3):
-			
-			message_type = midi_bytes[0]
-			midi_note = midi_bytes[1]
-			value = midi_bytes[2]
-
-			if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
+		try:
+			assert (midi_bytes != None)
+			assert isinstance(midi_bytes, tuple)
+	
+			if (len(midi_bytes) is 3):
 				
-				#self.log.debug("Button released");
-				return
-
-			elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
-				
-				self.log.debug("Received Midi Note: " + str(midi_note))
-				
-				# bank
-				# 1 => 0, 11 => 1, 21 => 2
-				track_id = (midi_note//10) - 1
-				# hier waere ein mapping besser
-				# welche taste
-				# 1 => 1, 11 => 1, 12 => 2
-				pedalnumber = midi_note%10
-				
-				if (midi_note == 70):
-					self.log.debug("Looper test");
-					self.log.debug("Selected Track Index: " + str(self._song_helper.get_selected_track().get_track_index()))
-					track_helper = self._song_helper.get_selected_track()
-					looper = track_helper.get_device(LOOPER)
-					self._device_helper.log_parameters_for_device(looper)
+				message_type = midi_bytes[0]
+				midi_note = midi_bytes[1]
+				value = midi_bytes[2]
+	
+				if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
 					
-				if (midi_note in stop_clips_notes):
-					# todo: this is a workaround for 10 -> repair
-					self.stopClips((track_id)-1)
+					#self.log.debug("Button released");
+					return
+	
+				elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
 					
-				elif (midi_note in select_track_notes):
-					self.selectTrack(track_id)
-
-				elif (midi_note in clip_launch_notes):
-					self.launchClip(midi_note%10-2)	
-									
-				elif (midi_note in track_stop_notes):
-					selected_track = self.song().view.selected_track
-					all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_midi_note method
-					track_index = list(all_tracks).index(selected_track) #and so is this
-					self.stopClips(track_index)	
-									
-				elif (midi_note in rec_all_notes):
-					self.recAll(track_id)
+					self.log.debug("Received Midi Note: " + str(midi_note))
 					
-				elif (midi_note in tap_tempo_notes):
-					self.song().tap_tempo()
-
-				# move red box
-				elif (midi_note in select_box_right):
-					self.move_track_view_horizontal(True)
-				elif (midi_note in select_box_left):
-					self.move_track_view_horizontal(False)
-				elif (midi_note in select_box_down):
-					self.move_track_view_vertical(True);
-				elif (midi_note in select_box_up):
-					self.move_track_view_vertical(False);
-				# move scene
-				elif (midi_note in scene_down):
-					self.move_scene_view_vertical(True);
-				elif (midi_note in scene_up):
-					self.move_scene_view_vertical(False);
-
-				# device helper
-				elif (midi_note in midi_note_definitions):					
-					self.handle_parametered_function(midi_note_definitions, midi_note, value);
-				
-				# metronome
-				elif (midi_note in click_notes):
-					if (self.song().metronome):
-						self.song().metronome = OFF
-					else:
-						self.song().metronome = ON
+					# bank
+					# 1 => 0, 11 => 1, 21 => 2
+					track_id = (midi_note//10) - 1
+					# hier waere ein mapping besser
+					# welche taste
+					# 1 => 1, 11 => 1, 12 => 2
+					pedalnumber = midi_note%10
+					
+					if (midi_note == 70):
+						self.log.debug("Looper test");
+						self.log.debug("Selected Track Index: " + str(self._song_helper.get_selected_track().get_track_index()))
+						track_helper = self._song_helper.get_selected_track()
+						looper = track_helper.get_device(LOOPER)
+						self._device_helper.log_parameters_for_device(looper)
+												
+					elif (midi_note in select_track_notes):
+						self.selectTrack(track_id)
+										
+					elif (midi_note in rec_all_notes):
+						self.recAll(track_id)
 						
-
-				elif midi_note == stop_all_clips:
-					self.song().stop_all_clips()
-
-				elif midi_note == play_current_scene:
-					self.song().view.selected_scene.fire_as_selected()
-
-				else:
-					self.log.debug("For the control surface: " + str(midi_bytes))
-					ControlSurface.receive_midi(self, midi_bytes)
+					elif (midi_note in tap_tempo_notes):
+						self.song().tap_tempo()
+	
+					# move red box
+					elif (midi_note in select_box_right):
+						self.move_track_view_horizontal(True)
+					elif (midi_note in select_box_left):
+						self.move_track_view_horizontal(False)
+					elif (midi_note in select_box_down):
+						self.move_track_view_vertical(True);
+					elif (midi_note in select_box_up):
+						self.move_track_view_vertical(False);
+					# move scene
+					elif (midi_note in scene_down):
+						self.move_scene_view_vertical(True);
+					elif (midi_note in scene_up):
+						self.move_scene_view_vertical(False);
+	
+					# device helper
+					elif (midi_note in midi_note_definitions):					
+						self.handle_parametered_function(midi_note_definitions, midi_note, value);
 					
-			elif (message_type == MESSAGE_TYPE_MIDI_CC):
+					# metronome
+					elif (midi_note in click_notes):
+						if (self.song().metronome):
+							self.song().metronome = OFF
+						else:
+							self.song().metronome = ON
+							
+	
+					elif midi_note == stop_all_clips:
+						self.song().stop_all_clips()
+	
+					elif midi_note == play_current_scene:
+						self.song().view.selected_scene.fire_as_selected()
+	
+					else:
+						self.log.debug("For the control surface: " + str(midi_bytes))
+						ControlSurface.receive_midi(self, midi_bytes)
+						
+				elif (message_type == MESSAGE_TYPE_MIDI_CC):
+					
+					#self.log.debug("Received Midi CC: " + str(midi_note))
+					
+					if (midi_note in midi_cc_definitions):					
+						self.handle_parametered_function(midi_cc_definitions, midi_note, value);
+					
+					else:
+						self.log.debug("CC for the control surface: " + str(midi_bytes))
+						ControlSurface.receive_midi(self, midi_bytes)				
 				
-				#self.log.debug("Received Midi CC: " + str(midi_note))
-				
-				if (midi_note in midi_cc_definitions):					
-					self.handle_parametered_function(midi_cc_definitions, midi_note, value);
-				
+				elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
+					
+					self._lighthouse_receiver.receive_midi(midi_bytes)
+				elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED):
+					
+					self._lighthouse_receiver.receive_midi(midi_bytes)
 				else:
-					self.log.debug("CC for the control surface: " + str(midi_bytes))
-					ControlSurface.receive_midi(self, midi_bytes)				
-			
-			elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
-				
-				self._lighthouse_receiver.receive_midi(midi_bytes)
-			elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED):
-				
-				self._lighthouse_receiver.receive_midi(midi_bytes)
+					self.log.debug("Midi for the control surface: " + str(midi_bytes))
+					ControlSurface.receive_midi(self, midi_bytes)
+	
 			else:
-				self.log.debug("Midi for the control surface: " + str(midi_bytes))
+				self.log.debug("Different: " + str(midi_bytes))
+				self.handle_sysex(midi_bytes)
 				ControlSurface.receive_midi(self, midi_bytes)
-
-		else:
-			self.log.debug("Different: " + str(midi_bytes))
-			self.handle_sysex(midi_bytes)
-			ControlSurface.receive_midi(self, midi_bytes)
-		#self.set_suppress_rebuild_requests(False)		
+			#self.set_suppress_rebuild_requests(False)	
+				
+		except Exception, err:
+			self.log.error("Could not execute midi " + str(midi_bytes))
+			self.log.error(str(err))
 
 	def recAll(self, track_index):
 		
@@ -372,13 +361,7 @@ class YAAS(ControlSurface):
 		self.application().view.focus_view("Detail/DeviceChain") 
 		
 		#self.log.debug("arrayActiveDevices removed ")
-			
-	def launchClip(self, sceneIndex):
-		if (sceneIndex > 4):
-			sceneIndex = sceneIndex -1
-		sceneIndex = session._scene_offset + sceneIndex
-		self.log.debug("launch clip " + str(sceneIndex))
-		self.song().view.selected_track.clip_slots[sceneIndex].fire();
+
 		
 #	def stopClip(self, track_index):
 #		self.log.debug("stop clip " + str(track_index))
@@ -391,10 +374,26 @@ class YAAS(ControlSurface):
 		helper_name = function_and_param[0]
 		method =  function_and_param[1]
 		param =  function_and_param[2]
-		helper = self.get_helper(helper_name)
 		
-		getattr(helper, method)(param, value)
+		helper = self.get_helper(helper_name)
+		try:
+			getattr(helper, method)(param, value)
+		except Exception, err:
+			self.log.error(err)
+
+		controller = self.get_controller(helper_name)
+		getattr(controller, method)(param, value)
 			
+	def get_controller(self, name):
+		"""
+			Returns a controller from dir controller
+			For these controllers the event handling is available
+			(the methods have to accept params and value as parameters)
+		"""
+		controller = globals()[name](self)
+		self.log.log_object_attributes(controller)
+		return controller
+		
 	def get_helper(self, param):
 		
 		helper_name = None
@@ -411,33 +410,6 @@ class YAAS(ControlSurface):
 			return self._looper_helper
 		if helper_name == PEDAL_HELPER:
 			return self._pedal_helper
-			
-	def stopClips(self, track_index):
-		
-		self.log.info("Stopping clips for track " + str(track_index))
-			
-		track = self.song().tracks[track_index]
-		# before stopping - is some clip currently playing?
-		was_playing = False
-		for i in range(len(track.clip_slots)):
-			if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording:
-				global arrayLastPlayedClipForTrack
-				# remember track number
-				arrayLastPlayedClipForTrack[str(track_index)] = i
-				was_playing = True 
-		
-		if was_playing:
-			# stop
-			track.stop_all_clips()
-			# if track was used in looper - free it
-			if str(track_index) in self._looper_helper.emulatedLoopClip:
-				del self._looper_helper.emulatedLoopClip[str(track_index)]
-		else:
-			# if there is a remembered track - play it
-			if str(track_index) in arrayLastPlayedClipForTrack:
-				track.clip_slots[arrayLastPlayedClipForTrack[str(track_index)]].fire()			
-
-		
 
 	def _setup_mixer_control(self):
 

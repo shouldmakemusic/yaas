@@ -3,8 +3,6 @@ import Live
 from consts import *
 from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
 
-lastPlayedClipForTrack = None
-
 class TrackHelper(ControlSurfaceComponent):
     __module__ = __name__
     __doc__ = 'TrackHelper provides easy access to the track functions'
@@ -13,6 +11,7 @@ class TrackHelper(ControlSurfaceComponent):
         ControlSurfaceComponent.__init__(self)
         self._song_helper = song_helper
         self.log = self._song_helper._parent.log
+        self.last_played_clip = None
                 
         # if the track given is a number
         if isinstance(track, int):            
@@ -53,31 +52,6 @@ class TrackHelper(ControlSurfaceComponent):
     
     def get_track_index(self):
         return self._track_index
-    
-    def stop_clips_on_track(self):
-        
-        self.log.debug("Stopping clips for track " + self._track.name)
-            
-        # before stopping - is some clip currently playing?
-        was_playing = False
-        for i in range(len(self._track.clip_slots)):
-            if self._track.clip_slots[i].is_playing or self._track.clip_slots[i].is_recording:
-                global arrayLastPlayedClipForTrack
-                # remember track number
-                lastPlayedClipForTrack = i
-                was_playing = True 
-        
-        if was_playing:
-            # stop
-            self._track.stop_all_clips()
-            # if track was used in looper - free it
-            ''' TODO '''
-            #if str(trackIndex) in emulatedLoopClip:
-            #    del emulatedLoopClip[str(trackIndex)]
-        else:
-            # if there is a remembered track - play it
-            if lastPlayedClipForTrack != None:
-                self._track.clip_slots[lastPlayedClipForTrack].fire()
                 
     def get_devices(self):
         return self._track.devices
@@ -138,4 +112,35 @@ class TrackHelper(ControlSurfaceComponent):
             
     def get_focus(self, params, value):
         self._song_helper._parent.song().view.selected_track = self._track
+        
+    def stop_or_restart_clip(self):
+        """
+            If a clip is playing in the this track - stop it and remember it
+            If this method is called again and no clip is playing - start it again
+        """        
+        self.log.verbose("Stopping clips for track " + self._track.name)
+            
+        track = self._track
+        # before stopping - is some clip currently playing?
+        was_playing = False
+        for i in range(len(track.clip_slots)):
+            if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording:
+
+                # remember track number
+                self.last_played_clip = i
+                was_playing = True 
+        
+        if was_playing:
+            # stop
+            track.stop_all_clips()
+            # if track was used in looper - free it
+            # TODO: what was that again??????
+            #if str(track_index) in self._looper_helper.emulatedLoopClip:
+            #    del self._looper_helper.emulatedLoopClip[str(track_index)]
+            self.last_played_clip = None
+        else:
+            # if there is a remembered track - play it
+            if self.last_played_clip is not None:
+                track.clip_slots[self.last_played_clip].fire()            
+
         

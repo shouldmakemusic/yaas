@@ -1,16 +1,18 @@
 from consts import *
 
+RED_FRAME_CONTROLLER = "RedFrameController"
+TRACK_CONTROLLER = "TrackController"
 #track_volume = 14 #this is cc
 #arm_current_track = 1
 
-clip_launch_notes = [92, 93, 94, 95, 97, 98, 99] #this is a set of seven "white" notes, starting at C3
+#clip_launch_notes = [92, 93, 94, 95, 97, 98, 99] #this is a set of seven "white" notes, starting at C3
 
 # track
 select_track_notes = [11, 21, 31, 41, 51, 61]
 
-stop_clips_notes = [20, 30, 40, 50, 60, 70]
+#stop_clips_notes = [20, 30, 40, 50, 60, 70]
 # 101 und 111 sind die beiden pedale bei bank 0 ...
-track_stop_notes = [100] #momentan ist nur ein track selectiert - das stopt ihn
+#track_stop_notes = [100] #momentan ist nur ein track selectiert - das stopt ihn
 
 # device
 rec_all_notes = [17, 27, 37, 47, 57, 67]
@@ -90,6 +92,25 @@ midi_note_definitions = {
     45 : [LOOPER_HELPER, 'clipLooper', [3]],
     55 : [LOOPER_HELPER, 'clipLooper', [4]],
     65 : [LOOPER_HELPER, 'clipLooper', [5]],
+    
+
+    92 : [RED_FRAME_CONTROLLER, 'play_clip', [1]],
+    93 : [RED_FRAME_CONTROLLER, 'play_clip', [2]],
+    94 : [RED_FRAME_CONTROLLER, 'play_clip', [3]],
+    95 : [RED_FRAME_CONTROLLER, 'play_clip', [4]],
+    97 : [RED_FRAME_CONTROLLER, 'play_clip', [5]],
+    98 : [RED_FRAME_CONTROLLER, 'play_clip', [6]],
+    99 : [RED_FRAME_CONTROLLER, 'play_clip', [7]],
+    
+#stop_clips_notes = [20, 30, 40, 50, 60, 70]
+#track_stop_notes = [100] #momentan ist nur ein track selectiert - das stopt ihn
+    20 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [1]],
+    30 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [2]],
+    40 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [3]],
+    50 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [4]],
+    60 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [5]],
+    70 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [6]],
+    100: [TRACK_CONTROLLER, 'stop', [CURRENT]],
 }
 
 midi_cc_definitions = {
