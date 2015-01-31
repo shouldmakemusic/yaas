@@ -65,12 +65,18 @@ class YAAS(ControlSurface):
 	__module__ = __name__
 	__doc__ = " yet another ableton controller script "
 
-	def __init__(self, c_instance):
+	def __init__(self, c_instance, logger):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
 		self._c_instance = c_instance
 		
+		# Logger
+		self.log = logger
+		self.log.set_yaas(self)
+		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
+		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
+			
 		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
 		
@@ -79,11 +85,6 @@ class YAAS(ControlSurface):
 		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
 
-		# Logger
-		self.log = Logger(self, self.oscServer)
-		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
-		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
-			
 		# here i will handle midi messages from LightHouse
 		self._lighthouse_receiver = LightHouseMidiReceiver(self, c_instance)
 		
@@ -108,7 +109,7 @@ class YAAS(ControlSurface):
 		You can connect yourself to other running scripts here, as we do it
 		connect the extension modules
 		"""
-		self.log.info('(YAAS) connect_script_instances')
+		self.log.debug('(YAAS) connect_script_instances')
 		return
 
 	def update_display(self):
@@ -135,7 +136,8 @@ class YAAS(ControlSurface):
 			
 			try:
 				doc = self.song()
-			except:
+			except Exception, err:
+				self.log.error("Could not setup lighthouse osc recevier (song not found)")
 				return
 			try:
 				self.basicAPI = LightHouseOSCReceiver(self.oscServer)
@@ -144,7 +146,8 @@ class YAAS(ControlSurface):
 				#doc.add_current_song_time_listener(self.oscServer.processIncomingUDP)
 				self.log.info('Basic API Setup (' + str(self.basicAPI) + ')')
 				self.oscServer.sendOSC('/remix/echo', 'basicAPI setup complete')
-			except:
+			except Exception, err:
+				self.log.error("Could not setup lighthouse osc recevier: " + str(err))
 				return
 			
 			# If our OSC server is listening, try processing incoming requests.
