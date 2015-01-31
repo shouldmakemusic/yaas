@@ -1,6 +1,4 @@
-logs/stderr.txt
-logs/stdout.txt
-
+stderr.txt
 .DS_Store
 _Framework
 
