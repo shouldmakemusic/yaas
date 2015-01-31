@@ -65,15 +65,14 @@ class YAAS(ControlSurface):
 	__module__ = __name__
 	__doc__ = " yet another ableton controller script "
 
-	def __init__(self, c_instance, logger):
+	def __init__(self, c_instance):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
 		self._c_instance = c_instance
 		
 		# Logger
-		self.log = logger
-		self.log.set_yaas(self)
+		self.log = Logger(self)
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
 		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
 			

@@ -22,7 +22,7 @@ class LightHouseMidiReceiver:
 
     def build_midi_map(self, midi_map_handle):
 
-        self.log.debug('(LightHouseMidiReceiver) build_midi_map() called')
+        self.log.verbose('(LightHouseMidiReceiver) build_midi_map() called')
 
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 1)
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 2)
@@ -40,7 +40,7 @@ class LightHouseMidiReceiver:
         return
     
     def receive_midi(self, midi_bytes):
-        self.log.debug('(LightHouseMidiReceiver) receive_midi() ' + str(midi_bytes))
+        self.log.verbose('(LightHouseMidiReceiver) receive_midi() ' + str(midi_bytes))
 
         assert (midi_bytes != None)
         assert isinstance(midi_bytes, tuple)
@@ -54,7 +54,7 @@ class LightHouseMidiReceiver:
             if (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
                 #print('found pressed'); 
                 if (midi_note in midi_note_definitions_lighthouse):
-                    self.log.debug('found action');                    
+                    self.log.verbose('found action');                    
                     self._parent.handle_parametered_function(midi_note_definitions_lighthouse, midi_note, value);
                 if (midi_note == 1):
                     if (value == 1):                        
