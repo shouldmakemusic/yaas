@@ -62,4 +62,8 @@ class Logger:
     def write(self, data):
         if self.oscServer is not None:
             self.oscServer.sendOSC("/yaas/log/error", data)
+            
+    def log_object_attributes(self, obj):     
+        for attr in dir(obj):
+            self.log.verbose( "obj.%s = %s" % (attr, getattr(obj, attr)))
     
