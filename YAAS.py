@@ -204,7 +204,7 @@ class YAAS(ControlSurface):
 			
 	def receive_midi(self, midi_bytes):
 
-		#self.log.debug(str(midi_bytes))
+		self.log.verbose(str(midi_bytes))
 		try:
 			assert (midi_bytes != None)
 			assert isinstance(midi_bytes, tuple)
@@ -260,9 +260,6 @@ class YAAS(ControlSurface):
 					
 							
 	
-					elif midi_note == stop_all_clips:
-						self.song().stop_all_clips()
-	
 					elif midi_note == play_current_scene:
 						self.song().view.selected_scene.fire_as_selected()
 	
@@ -272,7 +269,7 @@ class YAAS(ControlSurface):
 						
 				elif (message_type == MESSAGE_TYPE_MIDI_CC):
 					
-					#self.log.debug("Received Midi CC: " + str(midi_note))
+					self.log.verbose("Received Midi CC: " + str(midi_note))
 					
 					if (midi_note in midi_cc_definitions):					
 						self.handle_parametered_function(midi_cc_definitions, midi_note, value);
@@ -302,11 +299,6 @@ class YAAS(ControlSurface):
 			self.log.error("Could not execute midi " + str(midi_bytes))
 			self.log.error("Because of " + str(err))
 		
-#	def stopClip(self, track_index):
-#		self.log.debug("stop clip " + str(track_index))
-#		self.song().view.selected_track.stop_all_clips();
-		
-			
 	def handle_parametered_function(self, definitions, button, value):
 		
 		function_and_param = definitions[button]
