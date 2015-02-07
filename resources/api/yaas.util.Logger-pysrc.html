@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>yaas.util.Logger</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
+        <a href="yaas.util-module.html">Package&nbsp;util</a> ::
+        Module&nbsp;Logger
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="yaas.util.Logger-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="yaas.util.Logger-module.html">Module yaas.util.Logger</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">__future__</tt> <tt class="py-keyword">import</tt> <tt class="py-name">with_statement</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">time</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">os</tt> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"> </tt>
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-comment"># RemixNet</tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Package yaas.LiveOSC=yaas.LiveOSC-module.html,Module yaas.LiveOSC.LiveOSC=yaas.LiveOSC.LiveOSC-module.html,Class yaas.LiveOSC.LiveOSC.LiveOSC=yaas.LiveOSC.LiveOSC.LiveOSC-class.html"><a title="yaas.LiveOSC
+yaas.LiveOSC.LiveOSC
+yaas.LiveOSC.LiveOSC.LiveOSC" class="py-name" href="#" onclick="return doclink('link-0', 'LiveOSC', 'link-0');">LiveOSC</a></tt><tt class="py-op">.</tt><tt id="link-1" class="py-name" targets="Module yaas.LiveOSC.OSCClient=yaas.LiveOSC.OSCClient-module.html,Class yaas.LiveOSC.OSCClient.OSCClient=yaas.LiveOSC.OSCClient.OSCClient-class.html"><a title="yaas.LiveOSC.OSCClient
+yaas.LiveOSC.OSCClient.OSCClient" class="py-name" href="#" onclick="return doclink('link-1', 'OSCClient', 'link-1');">OSCClient</a></tt> <tt class="py-keyword">import</tt> <tt id="link-2" class="py-name"><a title="yaas.LiveOSC.OSCClient
+yaas.LiveOSC.OSCClient.OSCClient" class="py-name" href="#" onclick="return doclink('link-2', 'OSCClient', 'link-1');">OSCClient</a></tt> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name"><a title="yaas.LiveOSC
+yaas.LiveOSC.LiveOSC
+yaas.LiveOSC.LiveOSC.LiveOSC" class="py-name" href="#" onclick="return doclink('link-3', 'LiveOSC', 'link-0');">LiveOSC</a></tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Module yaas.LiveOSC.OSCServer=yaas.LiveOSC.OSCServer-module.html,Class yaas.LiveOSC.OSCServer.OSCServer=yaas.LiveOSC.OSCServer.OSCServer-class.html"><a title="yaas.LiveOSC.OSCServer
+yaas.LiveOSC.OSCServer.OSCServer" class="py-name" href="#" onclick="return doclink('link-4', 'OSCServer', 'link-4');">OSCServer</a></tt> <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name"><a title="yaas.LiveOSC.OSCServer
+yaas.LiveOSC.OSCServer.OSCServer" class="py-name" href="#" onclick="return doclink('link-5', 'OSCServer', 'link-4');">OSCServer</a></tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="yaas.LiveOSC
+yaas.LiveOSC.LiveOSC
+yaas.LiveOSC.LiveOSC.LiveOSC" class="py-name" href="#" onclick="return doclink('link-6', 'LiveOSC', 'link-0');">LiveOSC</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Module yaas.LiveOSC.UDPClient=yaas.LiveOSC.UDPClient-module.html,Class yaas.LiveOSC.UDPClient.UDPClient=yaas.LiveOSC.UDPClient.UDPClient-class.html"><a title="yaas.LiveOSC.UDPClient
+yaas.LiveOSC.UDPClient.UDPClient" class="py-name" href="#" onclick="return doclink('link-7', 'UDPClient', 'link-7');">UDPClient</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name"><a title="yaas.LiveOSC.UDPClient
+yaas.LiveOSC.UDPClient.UDPClient" class="py-name" href="#" onclick="return doclink('link-8', 'UDPClient', 'link-7');">UDPClient</a></tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-op">.</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name"><a title="yaas.LiveOSC
+yaas.LiveOSC.LiveOSC
+yaas.LiveOSC.LiveOSC.LiveOSC" class="py-name" href="#" onclick="return doclink('link-9', 'LiveOSC', 'link-0');">LiveOSC</a></tt><tt class="py-op">.</tt><tt id="link-10" class="py-name" targets="Module yaas.LiveOSC.UDPServer=yaas.LiveOSC.UDPServer-module.html,Class yaas.LiveOSC.UDPServer.UDPServer=yaas.LiveOSC.UDPServer.UDPServer-class.html"><a title="yaas.LiveOSC.UDPServer
+yaas.LiveOSC.UDPServer.UDPServer" class="py-name" href="#" onclick="return doclink('link-10', 'UDPServer', 'link-10');">UDPServer</a></tt> <tt class="py-keyword">import</tt> <tt id="link-11" class="py-name"><a title="yaas.LiveOSC.UDPServer
+yaas.LiveOSC.UDPServer.UDPServer" class="py-name" href="#" onclick="return doclink('link-11', 'UDPServer', 'link-10');">UDPServer</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-12" class="py-name" targets="Module yaas.util.config_logger=yaas.util.config_logger-module.html"><a title="yaas.util.config_logger" class="py-name" href="#" onclick="return doclink('link-12', 'config_logger', 'link-12');">config_logger</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line">     </tt>
+<a name="Logger"></a><div id="Logger-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="Logger-toggle" onclick="return toggle('Logger');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html">Logger</a><tt class="py-op">:</tt> </tt>
+</div><div id="Logger-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Logger-expanded"><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"><tt class="py-docstring">    Logs to osc receiver on port 9050</tt> </tt>
+<a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line"><tt class="py-docstring">    and to ableton live log</tt> </tt>
+<a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="Logger.__init__"></a><div id="Logger.__init__-def"><a name="L20"></a><tt class="py-lineno">20</tt> <a class="py-toggle" href="#" id="Logger.__init__-toggle" onclick="return toggle('Logger.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">yaas</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.__init__-expanded"><a name="L21"></a><tt class="py-lineno">21</tt>  <tt class="py-line">         </tt>
+<a name="L22"></a><tt class="py-lineno">22</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Package yaas=yaas-module.html"><a title="yaas" class="py-name" href="#" onclick="return doclink('link-13', 'yaas', 'link-13');">yaas</a></tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name"><a title="yaas" class="py-name" href="#" onclick="return doclink('link-14', 'yaas', 'link-13');">yaas</a></tt> </tt>
+<a name="L23"></a><tt class="py-lineno">23</tt>  <tt class="py-line">         </tt>
+<a name="L24"></a><tt class="py-lineno">24</tt>  <tt class="py-line">        <tt class="py-comment"># setting up the YAAS OSC Server</tt> </tt>
+<a name="L25"></a><tt class="py-lineno">25</tt>  <tt class="py-line">        <tt class="py-name">unused_incoming_port</tt> <tt class="py-op">=</tt> <tt id="link-15" class="py-name" targets="Variable yaas.util.config_logger.PORT_LOGGER=yaas.util.config_logger-module.html#PORT_LOGGER"><a title="yaas.util.config_logger.PORT_LOGGER" class="py-name" href="#" onclick="return doclink('link-15', 'PORT_LOGGER', 'link-15');">PORT_LOGGER</a></tt> </tt>
+<a name="L26"></a><tt class="py-lineno">26</tt>  <tt class="py-line">        <tt class="py-name">connected</tt> <tt class="py-op">=</tt> <tt class="py-name">False</tt> </tt>
+<a name="L27"></a><tt class="py-lineno">27</tt>  <tt class="py-line">        <tt class="py-name">tries</tt> <tt class="py-op">=</tt> <tt class="py-number">0</tt> </tt>
+<a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">         </tt>
+<a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">        <tt class="py-keyword">while</tt> <tt class="py-keyword">not</tt> <tt class="py-name">connected</tt> <tt class="py-keyword">and</tt> <tt class="py-name">tries</tt> <tt class="py-op">&lt;</tt> <tt class="py-number">10</tt><tt class="py-op">:</tt> </tt>
+<a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line">            <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-16" class="py-name" targets="Method yaas.util.Logger.Logger.log_to_yaas()=yaas.util.Logger.Logger-class.html#log_to_yaas"><a title="yaas.util.Logger.Logger.log_to_yaas" class="py-name" href="#" onclick="return doclink('link-16', 'log_to_yaas', 'link-16');">log_to_yaas</a></tt><tt class="py-op">(</tt><tt class="py-string">"Init logger with outgoing port "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt id="link-17" class="py-name" targets="Variable yaas.consts.PORT_LIGHTHOUSE=yaas.consts-module.html#PORT_LIGHTHOUSE,Variable yaas.util.config_logger.PORT_LIGHTHOUSE=yaas.util.config_logger-module.html#PORT_LIGHTHOUSE"><a title="yaas.consts.PORT_LIGHTHOUSE
+yaas.util.config_logger.PORT_LIGHTHOUSE" class="py-name" href="#" onclick="return doclink('link-17', 'PORT_LIGHTHOUSE', 'link-17');">PORT_LIGHTHOUSE</a></tt><tt class="py-op">)</tt> <tt class="py-op">+</tt> <tt class="py-string">" and incoming port "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">unused_incoming_port</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt> <tt class="py-op">=</tt> <tt id="link-18" class="py-name"><a title="yaas.LiveOSC.OSCServer
+yaas.LiveOSC.OSCServer.OSCServer" class="py-name" href="#" onclick="return doclink('link-18', 'OSCServer', 'link-4');">OSCServer</a></tt><tt class="py-op">(</tt><tt class="py-string">'localhost'</tt><tt class="py-op">,</tt> <tt id="link-19" class="py-name"><a title="yaas.consts.PORT_LIGHTHOUSE
+yaas.util.config_logger.PORT_LIGHTHOUSE" class="py-name" href="#" onclick="return doclink('link-19', 'PORT_LIGHTHOUSE', 'link-17');">PORT_LIGHTHOUSE</a></tt><tt class="py-op">,</tt> <tt class="py-name">None</tt><tt class="py-op">,</tt> <tt class="py-name">unused_incoming_port</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt> <tt class="py-name">Exception</tt><tt class="py-op">,</tt> <tt class="py-name">err</tt><tt class="py-op">:</tt> </tt>
+<a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">                <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-20" class="py-name"><a title="yaas.util.Logger.Logger.log_to_yaas" class="py-name" href="#" onclick="return doclink('link-20', 'log_to_yaas', 'link-16');">log_to_yaas</a></tt><tt class="py-op">(</tt><tt class="py-string">"ERROR IN LOGGER: "</tt> <tt class="py-op">+</tt> <tt class="py-name">str</tt><tt class="py-op">(</tt><tt class="py-name">err</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">                <tt class="py-name">unused_incoming_port</tt> <tt class="py-op">=</tt> <tt class="py-name">unused_incoming_port</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt>   </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">                <tt class="py-name">tries</tt> <tt class="py-op">=</tt> <tt class="py-name">tries</tt> <tt class="py-op">+</tt> <tt class="py-number">1</tt>      </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line">         </tt>
+<a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-name">filename</tt> <tt class="py-op">=</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">join</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">dirname</tt><tt class="py-op">(</tt><tt class="py-name">__file__</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-op">:</tt><tt class="py-op">-</tt><tt class="py-number">4</tt><tt class="py-op">]</tt><tt class="py-op">,</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">basename</tt><tt class="py-op">(</tt><tt class="py-string">"stderr.txt"</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Method yaas.LiveOSC.OSCServer.OSCServer.sendOSC()=yaas.LiveOSC.OSCServer.OSCServer-class.html#sendOSC"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-21', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/errorfile"</tt><tt class="py-op">,</tt> <tt class="py-name">filename</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">            </tt>
+<a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-22" class="py-name" targets="Method yaas.util.Logger.Logger.debug()=yaas.util.Logger.Logger-class.html#debug"><a title="yaas.util.Logger.Logger.debug" class="py-name" href="#" onclick="return doclink('link-22', 'debug', 'link-22');">debug</a></tt><tt class="py-op">(</tt><tt class="py-string">"Logger started"</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">                 </tt>
+<a name="Logger.log_to_yaas"></a><div id="Logger.log_to_yaas-def"><a name="L43"></a><tt class="py-lineno">43</tt> <a class="py-toggle" href="#" id="Logger.log_to_yaas-toggle" onclick="return toggle('Logger.log_to_yaas');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#log_to_yaas">log_to_yaas</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.log_to_yaas-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.log_to_yaas-expanded"><a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-23" class="py-name"><a title="yaas" class="py-name" href="#" onclick="return doclink('link-23', 'yaas', 'link-13');">yaas</a></tt><tt class="py-op">.</tt><tt class="py-name">log_message</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">         </tt>
+<a name="Logger.error"></a><div id="Logger.error-def"><a name="L46"></a><tt class="py-lineno">46</tt> <a class="py-toggle" href="#" id="Logger.error-toggle" onclick="return toggle('Logger.error');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#error">error</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.error-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.error-expanded"><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-24" class="py-name"><a title="yaas.util.Logger.Logger.log_to_yaas" class="py-name" href="#" onclick="return doclink('link-24', 'log_to_yaas', 'link-16');">log_to_yaas</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-25" class="py-name"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-25', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/error"</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">     </tt>
+<a name="Logger.debug"></a><div id="Logger.debug-def"><a name="L50"></a><tt class="py-lineno">50</tt> <a class="py-toggle" href="#" id="Logger.debug-toggle" onclick="return toggle('Logger.debug');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#debug">debug</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.debug-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.debug-expanded"><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-26" class="py-name"><a title="yaas.util.Logger.Logger.log_to_yaas" class="py-name" href="#" onclick="return doclink('link-26', 'log_to_yaas', 'link-16');">log_to_yaas</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-27" class="py-name"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-27', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/debug"</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">         </tt>
+<a name="Logger.verbose"></a><div id="Logger.verbose-def"><a name="L54"></a><tt class="py-lineno">54</tt> <a class="py-toggle" href="#" id="Logger.verbose-toggle" onclick="return toggle('Logger.verbose');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#verbose">verbose</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.verbose-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.verbose-expanded"><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-28" class="py-name"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-28', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/verbose"</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L56"></a><tt class="py-lineno">56</tt>  <tt class="py-line">         </tt>
+<a name="Logger.info"></a><div id="Logger.info-def"><a name="L57"></a><tt class="py-lineno">57</tt> <a class="py-toggle" href="#" id="Logger.info-toggle" onclick="return toggle('Logger.info');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#info">info</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.info-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.info-expanded"><a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-29" class="py-name"><a title="yaas.util.Logger.Logger.log_to_yaas" class="py-name" href="#" onclick="return doclink('link-29', 'log_to_yaas', 'link-16');">log_to_yaas</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+<a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-30" class="py-name"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-30', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/info"</tt><tt class="py-op">,</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L60"></a><tt class="py-lineno">60</tt>  <tt class="py-line">         </tt>
+<a name="Logger.write"></a><div id="Logger.write-def"><a name="L61"></a><tt class="py-lineno">61</tt> <a class="py-toggle" href="#" id="Logger.write-toggle" onclick="return toggle('Logger.write');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#write">write</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">data</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.write-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.write-expanded"><a name="L62"></a><tt class="py-lineno">62</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt> <tt class="py-keyword">is</tt> <tt class="py-keyword">not</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
+<a name="L63"></a><tt class="py-lineno">63</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">oscServer</tt><tt class="py-op">.</tt><tt id="link-31" class="py-name"><a title="yaas.LiveOSC.OSCServer.OSCServer.sendOSC" class="py-name" href="#" onclick="return doclink('link-31', 'sendOSC', 'link-21');">sendOSC</a></tt><tt class="py-op">(</tt><tt class="py-string">"/yaas/log/error"</tt><tt class="py-op">,</tt> <tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L64"></a><tt class="py-lineno">64</tt>  <tt class="py-line">             </tt>
+<a name="Logger.log_object_attributes"></a><div id="Logger.log_object_attributes-def"><a name="L65"></a><tt class="py-lineno">65</tt> <a class="py-toggle" href="#" id="Logger.log_object_attributes-toggle" onclick="return toggle('Logger.log_object_attributes');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.util.Logger.Logger-class.html#log_object_attributes">log_object_attributes</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">obj</tt><tt class="py-op">)</tt><tt class="py-op">:</tt>      </tt>
+</div><a name="L66"></a><tt class="py-lineno">66</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">attr</tt> <tt class="py-keyword">in</tt> <tt class="py-name">dir</tt><tt class="py-op">(</tt><tt class="py-name">obj</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-32" class="py-name" targets="Method yaas.util.Logger.Logger.verbose()=yaas.util.Logger.Logger-class.html#verbose"><a title="yaas.util.Logger.Logger.verbose" class="py-name" href="#" onclick="return doclink('link-32', 'verbose', 'link-32');">verbose</a></tt><tt class="py-op">(</tt> <tt class="py-string">"obj.%s = %s"</tt> <tt class="py-op">%</tt> <tt class="py-op">(</tt><tt class="py-name">attr</tt><tt class="py-op">,</tt> <tt class="py-name">getattr</tt><tt class="py-op">(</tt><tt class="py-name">obj</tt><tt class="py-op">,</tt> <tt class="py-name">attr</tt><tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:49 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

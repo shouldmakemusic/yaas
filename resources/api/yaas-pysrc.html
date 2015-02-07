@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">ame</a></th>
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -60,14 +60,37 @@
 </table>
 <h1 class="epydoc">Source Code for <a href="yaas-module.html">Package yaas</a></h1>
 <pre class="py-src">
-<a name="L1"></a><tt class="py-lineno">1</tt>  <tt class="py-line"><tt class="py-comment">#__init__.py</tt> </tt>
-<a name="L2"></a><tt class="py-lineno">2</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Module yaas.YAAS=yaas.YAAS-module.html,Class yaas.YAAS.YAAS=yaas.YAAS.YAAS-class.html"><a title="yaas.YAAS
+<a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">#__init__.py</tt> </tt>
+<a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
+<a name="L3"></a><tt class="py-lineno"> 3</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">os</tt> </tt>
+<a name="L4"></a><tt class="py-lineno"> 4</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">inspect</tt> </tt>
+<a name="L5"></a><tt class="py-lineno"> 5</tt>  <tt class="py-line"> </tt>
+<a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-0" class="py-name" targets="Module yaas.YAAS=yaas.YAAS-module.html,Class yaas.YAAS.YAAS=yaas.YAAS.YAAS-class.html"><a title="yaas.YAAS
 yaas.YAAS.YAAS" class="py-name" href="#" onclick="return doclink('link-0', 'YAAS', 'link-0');">YAAS</a></tt> <tt class="py-keyword">import</tt> <tt id="link-1" class="py-name"><a title="yaas.YAAS
 yaas.YAAS.YAAS" class="py-name" href="#" onclick="return doclink('link-1', 'YAAS', 'link-0');">YAAS</a></tt> </tt>
-<a name="create_instance"></a><div id="create_instance-def"><a name="L3"></a><tt class="py-lineno">3</tt> <a class="py-toggle" href="#" id="create_instance-toggle" onclick="return toggle('create_instance');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas-module.html#create_instance">create_instance</a><tt class="py-op">(</tt><tt class="py-param">c_instance</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="create_instance-collapsed" style="display:none;" pad="+" indent="++++"></div><div id="create_instance-expanded"><a name="L4"></a><tt class="py-lineno">4</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-2" class="py-name"><a title="yaas.YAAS
-yaas.YAAS.YAAS" class="py-name" href="#" onclick="return doclink('link-2', 'YAAS', 'link-0');">YAAS</a></tt><tt class="py-op">(</tt><tt class="py-name">c_instance</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L5"></a><tt class="py-lineno">5</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Package yaas.util=yaas.util-module.html"><a title="yaas.util" class="py-name" href="#" onclick="return doclink('link-2', 'util', 'link-2');">util</a></tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Module yaas.LiveOSC.Logger=yaas.LiveOSC.Logger-module.html,Class yaas.LiveOSC.Logger.Logger=yaas.LiveOSC.Logger.Logger-class.html,Module yaas.util.Logger=yaas.util.Logger-module.html,Class yaas.util.Logger.Logger=yaas.util.Logger.Logger-class.html"><a title="yaas.LiveOSC.Logger
+yaas.LiveOSC.Logger.Logger
+yaas.util.Logger
+yaas.util.Logger.Logger" class="py-name" href="#" onclick="return doclink('link-3', 'Logger', 'link-3');">Logger</a></tt> <tt class="py-keyword">import</tt> <tt id="link-4" class="py-name"><a title="yaas.LiveOSC.Logger
+yaas.LiveOSC.Logger.Logger
+yaas.util.Logger
+yaas.util.Logger.Logger" class="py-name" href="#" onclick="return doclink('link-4', 'Logger', 'link-3');">Logger</a></tt> </tt>
+<a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line"> </tt>
+<a name="L9"></a><tt class="py-lineno"> 9</tt>  <tt class="py-line"><tt id="link-5" class="py-name" targets="Variable yaas.log_folder=yaas-module.html#log_folder"><a title="yaas.log_folder" class="py-name" href="#" onclick="return doclink('link-5', 'log_folder', 'link-5');">log_folder</a></tt> <tt class="py-op">=</tt> <tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">realpath</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">abspath</tt><tt class="py-op">(</tt><tt class="py-name">os</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt class="py-name">split</tt><tt class="py-op">(</tt><tt class="py-name">inspect</tt><tt class="py-op">.</tt><tt class="py-name">getfile</tt><tt class="py-op">(</tt> <tt class="py-name">inspect</tt><tt class="py-op">.</tt><tt class="py-name">currentframe</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> <tt class="py-op">)</tt><tt class="py-op">)</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt><tt class="py-op">)</tt><tt class="py-op">)</tt> </tt>
+<a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line"><tt id="link-6" class="py-name" targets="Variable yaas.errorLog=yaas-module.html#errorLog"><a title="yaas.errorLog" class="py-name" href="#" onclick="return doclink('link-6', 'errorLog', 'link-6');">errorLog</a></tt> <tt class="py-op">=</tt> <tt id="link-7" class="py-name" targets="Method yaas.LiveOSC.UDPClient.UDPClient.open()=yaas.LiveOSC.UDPClient.UDPClient-class.html#open"><a title="yaas.LiveOSC.UDPClient.UDPClient.open" class="py-name" href="#" onclick="return doclink('link-7', 'open', 'link-7');">open</a></tt><tt class="py-op">(</tt><tt id="link-8" class="py-name"><a title="yaas.log_folder" class="py-name" href="#" onclick="return doclink('link-8', 'log_folder', 'link-5');">log_folder</a></tt> <tt class="py-op">+</tt> <tt class="py-string">"/stderr.txt"</tt><tt class="py-op">,</tt> <tt class="py-string">"w"</tt><tt class="py-op">,</tt> <tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+<a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">stderr</tt> <tt class="py-op">=</tt> <tt id="link-9" class="py-name"><a title="yaas.errorLog" class="py-name" href="#" onclick="return doclink('link-9', 'errorLog', 'link-6');">errorLog</a></tt> </tt>
+<a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt id="link-10" class="py-name"><a title="yaas.errorLog" class="py-name" href="#" onclick="return doclink('link-10', 'errorLog', 'link-6');">errorLog</a></tt><tt class="py-op">.</tt><tt id="link-11" class="py-name" targets="Method yaas.LiveOSC.Logger.Logger.write()=yaas.LiveOSC.Logger.Logger-class.html#write,Method yaas.LiveOSC.socket_live8._fileobject.write()=yaas.LiveOSC.socket_live8._fileobject-class.html#write,Method yaas.util.Logger.Logger.write()=yaas.util.Logger.Logger-class.html#write"><a title="yaas.LiveOSC.Logger.Logger.write
+yaas.LiveOSC.socket_live8._fileobject.write
+yaas.util.Logger.Logger.write" class="py-name" href="#" onclick="return doclink('link-11', 'write', 'link-11');">write</a></tt><tt class="py-op">(</tt><tt class="py-string">"Starting Error Log"</tt><tt class="py-op">)</tt> </tt>
+<a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"> </tt>
+<a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-comment"># this does not work - ableton crashes but it would be so cool</tt> </tt>
+<a name="L15"></a><tt class="py-lineno">15</tt>  <tt class="py-line"><tt class="py-comment">#logger = Logger()</tt> </tt>
+<a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line"><tt class="py-comment"># sys.stderr = logger</tt> </tt>
+<a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line"> </tt>
+<a name="create_instance"></a><div id="create_instance-def"><a name="L18"></a><tt class="py-lineno">18</tt> <a class="py-toggle" href="#" id="create_instance-toggle" onclick="return toggle('create_instance');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas-module.html#create_instance">create_instance</a><tt class="py-op">(</tt><tt class="py-param">c_instance</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="create_instance-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="create_instance-expanded"><a name="L19"></a><tt class="py-lineno">19</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt id="link-12" class="py-name"><a title="yaas.YAAS
+yaas.YAAS.YAAS" class="py-name" href="#" onclick="return doclink('link-12', 'YAAS', 'link-0');">YAAS</a></tt><tt class="py-op">(</tt><tt class="py-name">c_instance</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L20"></a><tt class="py-lineno">20</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -98,14 +121,14 @@ expandto(location.href);
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">ame</a></th>
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 25 00:36:03 2014
+    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:50 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

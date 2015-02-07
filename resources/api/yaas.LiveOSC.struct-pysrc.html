@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>yaas.LiveOSC.struct</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
+        <a href="yaas.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
+        Module&nbsp;struct
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="yaas.LiveOSC.struct-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h1 class="epydoc">Source Code for <a href="yaas.LiveOSC.struct-module.html">Module yaas.LiveOSC.struct</a></h1>
+<pre class="py-src">
+<a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring">Functions to convert between Python values and C structs.</tt> </tt>
+<a name="L3"></a><tt class="py-lineno">  3</tt>  <tt class="py-line"><tt class="py-docstring">Python strings are used to hold the data representing the C struct</tt> </tt>
+<a name="L4"></a><tt class="py-lineno">  4</tt>  <tt class="py-line"><tt class="py-docstring">and also as format strings to describe the layout of data in the C struct.</tt> </tt>
+<a name="L5"></a><tt class="py-lineno">  5</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L6"></a><tt class="py-lineno">  6</tt>  <tt class="py-line"><tt class="py-docstring">The optional first format char indicates byte order, size and alignment:</tt> </tt>
+<a name="L7"></a><tt class="py-lineno">  7</tt>  <tt class="py-line"><tt class="py-docstring"> @: native order, size &amp; alignment (default)</tt> </tt>
+<a name="L8"></a><tt class="py-lineno">  8</tt>  <tt class="py-line"><tt class="py-docstring"> =: native order, std. size &amp; alignment</tt> </tt>
+<a name="L9"></a><tt class="py-lineno">  9</tt>  <tt class="py-line"><tt class="py-docstring"> &lt;: little-endian, std. size &amp; alignment</tt> </tt>
+<a name="L10"></a><tt class="py-lineno"> 10</tt>  <tt class="py-line"><tt class="py-docstring"> &gt;: big-endian, std. size &amp; alignment</tt> </tt>
+<a name="L11"></a><tt class="py-lineno"> 11</tt>  <tt class="py-line"><tt class="py-docstring"> !: same as &gt;</tt> </tt>
+<a name="L12"></a><tt class="py-lineno"> 12</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L13"></a><tt class="py-lineno"> 13</tt>  <tt class="py-line"><tt class="py-docstring">The remaining chars indicate types of args and must match exactly;</tt> </tt>
+<a name="L14"></a><tt class="py-lineno"> 14</tt>  <tt class="py-line"><tt class="py-docstring">these can be preceded by a decimal repeat count:</tt> </tt>
+<a name="L15"></a><tt class="py-lineno"> 15</tt>  <tt class="py-line"><tt class="py-docstring"> x: pad byte (no data); c:char; b:signed byte; B:unsigned byte;</tt> </tt>
+<a name="L16"></a><tt class="py-lineno"> 16</tt>  <tt class="py-line"><tt class="py-docstring"> h:short; H:unsigned short; i:int; I:unsigned int;</tt> </tt>
+<a name="L17"></a><tt class="py-lineno"> 17</tt>  <tt class="py-line"><tt class="py-docstring"> l:long; L:unsigned long; f:float; d:double.</tt> </tt>
+<a name="L18"></a><tt class="py-lineno"> 18</tt>  <tt class="py-line"><tt class="py-docstring">Special cases (preceding decimal count indicates length):</tt> </tt>
+<a name="L19"></a><tt class="py-lineno"> 19</tt>  <tt class="py-line"><tt class="py-docstring"> s:string (array of char); p: pascal string (with count byte).</tt> </tt>
+<a name="L20"></a><tt class="py-lineno"> 20</tt>  <tt class="py-line"><tt class="py-docstring">Special case (only available in native format):</tt> </tt>
+<a name="L21"></a><tt class="py-lineno"> 21</tt>  <tt class="py-line"><tt class="py-docstring"> P:an integer type that is wide enough to hold a pointer.</tt> </tt>
+<a name="L22"></a><tt class="py-lineno"> 22</tt>  <tt class="py-line"><tt class="py-docstring">Special case (not in native mode unless 'long long' in platform C):</tt> </tt>
+<a name="L23"></a><tt class="py-lineno"> 23</tt>  <tt class="py-line"><tt class="py-docstring"> q:long long; Q:unsigned long long</tt> </tt>
+<a name="L24"></a><tt class="py-lineno"> 24</tt>  <tt class="py-line"><tt class="py-docstring">Whitespace between formats is ignored.</tt> </tt>
+<a name="L25"></a><tt class="py-lineno"> 25</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
+<a name="L26"></a><tt class="py-lineno"> 26</tt>  <tt class="py-line"><tt class="py-docstring">The variable struct.error is an exception raised on errors.</tt> </tt>
+<a name="L27"></a><tt class="py-lineno"> 27</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
+<a name="L28"></a><tt class="py-lineno"> 28</tt>  <tt class="py-line"><tt class="py-name">__version__</tt> <tt class="py-op">=</tt> <tt class="py-string">'0.1'</tt> </tt>
+<a name="L29"></a><tt class="py-lineno"> 29</tt>  <tt class="py-line"> </tt>
+<a name="L30"></a><tt class="py-lineno"> 30</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt class="py-name">_struct</tt> <tt class="py-keyword">import</tt> <tt class="py-name">Struct</tt><tt class="py-op">,</tt> <tt id="link-0" class="py-name" targets="Method yaas.util.Logger.Logger.error()=yaas.util.Logger.Logger-class.html#error"><a title="yaas.util.Logger.Logger.error" class="py-name" href="#" onclick="return doclink('link-0', 'error', 'link-0');">error</a></tt> </tt>
+<a name="L31"></a><tt class="py-lineno"> 31</tt>  <tt class="py-line"> </tt>
+<a name="L32"></a><tt class="py-lineno"> 32</tt>  <tt class="py-line"><tt id="link-1" class="py-name" targets="Variable yaas.LiveOSC.struct._MAXCACHE=yaas.LiveOSC.struct-module.html#_MAXCACHE"><a title="yaas.LiveOSC.struct._MAXCACHE" class="py-name" href="#" onclick="return doclink('link-1', '_MAXCACHE', 'link-1');">_MAXCACHE</a></tt> <tt class="py-op">=</tt> <tt class="py-number">100</tt> </tt>
+<a name="L33"></a><tt class="py-lineno"> 33</tt>  <tt class="py-line"><tt id="link-2" class="py-name" targets="Variable yaas.LiveOSC.struct._cache=yaas.LiveOSC.struct-module.html#_cache"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-2', '_cache', 'link-2');">_cache</a></tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
+<a name="L34"></a><tt class="py-lineno"> 34</tt>  <tt class="py-line"> </tt>
+<a name="_compile"></a><div id="_compile-def"><a name="L35"></a><tt class="py-lineno"> 35</tt> <a class="py-toggle" href="#" id="_compile-toggle" onclick="return toggle('_compile');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#_compile">_compile</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="_compile-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="_compile-expanded"><a name="L36"></a><tt class="py-lineno"> 36</tt>  <tt class="py-line">    <tt class="py-comment"># Internal: compile struct pattern</tt> </tt>
+<a name="L37"></a><tt class="py-lineno"> 37</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt class="py-name">len</tt><tt class="py-op">(</tt><tt id="link-3" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-3', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">)</tt> <tt class="py-op">&gt;=</tt> <tt id="link-4" class="py-name"><a title="yaas.LiveOSC.struct._MAXCACHE" class="py-name" href="#" onclick="return doclink('link-4', '_MAXCACHE', 'link-1');">_MAXCACHE</a></tt><tt class="py-op">:</tt> </tt>
+<a name="L38"></a><tt class="py-lineno"> 38</tt>  <tt class="py-line">        <tt id="link-5" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-5', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method yaas.LiveOSC.OSCMessage.OSCMessage.clear()=yaas.LiveOSC.OSCMessage.OSCMessage-class.html#clear"><a title="yaas.LiveOSC.OSCMessage.OSCMessage.clear" class="py-name" href="#" onclick="return doclink('link-6', 'clear', 'link-6');">clear</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno"> 39</tt>  <tt class="py-line">    <tt class="py-name">s</tt> <tt class="py-op">=</tt> <tt class="py-name">Struct</tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L40"></a><tt class="py-lineno"> 40</tt>  <tt class="py-line">    <tt id="link-7" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-7', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">s</tt> </tt>
+<a name="L41"></a><tt class="py-lineno"> 41</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">s</tt> </tt>
+</div><a name="L42"></a><tt class="py-lineno"> 42</tt>  <tt class="py-line"> </tt>
+<a name="calcsize"></a><div id="calcsize-def"><a name="L43"></a><tt class="py-lineno"> 43</tt> <a class="py-toggle" href="#" id="calcsize-toggle" onclick="return toggle('calcsize');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#calcsize">calcsize</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="calcsize-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="calcsize-expanded"><a name="L44"></a><tt class="py-lineno"> 44</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L45"></a><tt class="py-lineno"> 45</tt>  <tt class="py-line"><tt class="py-docstring">    Return size of C struct described by format string fmt.</tt> </tt>
+<a name="L46"></a><tt class="py-lineno"> 46</tt>  <tt class="py-line"><tt class="py-docstring">    See struct.__doc__ for more on format strings.</tt> </tt>
+<a name="L47"></a><tt class="py-lineno"> 47</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L48"></a><tt class="py-lineno"> 48</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L49"></a><tt class="py-lineno"> 49</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-8" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-8', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> </tt>
+<a name="L50"></a><tt class="py-lineno"> 50</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">:</tt> </tt>
+<a name="L51"></a><tt class="py-lineno"> 51</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-9" class="py-name" targets="Function yaas.LiveOSC.struct._compile()=yaas.LiveOSC.struct-module.html#_compile"><a title="yaas.LiveOSC.struct._compile" class="py-name" href="#" onclick="return doclink('link-9', '_compile', 'link-9');">_compile</a></tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L52"></a><tt class="py-lineno"> 52</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt class="py-name">size</tt> </tt>
+</div><a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"> </tt>
+<a name="pack"></a><div id="pack-def"><a name="L54"></a><tt class="py-lineno"> 54</tt> <a class="py-toggle" href="#" id="pack-toggle" onclick="return toggle('pack');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#pack">pack</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-param">args</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pack-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="pack-expanded"><a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt class="py-docstring">    Return string containing values v1, v2, ... packed according to fmt.</tt> </tt>
+<a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"><tt class="py-docstring">    See struct.__doc__ for more on format strings.</tt> </tt>
+<a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-10" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-10', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">:</tt> </tt>
+<a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-11" class="py-name"><a title="yaas.LiveOSC.struct._compile" class="py-name" href="#" onclick="return doclink('link-11', '_compile', 'link-9');">_compile</a></tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Function yaas.LiveOSC.struct.pack()=yaas.LiveOSC.struct-module.html#pack"><a title="yaas.LiveOSC.struct.pack" class="py-name" href="#" onclick="return doclink('link-12', 'pack', 'link-12');">pack</a></tt><tt class="py-op">(</tt><tt class="py-op">*</tt><tt class="py-name">args</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line"> </tt>
+<a name="pack_into"></a><div id="pack_into-def"><a name="L65"></a><tt class="py-lineno"> 65</tt> <a class="py-toggle" href="#" id="pack_into-toggle" onclick="return toggle('pack_into');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#pack_into">pack_into</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">,</tt> <tt class="py-param">buf</tt><tt class="py-op">,</tt> <tt class="py-param">offset</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-param">args</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="pack_into-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="pack_into-expanded"><a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line"><tt class="py-docstring">    Pack the values v1, v2, ... according to fmt, write</tt> </tt>
+<a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line"><tt class="py-docstring">    the packed bytes into the writable buffer buf starting at offset.</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line"><tt class="py-docstring">    See struct.__doc__ for more on format strings.</tt> </tt>
+<a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-13" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-13', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">:</tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-14" class="py-name"><a title="yaas.LiveOSC.struct._compile" class="py-name" href="#" onclick="return doclink('link-14', '_compile', 'link-9');">_compile</a></tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt id="link-15" class="py-name" targets="Function yaas.LiveOSC.struct.pack_into()=yaas.LiveOSC.struct-module.html#pack_into"><a title="yaas.LiveOSC.struct.pack_into" class="py-name" href="#" onclick="return doclink('link-15', 'pack_into', 'link-15');">pack_into</a></tt><tt class="py-op">(</tt><tt class="py-name">buf</tt><tt class="py-op">,</tt> <tt class="py-name">offset</tt><tt class="py-op">,</tt> <tt class="py-op">*</tt><tt class="py-name">args</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line"> </tt>
+<a name="unpack"></a><div id="unpack-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="unpack-toggle" onclick="return toggle('unpack');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#unpack">unpack</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">,</tt> <tt class="py-param">s</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="unpack-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="unpack-expanded"><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line"><tt class="py-docstring">    Unpack the string, containing packed C structure data, according</tt> </tt>
+<a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">    to fmt.  Requires len(string)==calcsize(fmt).</tt> </tt>
+<a name="L81"></a><tt class="py-lineno"> 81</tt>  <tt class="py-line"><tt class="py-docstring">    See struct.__doc__ for more on format strings.</tt> </tt>
+<a name="L82"></a><tt class="py-lineno"> 82</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L83"></a><tt class="py-lineno"> 83</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L84"></a><tt class="py-lineno"> 84</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-16" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-16', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> </tt>
+<a name="L85"></a><tt class="py-lineno"> 85</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">:</tt> </tt>
+<a name="L86"></a><tt class="py-lineno"> 86</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-17" class="py-name"><a title="yaas.LiveOSC.struct._compile" class="py-name" href="#" onclick="return doclink('link-17', '_compile', 'link-9');">_compile</a></tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L87"></a><tt class="py-lineno"> 87</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt id="link-18" class="py-name" targets="Function yaas.LiveOSC.struct.unpack()=yaas.LiveOSC.struct-module.html#unpack"><a title="yaas.LiveOSC.struct.unpack" class="py-name" href="#" onclick="return doclink('link-18', 'unpack', 'link-18');">unpack</a></tt><tt class="py-op">(</tt><tt class="py-name">s</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"> </tt>
+<a name="unpack_from"></a><div id="unpack_from-def"><a name="L89"></a><tt class="py-lineno"> 89</tt> <a class="py-toggle" href="#" id="unpack_from-toggle" onclick="return toggle('unpack_from');">-</a><tt class="py-line"><tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.struct-module.html#unpack_from">unpack_from</a><tt class="py-op">(</tt><tt class="py-param">fmt</tt><tt class="py-op">,</tt> <tt class="py-param">buf</tt><tt class="py-op">,</tt> <tt class="py-param">offset</tt><tt class="py-op">=</tt><tt class="py-number">0</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="unpack_from-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="unpack_from-expanded"><a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
+<a name="L91"></a><tt class="py-lineno"> 91</tt>  <tt class="py-line"><tt class="py-docstring">    Unpack the buffer, containing packed C structure data, according to</tt> </tt>
+<a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line"><tt class="py-docstring">    fmt starting at offset. Requires len(buffer[offset:]) &gt;= calcsize(fmt).</tt> </tt>
+<a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-docstring">    See struct.__doc__ for more on format strings.</tt> </tt>
+<a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
+<a name="L95"></a><tt class="py-lineno"> 95</tt>  <tt class="py-line">    <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
+<a name="L96"></a><tt class="py-lineno"> 96</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-19" class="py-name"><a title="yaas.LiveOSC.struct._cache" class="py-name" href="#" onclick="return doclink('link-19', '_cache', 'link-2');">_cache</a></tt><tt class="py-op">[</tt><tt class="py-name">fmt</tt><tt class="py-op">]</tt> </tt>
+<a name="L97"></a><tt class="py-lineno"> 97</tt>  <tt class="py-line">    <tt class="py-keyword">except</tt> <tt class="py-name">KeyError</tt><tt class="py-op">:</tt> </tt>
+<a name="L98"></a><tt class="py-lineno"> 98</tt>  <tt class="py-line">        <tt class="py-name">o</tt> <tt class="py-op">=</tt> <tt id="link-20" class="py-name"><a title="yaas.LiveOSC.struct._compile" class="py-name" href="#" onclick="return doclink('link-20', '_compile', 'link-9');">_compile</a></tt><tt class="py-op">(</tt><tt class="py-name">fmt</tt><tt class="py-op">)</tt> </tt>
+<a name="L99"></a><tt class="py-lineno"> 99</tt>  <tt class="py-line">    <tt class="py-keyword">return</tt> <tt class="py-name">o</tt><tt class="py-op">.</tt><tt id="link-21" class="py-name" targets="Function yaas.LiveOSC.struct.unpack_from()=yaas.LiveOSC.struct-module.html#unpack_from"><a title="yaas.LiveOSC.struct.unpack_from" class="py-name" href="#" onclick="return doclink('link-21', 'unpack_from', 'link-21');">unpack_from</a></tt><tt class="py-op">(</tt><tt class="py-name">buf</tt><tt class="py-op">,</tt> <tt class="py-name">offset</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L100"></a><tt class="py-lineno">100</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:49 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

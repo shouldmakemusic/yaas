@@ -34,7 +34,7 @@
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">ame</a></th>
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
           </tr></table></th>
   </tr>
 </table>
@@ -110,6 +110,62 @@ _Framework.ControlSurface.ControlSurface --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a href="yaas.YAAS.YAAS-class.html#connect_script_instances" class="summary-sig-name">connect_script_instances</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">instanciated_scripts</span>)</span><br />
+      Called by the Application as soon as all scripts are initialized.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.connect_script_instances">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="update_display"></a><span class="summary-sig-name">update_display</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      This function is run every 100ms, so we use it to initiate our 
+      Song.current_song_time listener to allow us to process incoming OSC 
+      commands as quickly as possible under the current listener scheme.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.update_display">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="send_midi"></a><span class="summary-sig-name">send_midi</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">midi_event_bytes</span>)</span><br />
+      Use this function to send MIDI events through Live to the _real_ MIDI
+      devices that this script is assigned to.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.send_midi">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="build_midi_map"></a><span class="summary-sig-name">build_midi_map</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">midi_map_handle</span>)</span></td>
           <td align="right" valign="top">
@@ -144,57 +200,6 @@ _Framework.ControlSurface.ControlSurface --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="recAll"></a><span class="summary-sig-name">recAll</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">track_index</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.recAll">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="selectTrack"></a><span class="summary-sig-name">selectTrack</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">track_index</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.selectTrack">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
-          <td><span class="summary-sig"><a name="launchClip"></a><span class="summary-sig-name">launchClip</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">sceneIndex</span>)</span></td>
-          <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.launchClip">source&nbsp;code</a></span>
-            
-          </td>
-        </tr>
-      </table>
-      
-    </td>
-  </tr>
-<tr>
-    <td width="15%" align="right" valign="top" class="summary">
-      <span class="summary-type">&nbsp;</span>
-    </td><td class="summary">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0">
-        <tr>
           <td><span class="summary-sig"><a name="handle_parametered_function"></a><span class="summary-sig-name">handle_parametered_function</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">definitions</span>,
         <span class="summary-sig-arg">button</span>,
@@ -214,10 +219,13 @@ _Framework.ControlSurface.ControlSurface --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="get_helper"></a><span class="summary-sig-name">get_helper</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">param</span>)</span></td>
+          <td><span class="summary-sig"><a name="get_controller"></a><span class="summary-sig-name">get_controller</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">name</span>)</span><br />
+      Returns a controller from dir controller For these controllers the 
+      event handling is available (the methods have to accept params and 
+      value as parameters)</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.get_helper">source&nbsp;code</a></span>
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.get_controller">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -231,10 +239,10 @@ _Framework.ControlSurface.ControlSurface --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a name="stopClips"></a><span class="summary-sig-name">stopClips</span>(<span class="summary-sig-arg">self</span>,
-        <span class="summary-sig-arg">track_index</span>)</span></td>
+          <td><span class="summary-sig"><a name="get_helper"></a><span class="summary-sig-name">get_helper</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">param</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.stopClips">source&nbsp;code</a></span>
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.get_helper">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -365,6 +373,22 @@ _Framework.ControlSurface.ControlSurface --+
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
+          <td><span class="summary-sig"><a name="get_session"></a><span class="summary-sig-name">get_session</span>(<span class="summary-sig-arg">self</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.get_session">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
           <td><span class="summary-sig"><a name="disconnect"></a><span class="summary-sig-name">disconnect</span>(<span class="summary-sig-arg">self</span>)</span><br />
       clean things up on disconnect</td>
           <td align="right" valign="top">
@@ -425,6 +449,47 @@ _Framework.ControlSurface.ControlSurface --+
     </td>
   </tr>
 </table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="connect_script_instances"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">connect_script_instances</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">instanciated_scripts</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.YAAS-pysrc.html#YAAS.connect_script_instances">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Called by the Application as soon as all scripts are initialized. You 
+  can connect yourself to other running scripts here, as we do it connect 
+  the extension modules</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
@@ -449,14 +514,14 @@ _Framework.ControlSurface.ControlSurface --+
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
           <tr><th class="navbar" align="center"
-            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">ame</a></th>
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
           </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Oct 25 00:36:03 2014
+    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:48 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

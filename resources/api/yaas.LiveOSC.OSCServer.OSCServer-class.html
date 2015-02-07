@@ -1,0 +1,552 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>yaas.LiveOSC.OSCServer.OSCServer</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
+        <a href="yaas.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
+        <a href="yaas.LiveOSC.OSCServer-module.html">Module&nbsp;OSCServer</a> ::
+        Class&nbsp;OSCServer
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="yaas.LiveOSC.OSCServer.OSCServer-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class OSCServer</h1><p class="nomargin-top"><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer">source&nbsp;code</a></span></p>
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="yaas.LiveOSC.OSCServer.OSCServer-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">dst</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">dstPort</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">src</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">srcPort</span>=<span class="summary-sig-default">None</span>)</span><br />
+      This is the main class we the use as a nexus point in this module.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="yaas.LiveOSC.OSCServer.OSCServer-class.html#callbackEcho" class="summary-sig-name">callbackEcho</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>=<span class="summary-sig-default">None</span>)</span><br />
+      When re recieve a '/remix/echo' OSC query from another host we 
+      respond in kind by passing back the message they sent to us.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.callbackEcho">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="yaas.LiveOSC.OSCServer.OSCServer-class.html#callbackTime" class="summary-sig-name">callbackTime</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>=<span class="summary-sig-default">None</span>)</span><br />
+      When we recieve a '/remix/time' OSC query from another host we 
+      respond with the current value of time.time()</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.callbackTime">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="sendOSC"></a><span class="summary-sig-name">sendOSC</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">address</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">msg</span>=<span class="summary-sig-default">None</span>)</span><br />
+      A convienence function so we don't have to dig into the objects every
+      time we want to send an OSC packet.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.sendOSC">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="sendUDP"></a><span class="summary-sig-name">sendUDP</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">data</span>)</span><br />
+      A convienence function so we don't have to dig into the objects every
+      time we want to send raw UDP.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.sendUDP">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="getCallbacks"></a><span class="summary-sig-name">getCallbacks</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      If you'd like to see what callbacks you have registered, this 
+      function will pass you back the dict from the OSC.Manager object.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.getCallbacks">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="yaas.LiveOSC.OSCServer.OSCServer-class.html#addCallback" class="summary-sig-name">addCallback</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">method</span>=<span class="summary-sig-default">None</span>,
+        <span class="summary-sig-arg">address</span>=<span class="summary-sig-default">None</span>)</span><br />
+      This method will allow you to externally add callbacks into the 
+UDPServer.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.addCallback">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="yaas.LiveOSC.OSCServer.OSCServer-class.html#processIncomingUDP" class="summary-sig-name">processIncomingUDP</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      This is the juice of our tool.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.processIncomingUDP">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="bind"></a><span class="summary-sig-name">bind</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Bind to the socket and prepare for incoming connections.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.bind">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="shutdown"></a><span class="summary-sig-name">shutdown</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      If we get shutdown by our parent, close the socket we had open</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.shutdown">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">dst</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">dstPort</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">src</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">srcPort</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+
+This is the main class we the use as a nexus point in this module.
+
+- dst: destination/target host for OSC responses. If None will default to local network broadcast only.
+- src: Which local interface / ip to bind to, if unset defaults to all
+- srcPort: Source port to bind the server to for incoming OSC queries. Defaults to 9000
+- dstPort: Destination port for OSC responses sent by callbacks. Defaults to 9001       
+
+By default we define and set callbacks for two utility functions that may
+be useful in testing.
+
+/remix/echo -&gt; OSCServer.callbackEcho() - For responding to /remix/echo queries.
+/remix/time -&gt; OSCServer.callbackTime() - Returns time.time() (time in float seconds)
+
+I chose OSC to deliver messages out of necessity, my opinion of OSC at this
+point is that its addressing system is heavyweight although the idea is 
+a reasonable one. But taking into consideration the ratio of address:data
+it becomes somewhat unreasonable unless you take the route of making unreadable
+addresses. As an example I offer the following address,
+
+/ableton/track/1/volume/set float(0.98)
+
+To set a single 4 byte float value, we need to use a 27 byte string to get
+it routed to the correct area, and even then we need to make an O(N) comparison
+on the address since we don't have the luxury of a switch statement in Python.
+
+If you're trying to interact with devices in near-realtime the number of ops
+wasted on just getting things to the right place can take the wind out of
+your sails.
+
+But basically for this project to be accepted or useful to anyone it was 
+important to me that we provide a method of accessing that other tools
+could use without having to introduce a new linewire protocol.
+
+It should be noted that performance even with the added ops isn't that bad.
+On my dualcore system I was able to process about 1380 OSC callbacks per
+second. Or, ~86 callbacks per 60ms tick. 
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="callbackEcho"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">callbackEcho</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">msg</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.callbackEcho">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>When re recieve a '/remix/echo' OSC query from another host we respond
+  in kind by passing back the message they sent to us. Useful for verifying
+  functionality.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="callbackTime"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">callbackTime</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">msg</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.callbackTime">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>When we recieve a '/remix/time' OSC query from another host we respond
+  with the current value of time.time()</p>
+  <p>This callback can be useful for testing timing/queue processing 
+  between hosts</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="addCallback"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">addCallback</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">method</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">address</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.addCallback">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+
+This method will allow you to externally add callbacks into the 
+UDPServer. As a rule of thumb we'd like to keep everything seperate
+for ease of maintenance.
+
+You call this method with the arguments:
+
+- method: The method object you want to register as a callback for an OSC address.
+- address: The OSC address to bind to. (Example: /remix/mynewcallback/)
+
+If either of these values isn't set, nothing will get registered.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="processIncomingUDP"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">processIncomingUDP</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="yaas.LiveOSC.OSCServer-pysrc.html#OSCServer.processIncomingUDP">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <pre class="literalblock">
+
+This is the juice of our tool. While UDP is billed as an unreliable
+protocol, as it turns out it's not that bad. In fact, it can be pretty 
+good.
+
+There are several limitations to the Ableton Live Python environment. 
+
+* The Ableton Live Python environment is minimal. The included module
+  list is very short. For instance, we don't have 'select()'.
+  
+* The Ableton Live Python version is a bit older than what most Python
+  programmers are used to. Its version string says 2.2.1, and the Python
+  webpage shows that the offical 2.2.3 came out May 30, 2003. So we've
+  got 4 years between us and it. Fortunately since I didn't know any Python
+  when I got started on this project the version differences didn't bother 
+  me. But I know the lack of modern features has been a pain for a few
+  of our developers.
+  
+* The Ableton Live Python environment, although it includes the thread
+  module, doesn't function how you'd expect it to. The threads appear to
+  be on a 100ms timer that cannot be altered consistently through Python.
+  
+  I did find an interesting behavior in that when you modify the
+  sys.setcheckinterval value to very large numbers for about 1-5/100ths of
+  a second thread focus goes away entirely and if your running thread is
+  a 'while 1:' loop with no sleep, it gets 4-5 iterations in before 
+  the thread management stuff kicks in and puts you down back to 100ms 
+  loop.
+  
+  As a goof I tried making a thread that was a 'while 1:' loop with a
+  sys.setcheckinterval(50000) inside it -- first iteration it triggered
+  the behavior, then it stopped.
+  
+  It should also be noted that you can make a blocking TCP socket using
+  the threads interface. But your refresh is going to be about 40ms slower
+  than using a non-blocking UDP socket reader. But hey, you're the boss!
+  
+  So far the best performance for processing incoming packets can be found
+  by attaching a method as a listener to the Song.current_song_time 
+  attribute. This attribute updates every 60ms on the dot allowing for 
+  16 passes on the incoming UDP traffic every second.
+  
+  My machine is pretty beefy but I was able to sustain an average of
+  over 1300 /remix/echo callback hits a second and only lost .006% 
+  of my UDP traffic over 10 million packets on a machine running Live.
+  
+  One final note -- I make no promises as to the latency of triggers recieved.
+  I haven't tested that at all yet. Since the window is 60ms, don't get 
+  your hopes up about MIDI over OSC.
+
+</pre>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="https://github.com/shouldmakemusic/yaas">YAAC</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:48 2015
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
