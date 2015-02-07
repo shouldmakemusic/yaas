@@ -7,8 +7,8 @@ class YaasController:
     def __init__(self, yaas):
         self.yaas = yaas
         self.log = yaas.log
-        self.song_helper = yaas.song_helper
-        self.device_helper = yaas.device_helper
+        self._song_helper = yaas._song_helper
+        self._device_helper = yaas._device_helper
         
     def application(self):
         return Live.Application.get_application()
@@ -17,10 +17,10 @@ class YaasController:
         return Live.Application.get_application().get_document()
     
     def song_helper(self):
-        return self.song_helper()
+        return self._song_helper
     
     def device_helper(self):
-        return self.device_helper
+        return self._device_helper
     
     def track_helper(self, track_index):
-        return self.song_helper.get_track(track_index)
+        return self._song_helper.get_track(track_index)

@@ -7,6 +7,7 @@ import inspect
 import os
 
 from controller.RedFrameController import RedFrameController
+from controller.TrackController import TrackController
 
 """ Constants and configuration """
 from consts import *
@@ -96,7 +97,6 @@ class YAAS(ControlSurface):
 			self._setup_session_control()  # Setup the session object
 			
 			self._song_helper = SongHelper(self)
-			self.song_helper = self._song_helper
 			
 			self._pedal_helper = PedalHelper(self)
 			
@@ -107,8 +107,6 @@ class YAAS(ControlSurface):
 
 		# store and retrieve values
 		self._value_container = ValueContainer(self)
-		
-		self.get_controller("RedFrameController")
 		
 		
 	def connect_script_instances(self, instanciated_scripts):
@@ -331,8 +329,9 @@ class YAAS(ControlSurface):
 			#self.set_suppress_rebuild_requests(False)	
 				
 		except Exception, err:
+			self.log.error("(YAAS) receive_midi")
 			self.log.error("Could not execute midi " + str(midi_bytes))
-			self.log.error(str(err))
+			self.log.error("Because of " + str(err))
 
 	def recAll(self, track_index):
 		
@@ -508,6 +507,9 @@ class YAAS(ControlSurface):
 			self.log.debug("scene view up")
 			sceneindex = sceneindex - 1
 			self.song().view.selected_scene = self.song().scenes[sceneindex]
+			
+	def get_session(self):
+		return session
 
 	def disconnect(self):
 		"""clean things up on disconnect"""

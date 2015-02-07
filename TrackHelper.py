@@ -107,6 +107,12 @@ class TrackHelper(ControlSurfaceComponent):
         else:
             self._track.arm = True;
             
+    def fire(self, clip_number):
+    	"""
+    		Fires clip with the given number
+    	"""
+    	self._track.clip_slots[clip_number].fire()
+            
     def get_focus(self):
         self._song_helper._parent.song().view.selected_track = self._track
             
@@ -137,7 +143,7 @@ class TrackHelper(ControlSurfaceComponent):
             # TODO: what was that again??????
             #if str(track_index) in self._looper_helper.emulatedLoopClip:
             #    del self._looper_helper.emulatedLoopClip[str(track_index)]
-            self.last_played_clip = None
+            #self.last_played_clip = None
         else:
             # if there is a remembered track - play it
             if self.last_played_clip is not None:

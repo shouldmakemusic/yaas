@@ -15,11 +15,11 @@ class TrackController (YaasController):
             If this method is called again and no clip is playing - start it again
             0 -> track_index
         """
-        self.log.verbose("(TrackController) stop_clip called")
+        self.log.verbose("(TrackController) stop_or_restart_clip called")
         track_index = params[0]
         self.log.verbose("(TrackController) for clip " + str(track_index))
         
-        track_helper = self.track_helper(track_index)
+        track_helper = self.track_helper(track_index - 1)
         track_helper.stop_or_restart_clip()
 
     def stop(self, params, value):
@@ -28,10 +28,14 @@ class TrackController (YaasController):
             0 -> track_index
         """
 
-        self.log.verbose("(TrackController) stop_clip called")
+        self.log.verbose("(TrackController) stop called")
         track_index = params[0]
         self.log.verbose("(TrackController) for clip " + str(track_index))
 
-        track_helper = self.track_helper(track_index)
+        if (track_index == -1):
+            track_helper = self.song_helper().get_selected_track()
+        else:
+            track_helper = self.track_helper(track_index - 1)
+			
         track_helper.get_track().stop_all_clips()
         

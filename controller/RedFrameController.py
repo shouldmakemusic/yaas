@@ -8,6 +8,7 @@ class RedFrameController (YaasController):
 
         YaasController.__init__(self, yaas)
         self.log.debug("(RedFrameController) init")
+        self._session = yaas.get_session()
         
     def play_clip(self, params, value):
         """
@@ -22,11 +23,10 @@ class RedFrameController (YaasController):
         clip_number = params[0] - 1
         self.log.verbose("(RedFrameController) for clip " + str(clip_number))
 
-        global session
         if (clip_number > 4):
-            clip_number = clip_number -1
-            clip_number = session._scene_offset + clip_number
+            """clip_number = clip_number -1"""
+            clip_number = self._session._scene_offset + clip_number
         self.log.verbose("(RedFrameController) calculated number " + str(clip_number))
 
-        self.song().view.selected_track.clip_slots[track_number].fire();
+        self.song_helper().get_selected_track().fire(clip_number);
         
