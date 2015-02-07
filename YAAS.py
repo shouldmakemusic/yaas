@@ -189,7 +189,6 @@ class YAAS(ControlSurface):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_down[index])
 		for index in range(len(scene_up)):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_up[index])
-		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, stop_all_clips)
 		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, play_current_scene)
 				
 		# midi_note_definitions
