@@ -7,6 +7,7 @@ import inspect
 import os
 
 from controller.RedFrameController import RedFrameController
+from controller.SongController import SongController
 from controller.TrackController import TrackController
 
 """ Constants and configuration """
@@ -173,23 +174,6 @@ class YAAS(ControlSurface):
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 		
-		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, 0, 0)
-		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 1)
-		#Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, 6)
-		for index in range(len(rec_all_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, rec_all_notes[index])
-
-		for index in range(len(click_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, click_notes[index])
-
-		for index in range(len(tap_tempo_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, tap_tempo_notes[index])
-
-		#select track
-		for index in range(len(select_track_notes)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_track_notes[index])
-
-
 		#move red box
 		for index in range(len(select_box_right)):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_right[index])
@@ -255,15 +239,6 @@ class YAAS(ControlSurface):
 						looper = track_helper.get_device(LOOPER)
 						self._device_helper.log_parameters_for_device(looper)
 												
-					elif (midi_note in select_track_notes):
-						self.selectTrack(track_id)
-										
-					elif (midi_note in rec_all_notes):
-						self.recAll(track_id)
-						
-					elif (midi_note in tap_tempo_notes):
-						self.song().tap_tempo()
-	
 					# move red box
 					elif (midi_note in select_box_right):
 						self.move_track_view_horizontal(True)
@@ -283,12 +258,6 @@ class YAAS(ControlSurface):
 					elif (midi_note in midi_note_definitions):					
 						self.handle_parametered_function(midi_note_definitions, midi_note, value);
 					
-					# metronome
-					elif (midi_note in click_notes):
-						if (self.song().metronome):
-							self.song().metronome = OFF
-						else:
-							self.song().metronome = ON
 							
 	
 					elif midi_note == stop_all_clips:
@@ -332,35 +301,6 @@ class YAAS(ControlSurface):
 			self.log.error("(YAAS) receive_midi")
 			self.log.error("Could not execute midi " + str(midi_bytes))
 			self.log.error("Because of " + str(err))
-
-	def recAll(self, track_index):
-		
-		current_song_time = 0
-		if (self.song().is_playing):
-			current_song_time = self.song().current_song_time
-			#self.song().stop_playing()
-
-		if (self.song().record_mode == 0):
-			self.log.info("Start recording from " + str(current_song_time));
-			self.song().set_or_delete_cue()
-			self.song().record_mode = 1
-		else:
-			self.song().record_mode = 0		
-		#self.song().current_song_time = current_song_time
-		#self.song().continue_playing()
-		
-	def selectTrack(self, track_index):
-		
-		track = self.song().tracks[track_index]
-		#all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
-		#self.song().view.selected_track = all_tracks[track_index]
-		
-		self.song().view.selected_track = track
-		self.application().view.focus_view("Detail") 
-		self.application().view.focus_view("Detail/DeviceChain") 
-		
-		#self.log.debug("arrayActiveDevices removed ")
-
 		
 #	def stopClip(self, track_index):
 #		self.log.debug("stop clip " + str(track_index))

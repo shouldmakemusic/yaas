@@ -11,8 +11,6 @@ CURRENT = -1
 LOOPER = "Looper"
 CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
 CHANNEL_LIGHTHOUSE = 1 # Midi channel 2
-OFF = 0
-ON = 1
 
 
 MIDI_NOTE_TYPE = 0

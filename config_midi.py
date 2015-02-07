@@ -2,22 +2,10 @@ from consts import *
 
 RED_FRAME_CONTROLLER = "RedFrameController"
 TRACK_CONTROLLER = "TrackController"
+SONG_CONTROLLER = "SongController"
 #track_volume = 14 #this is cc
 #arm_current_track = 1
 
-#clip_launch_notes = [92, 93, 94, 95, 97, 98, 99] #this is a set of seven "white" notes, starting at C3
-
-# track
-select_track_notes = [11, 21, 31, 41, 51, 61]
-
-#stop_clips_notes = [20, 30, 40, 50, 60, 70]
-# 101 und 111 sind die beiden pedale bei bank 0 ...
-#track_stop_notes = [100] #momentan ist nur ein track selectiert - das stopt ihn
-
-# device
-rec_all_notes = [17, 27, 37, 47, 57, 67]
-click_notes = [18, 28, 38, 48, 58, 68]
-tap_tempo_notes = [19, 29, 39, 49, 59, 69]
 
 # scene
 scene_down = [82]
@@ -111,6 +99,37 @@ midi_note_definitions = {
     60 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [5]],
     70 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [6]],
     100: [TRACK_CONTROLLER, 'stop', [CURRENT]],
+    
+#rec_all_notes = [17, 27, 37, 47, 57, 67]
+#click_notes = [18, 28, 38, 48, 58, 68]
+#tap_tempo_notes = [19, 29, 39, 49, 59, 69]
+#select_track_notes = [11, 21, 31, 41, 51, 61]
+
+    17 : [SONG_CONTROLLER, 'record', []],
+    27 : [SONG_CONTROLLER, 'record', []],
+    37 : [SONG_CONTROLLER, 'record', []],
+    47 : [SONG_CONTROLLER, 'record', []],
+    57 : [SONG_CONTROLLER, 'record', []],
+    67 : [SONG_CONTROLLER, 'record', []],
+    18 : [SONG_CONTROLLER, 'metronom', []],
+    28 : [SONG_CONTROLLER, 'metronom', []],
+    38 : [SONG_CONTROLLER, 'metronom', []],
+    48 : [SONG_CONTROLLER, 'metronom', []],
+    58 : [SONG_CONTROLLER, 'metronom', []],
+    68 : [SONG_CONTROLLER, 'metronom', []],
+    19 : [SONG_CONTROLLER, 'tap_tempo', []],
+    29 : [SONG_CONTROLLER, 'tap_tempo', []],
+    39 : [SONG_CONTROLLER, 'tap_tempo', []],
+    49 : [SONG_CONTROLLER, 'tap_tempo', []],
+    59 : [SONG_CONTROLLER, 'tap_tempo', []],
+    69 : [SONG_CONTROLLER, 'tap_tempo', []],
+    11 : [SONG_CONTROLLER, 'select_track', [1]],
+    21 : [SONG_CONTROLLER, 'select_track', [2]],
+    31 : [SONG_CONTROLLER, 'select_track', [3]],
+    41 : [SONG_CONTROLLER, 'select_track', [4]],
+    51 : [SONG_CONTROLLER, 'select_track', [5]],
+    61 : [SONG_CONTROLLER, 'select_track', [6]],
+    
 }
 
 midi_cc_definitions = {
