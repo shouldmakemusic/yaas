@@ -3,12 +3,8 @@ from consts import *
 RED_FRAME_CONTROLLER = "RedFrameController"
 TRACK_CONTROLLER = "TrackController"
 SONG_CONTROLLER = "SongController"
+SCENE_CONTROLLER = "SceneController"
 
-# scene
-scene_down = [82]
-scene_up = [87]
-stop_all_clips = 88
-play_current_scene = 83
 
 # navigation / red box movement
 select_box_right = [86, 96, 76]
@@ -118,7 +114,18 @@ midi_note_definitions = {
     41 : [SONG_CONTROLLER, 'select_track', [4]],
     51 : [SONG_CONTROLLER, 'select_track', [5]],
     61 : [SONG_CONTROLLER, 'select_track', [6]],
-    
+    # scene
+#scene_down = [82]
+#scene_up = [87]
+#stop_all_clips = 88
+#play_current_scene = 83
+    82 : [SCENE_CONTROLLER, 'scene_down', []],
+    83 : [SCENE_CONTROLLER, 'play_scene_select_next', [CURRENT]],
+    #84 : [SCENE_CONTROLLER, 'play_scene', [CURRENT]],
+    #84 : [SCENE_CONTROLLER, 'play_scene', [3]],
+    87 : [SCENE_CONTROLLER, 'scene_up', []],
+    88 : [SCENE_CONTROLLER, 'stop', [CURRENT]],
+
 }
 
 midi_cc_definitions = {

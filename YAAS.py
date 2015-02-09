@@ -6,21 +6,25 @@ import sys
 import inspect
 import os
 
+""" These handle the tasks """
+from LightHouseMidiReceiver import LightHouseMidiReceiver
 from controller.RedFrameController import RedFrameController
 from controller.SongController import SongController
 from controller.TrackController import TrackController
+from controller.SceneController import SceneController
+# add new controllers here!
 
 """ Constants and configuration """
 from consts import *
 from config_midi import *
 
-""" These handle the tasks """
+""" Helper classes """
 from SongHelper import SongHelper
 from LooperHelper import LooperHelper
 from PedalHelper import PedalHelper
 from DeviceHelper import DeviceHelper
 from ValueContainer import ValueContainer
-from LightHouseMidiReceiver import LightHouseMidiReceiver
+from helper.ViewHelper import ViewHelper
 
 """ Classes for LiveOSC """
 from LiveOSC.LiveOSCCallbacks import LiveOSCCallbacks
@@ -52,9 +56,7 @@ from _Framework.SessionComponent import SessionComponent # Class encompassing se
 """ Here we define some global variables """
 session = None #Global session object - global so that we can manipulate the same session object from within any of our methods
 mixer = None #Global mixer object - global so that we can manipulate the same mixer object from within any of our methods
-scene = None
 track = None
-#button_play_current_scene = None
 sceneindex = None
 
 track_index = 0
@@ -97,14 +99,16 @@ class YAAS(ControlSurface):
 			self._setup_mixer_control() # Setup the mixer object
 			self._setup_session_control()  # Setup the session object
 			
-			self._song_helper = SongHelper(self)
-			
+			self._song_helper = SongHelper(self)			
+
 			self._pedal_helper = PedalHelper(self)
 			
 			self._device_helper = DeviceHelper(self)
 			self.device_helper = self._device_helper
 			
 			self._looper_helper = LooperHelper(self)
+			
+			self._view_helper = ViewHelper(self)
 
 		# store and retrieve values
 		self._value_container = ValueContainer(self)
@@ -183,13 +187,6 @@ class YAAS(ControlSurface):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_down[index])
 		for index in range(len(select_box_up)):
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_up[index])
-
-		#scene
-		for index in range(len(scene_down)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_down[index])
-		for index in range(len(scene_up)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, scene_up[index])
-		Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, play_current_scene)
 				
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
@@ -247,20 +244,10 @@ class YAAS(ControlSurface):
 						self.move_track_view_vertical(True);
 					elif (midi_note in select_box_up):
 						self.move_track_view_vertical(False);
-					# move scene
-					elif (midi_note in scene_down):
-						self.move_scene_view_vertical(True);
-					elif (midi_note in scene_up):
-						self.move_scene_view_vertical(False);
 	
 					# device helper
 					elif (midi_note in midi_note_definitions):					
 						self.handle_parametered_function(midi_note_definitions, midi_note, value);
-					
-							
-	
-					elif midi_note == play_current_scene:
-						self.song().view.selected_scene.fire_as_selected()
 	
 					else:
 						self.log.debug("For the control surface: " + str(midi_bytes))
@@ -306,24 +293,33 @@ class YAAS(ControlSurface):
 		param =  function_and_param[2]
 
 		error = None
+		error2 = None
 		controller = self.get_controller(name)
 		try:
 			getattr(controller, method)(param, value)
 		except Exception, err:
 			error = err
 		
-		helper = self.get_helper(name)
-		try:
-			getattr(helper, method)(param, value)
-		except Exception, err:
-			error = err
+		if error is not None:
+			helper = self.get_helper(name)
+			try:
+				getattr(helper, method)(param, value)
+			except Exception, err:
+				error2 = err
 
 		if error is not None:
 			if isinstance(name, basestring):			
-				self.log.error("Could not find controller or helper for " + name + "." + method)
+				self.log.error("Could not find controller for " + name + "." + method)
 			else:
-				self.log.error("Could not find controller or helper for " + name[0] + "." + method)
-			self.log.error(err)
+				self.log.error("Could not find controller for " + name[0] + "." + method)
+			self.log.error("Message: " + str(error))
+			
+		if error2 is not None:
+			if isinstance(name, basestring):			
+				self.log.error("Could not find helper for " + name + "." + method)
+			else:
+				self.log.error("Could not find helper for " + name[0] + "." + method)
+			self.log.error("Message: " + str(error2))
 			
 	def get_controller(self, name):
 		"""
@@ -375,9 +371,7 @@ class YAAS(ControlSurface):
 		self.set_highlighting_session_component(session)
 		session.set_offsets(0, 0) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
 
-		global scene
 		global sceneindex
-		scene = session.scene(0)
 		sceneindex = 0;
 
 		session.set_mixer(mixer) #Bind the mixer to the session so that they move together
@@ -434,28 +428,13 @@ class YAAS(ControlSurface):
 			if track_offset < 0:
 				track_offset = 0
 			session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-			self.song().view.selected_track = self.song().tracks[track_offset]
-			
-	def move_scene_view_vertical(self, down):
-				
-		global sceneindex
-		global scene
-				
-		if down:
-			self.log.debug("scene view down")
-			sceneindex = sceneindex + 1
-			self.song().view.selected_scene = self.song().scenes[sceneindex]
+			self.song().view.selected_track = self.song().tracks[track_offset]			
 
-		else:
-			if sceneindex == 0:
-				return
-			self.log.debug("scene view up")
-			sceneindex = sceneindex - 1
-			self.song().view.selected_scene = self.song().scenes[sceneindex]
-			
+# Helper methods to get the globals			
 	def get_session(self):
 		return session
-
+	
+# Administration methods
 	def disconnect(self):
 		"""clean things up on disconnect"""
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log closed =--------------") #Create entry in log file
