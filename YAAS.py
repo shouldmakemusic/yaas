@@ -455,6 +455,7 @@ class YAAS(ControlSurface):
 										#self.log.verbose("criteria 4")
 										self.oscServer.sendOSC('/yaas/commands/list', [name, attr])
 		self.oscServer.sendOSC('/yaas/commands/done', 1)
+		self.log.debug("sent command list to lighthouse")
 				
 # Helper methods to get the globals in the helpers	
 	def get_session(self):
