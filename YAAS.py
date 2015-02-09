@@ -301,18 +301,29 @@ class YAAS(ControlSurface):
 	def handle_parametered_function(self, definitions, button, value):
 		
 		function_and_param = definitions[button]
-		helper_name = function_and_param[0]
+		name = function_and_param[0]
 		method =  function_and_param[1]
 		param =  function_and_param[2]
+
+		error = None
+		controller = self.get_controller(name)
+		try:
+			getattr(controller, method)(param, value)
+		except Exception, err:
+			error = err
 		
-		helper = self.get_helper(helper_name)
+		helper = self.get_helper(name)
 		try:
 			getattr(helper, method)(param, value)
 		except Exception, err:
-			self.log.error(err)
+			error = err
 
-		controller = self.get_controller(helper_name)
-		getattr(controller, method)(param, value)
+		if error is not None:
+			if isinstance(name, basestring):			
+				self.log.error("Could not find controller or helper for " + name + "." + method)
+			else:
+				self.log.error("Could not find controller or helper for " + name[0] + "." + method)
+			self.log.error(err)
 			
 	def get_controller(self, name):
 		"""
@@ -320,8 +331,11 @@ class YAAS(ControlSurface):
 			For these controllers the event handling is available
 			(the methods have to accept params and value as parameters)
 		"""
-		controller = globals()[name](self)
-		self.log.log_object_attributes(controller)
+		controller = None
+		if isinstance(name, basestring):
+			controller = globals()[name](self)
+		if controller is not None:
+			self.log.log_object_attributes(controller)
 		return controller
 		
 	def get_helper(self, param):
