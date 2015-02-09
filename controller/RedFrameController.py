@@ -1,4 +1,4 @@
-from YaasController import YaasController
+from YaasController import *
 
 class RedFrameController (YaasController):
     __module__ = __name__

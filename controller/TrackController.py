@@ -1,4 +1,4 @@
-from YaasController import YaasController
+from YaasController import *
 
 class TrackController (YaasController):
 	__module__ = __name__
@@ -32,7 +32,7 @@ class TrackController (YaasController):
 		track_index = params[0]
 		self.log.verbose("(TrackController) for clip " + str(track_index))
 
-		if (track_index == -1):
+		if (track_index == CURRENT):
 			track_helper = self.song_helper().get_selected_track()
 		else:
 			track_helper = self.track_helper(track_index - 1)
