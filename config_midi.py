@@ -125,6 +125,7 @@ midi_note_definitions = {
     #84 : [SCENE_CONTROLLER, 'play_scene', [3]],
     87 : [SCENE_CONTROLLER, 'scene_up', []],
     88 : [SCENE_CONTROLLER, 'stop', [CURRENT]],
+    84 : [SCENE_CONTROLLER, 'send_available_methods_to_lighthouse', []],
 
 }
 

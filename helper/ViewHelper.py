@@ -11,6 +11,9 @@ class ViewHelper (YaasHelper):
         self.log.debug("(ViewHelper) init")
         
     def move_scene_view(self, down):
+        """
+            Moves the current selected scene up or down
+        """
                 
         all_scenes = self.song().scenes #then get all of the scenes
         scene_index = list(all_scenes).index(self.song().view.selected_scene) #then identify where the selected scene sits in relation to the full list
@@ -20,7 +23,8 @@ class ViewHelper (YaasHelper):
         if down:
             self.log.debug("(ViewHelper) scene view down")
             scene_index = scene_index + 1
-            self.song().view.selected_scene = self.song().scenes[scene_index]
+            if scene_index < len(self.song().scenes):
+                self.song().view.selected_scene = self.song().scenes[scene_index]
 
         else:
             if scene_index == 0:

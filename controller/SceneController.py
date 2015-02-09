@@ -71,3 +71,7 @@ class SceneController (YaasController):
         self.log.verbose("(SceneController) scene_up called")
         self.view_helper().move_scene_view(False)
         
+    def send_available_methods_to_lighthouse(self, params, value):
+        
+        self.yaas.send_available_methods_to_lighthouse()
+

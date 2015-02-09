@@ -293,33 +293,31 @@ class YAAS(ControlSurface):
 		param =  function_and_param[2]
 
 		error = None
-		error2 = None
-		controller = self.get_controller(name)
+		found = False
 		try:
-			getattr(controller, method)(param, value)
-		except Exception, err:
-			error = err
-		
-		if error is not None:
-			helper = self.get_helper(name)
-			try:
-				getattr(helper, method)(param, value)
-			except Exception, err:
-				error2 = err
-
-		if error is not None:
-			if isinstance(name, basestring):			
-				self.log.error("Could not find controller for " + name + "." + method)
-			else:
-				self.log.error("Could not find controller for " + name[0] + "." + method)
-			self.log.error("Message: " + str(error))
+			controller = self.get_controller(name)
+			if (hasattr(controller, method)):
+				found = True
+				getattr(controller, method)(param, value)
 			
-		if error2 is not None:
+			if not found:
+				helper = self.get_helper(name)
+				if (hasattr(helper, method)):
+					found = True
+					getattr(helper, method)(param, value)
+					
+			if not found:
+				if isinstance(name, basestring):			
+					self.log.error("Could not find controller or helper for " + name + "." + method)
+				else:
+					self.log.error("Could not find controller or helper for " + name[0] + "." + method)
+				
+		except Exception, err:
 			if isinstance(name, basestring):			
-				self.log.error("Could not find helper for " + name + "." + method)
+				self.log.error("Error executing " + name + "." + method)
 			else:
-				self.log.error("Could not find helper for " + name[0] + "." + method)
-			self.log.error("Message: " + str(error2))
+				self.log.error("Error executing " + name[0] + "." + method)
+			self.log.error("Message: " + str(err))			
 			
 	def get_controller(self, name):
 		"""
@@ -430,7 +428,35 @@ class YAAS(ControlSurface):
 			session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
 			self.song().view.selected_track = self.song().tracks[track_offset]			
 
-# Helper methods to get the globals			
+	def send_available_methods_to_lighthouse(self):
+		self.log.verbose("(YAAS) send_available_methods_to_lighthouse called")
+		self.oscServer.sendOSC('/yaas/commands/clear', 1)
+		g = globals().copy()		
+		for name, obj in g.iteritems():
+			
+			if "Controller" in str(name):				
+				self.log.verbose("Name: " + name)				
+				for attr in dir(obj):				
+					method_desc = getattr(obj, attr)
+										
+					if "method" in str(method_desc):						
+						self.log.verbose( "obj.%s = %s" % (attr, method_desc))
+						params = method_desc.func_code.co_varnames
+						#for i in range(method_desc.func_code.co_argcount):
+							#self.log.verbose("param: " + params[i])
+						
+						if method_desc.func_code.co_argcount == 3:
+							#self.log.verbose("criteria 1")
+							if params[0] == "self":
+								#self.log.verbose("criteria 2")
+								if params[1] == "params":
+									#self.log.verbose("criteria 3")
+									if params[2] == "value":
+										#self.log.verbose("criteria 4")
+										self.oscServer.sendOSC('/yaas/commands/list', [name, attr])
+		self.oscServer.sendOSC('/yaas/commands/done', 1)
+				
+# Helper methods to get the globals in the helpers	
 	def get_session(self):
 		return session
 	

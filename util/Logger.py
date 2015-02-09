@@ -1,5 +1,3 @@
-from __future__ import with_statement
-
 import sys
 import time
 import os
@@ -63,6 +61,18 @@ class Logger:
             self.oscServer.sendOSC("/yaas/log/error", data)
             
     def log_object_attributes(self, obj):     
+        self.log_object_attributes_extended(obj, False)
+        
+    def log_object_attributes_extended(self, obj, extended):
         for attr in dir(obj):
-            self.verbose( "obj.%s = %s" % (attr, getattr(obj, attr)))
-    
+            method_desc = getattr(obj, attr)
+            if extended:
+                if "method" in str(method_desc):
+                    self.verbose( "obj.%s = %s" % (attr, method_desc))
+                    params = method_desc.func_code.co_varnames
+                    for i in range(method_desc.func_code.co_argcount):
+                        self.verbose("param: " + params[i])
+                else:
+                    self.verbose( "obj.%s = %s" % (attr, method_desc))
+            else:
+                self.verbose( "obj.%s = %s" % (attr, method_desc))
