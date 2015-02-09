@@ -1,26 +1,3 @@
-"""
-# Copyright (C) 2007 Rob King (rob@re-mu.org)
-#
-# This library is free software; you can redistribute it and/or
-# modify it under the terms of the GNU Lesser General Public
-# License as published by the Free Software Foundation; either
-# version 2.1 of the License, or (at your option) any later version.
-#
-# This library is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-# Lesser General Public License for more details.
-#
-# You should have received a copy of the GNU Lesser General Public
-# License along with this library; if not, write to the Free Software
-# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-#
-# For questions regarding this module contact
-# Rob King <rob@e-mu.org> or visit http://www.e-mu.org
-
-This file contains all the current Live OSC callbacks. 
-
-"""
 import Live
 
 from util.RangeUtil import RangeUtil
@@ -52,6 +29,7 @@ class LightHouseOSCReceiver:
             return
         
         self.callbackManager.add(self.sensorX, "/yaas/sensor")
+        self.callbackManager.add(self.send_controller_info, "/yaas/controller/send/info")
     
     def setMainScript(self, mainScript):
         self._parent = mainScript
@@ -60,7 +38,10 @@ class LightHouseOSCReceiver:
         self._parent._device_helper.select_current_then_select_next_hash_device([0], None)
         device = self._parent._device_helper.get_hash_device()
         if device is not None:
-            self.log.debug('Using device ' + device.name)            
+            self.log.debug('Using device ' + device.name)  
+            
+    def send_controller_info(self, msg):
+        self._parent.send_available_methods_to_lighthouse()
 
     def sensorX(self, msg):
         """Called when a /yaas/sensor measurement is received.
