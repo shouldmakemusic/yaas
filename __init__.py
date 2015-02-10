@@ -9,6 +9,8 @@ from util.Logger import Logger
 log_folder = os.path.realpath(os.path.abspath(os.path.split(inspect.getfile( inspect.currentframe() ))[0]))
 errorLog = open(log_folder + "/stderr.txt", "w", 0)
 sys.stderr = errorLog
+outLog = open(log_folder + "/stdout.txt", "w", 0)
+sys.stdout = outLog
 errorLog.write("Starting Error Log")
 
 # this does not work - ableton crashes but it would be so cool
