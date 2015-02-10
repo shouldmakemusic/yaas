@@ -34,7 +34,7 @@ class Logger:
                 tries = tries + 1     
         
         filename = os.path.join(os.path.dirname(__file__)[:-4], os.path.basename("stderr.txt"))
-        self.oscServer.sendOSC("/yaas/log/errorfile", filename)
+        self.oscServer.sendOSC("/yaas/config/errorfile", filename)
            
         self.debug("Logger started")
                 

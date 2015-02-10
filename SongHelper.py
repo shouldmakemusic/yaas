@@ -41,7 +41,7 @@ class SongHelper(ControlSurfaceComponent):
             Starting at 1
             Can also be CURRENT
         """
-        if (track_index == CURRENT):
+        if (scene_index == CURRENT):
             return self.song().view.selected_scene
         
         return self.song().scenes[scene_index - 1]

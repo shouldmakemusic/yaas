@@ -89,6 +89,7 @@ class YAAS(ControlSurface):
 		self.basicAPI = 0	
 		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
+		self.oscServer.sendOSC('/yaas/config/port', 9190);
 
 		# here i will handle midi messages from LightHouse
 		self._lighthouse_receiver = LightHouseMidiReceiver(self, c_instance)

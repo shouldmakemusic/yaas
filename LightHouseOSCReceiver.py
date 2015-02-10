@@ -28,7 +28,7 @@ class LightHouseOSCReceiver:
             self.log.debug('(LightHouseOSCReceiver) will not work because no oscServer has been given')
             return
         
-        self.callbackManager.add(self.sensorX, "/yaas/sensor")
+        self.callbackManager.add(self.sensorX, "/android/sensor")
         self.callbackManager.add(self.send_controller_info, "/yaas/controller/send/info")
     
     def setMainScript(self, mainScript):
@@ -44,10 +44,10 @@ class LightHouseOSCReceiver:
         self._parent.send_available_methods_to_lighthouse()
 
     def sensorX(self, msg):
-        """Called when a /yaas/sensor measurement is received.
+        """Called when a /android/sensor measurement is received.
 
         Messages:
-        /yaas/sensor (float tempo)   Set the tempo, replies with /live/tempo (float tempo)
+        /android/sensor (float tempo)   Set the tempo, replies with /live/tempo (float tempo)
         """
         if len(msg) == 5:
             x = msg[2]
