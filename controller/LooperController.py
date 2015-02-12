@@ -5,7 +5,9 @@ looper_last_track_index = 0
 class LooperController(YaasController):
     __module__ = __name__
     __doc__ = 'LooperController'
-        
+    
+    emulatedLoopClip = {}
+      
     def __init__(self, yaas):
 
         YaasController.__init__(self, yaas)
@@ -51,14 +53,16 @@ class LooperController(YaasController):
             self.song().view.selected_track = self.song().tracks[looper_last_track_index]
             looper_last_track_index = None
             
-    emulatedLoopClip = {}
+    def clipLooper(self, params, value):
+        """ 
+            Records a clip in the current track.
+            First press is record.
+            Second is play
+        """
+        self.log.verbose("(LooperController) clipLooper called")
+        track_index = params[0]
+        self.log.verbose("(LooperController) for track " + str(track_index))
 
-    """ 
-        Here we define some global variables 
-    """
-    def clipLooper(self, param, value):
-        track_index = param[0]
-        
         current_slot = None;
         if str(track_index) in self.emulatedLoopClip:
             current_slot = self.emulatedLoopClip[str(track_index)]

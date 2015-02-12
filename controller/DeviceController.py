@@ -37,9 +37,8 @@ class DeviceController (YaasController):
 				self.application().view.focus_view("Detail") 
 				self.application().view.scroll_view(2, "Detail/DeviceChain", 0)
 		else:
-			target_track.get_focus(None)
-			self.application().view.focus_view("Detail") 
-			self.application().view.focus_view("Detail/DeviceChain")
+			self.view_helper().focus_on_track_helper(target_track)
+			
 
 			if device is not None:
 				self.song().view.select_device(device)
@@ -153,7 +152,7 @@ class DeviceController (YaasController):
 			self.yaas._value_container.set_value(chain_name + device.parameters[3].name, device.parameters[3].value)
 			self.yaas._value_container.set_value(chain_name + device.parameters[4].name, device.parameters[4].value)							
 			
-			debug_message = 'set chain activator to ' + str(chain_index + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name
+			debug_message = 'set chain activator to ' + str(chain_index) + ' from ' + str(len(device.chains) - 1) + ' for ' + device.name
 			self.log.debug(str(debug_message))
 			
 			if len(device.chains) > chain_index:
@@ -192,7 +191,7 @@ class DeviceController (YaasController):
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
 		track_index = params[0]
-		self.log.verbose("(DeviceController) for chain " + str(track_index))
+		self.log.verbose("(DeviceController) for track " + str(track_index))
 		
 		
 		self.device_helper().select_current_then_select_next_hash_device(track_index)

@@ -25,7 +25,7 @@ class LightHouseOSCReceiver:
             self.oscClient = oscServer.oscClient
                         
         else:
-            self.log.debug('(LightHouseOSCReceiver) will not work because no oscServer has been given')
+            self.log.error('(LightHouseOSCReceiver) will not work because no oscServer has been given')
             return
         
         self.callbackManager.add(self.sensorX, "/android/sensor")

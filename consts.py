@@ -27,13 +27,15 @@ MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED = 129
 #track
 num_tracks = 7 
 
-
-
-# method, track_id, chain_nr
-DEVICE_HELPER = 'device_helper'
-TRACK_HELPER  = 'track_helper'
-LOOPER_HELPER = 'looper_helper'
-PEDAL_HELPER = 'pedal_helper'
+# controller
+RED_FRAME_CONTROLLER = "RedFrameController"
+TRACK_CONTROLLER = "TrackController"
+SONG_CONTROLLER = "SongController"
+SCENE_CONTROLLER = "SceneController"
+DEVICE_CONTROLLER = "DeviceController"
+PEDAL_CONTROLLER = "PedalController"
+LOOPER_CONTROLLER = "LooperController"
+DEBUG_CONTROLLER = "DebugController"
 
 NEXT = True
 PREV = False

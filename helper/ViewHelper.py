@@ -32,6 +32,12 @@ class ViewHelper (YaasHelper):
             scene_index = scene_index - 1
             self.song().view.selected_scene = self.song().scenes[scene_index]
     
+    def focus_on_track_helper(self, track_helper):
+        """
+            Sets the view to the given track and shows the devices
+        """
+        self.focus_on_track(track_helper.get_track())
+        
     def focus_on_track(self, track):
         """
             Sets the view to the given track and shows the devices

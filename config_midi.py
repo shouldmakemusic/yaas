@@ -1,14 +1,5 @@
 from consts import *
 
-RED_FRAME_CONTROLLER = "RedFrameController"
-TRACK_CONTROLLER = "TrackController"
-SONG_CONTROLLER = "SongController"
-SCENE_CONTROLLER = "SceneController"
-DEVICE_CONTROLLER = "DeviceController"
-PEDAL_CONTROLLER = "PedalController"
-LOOPER_CONTROLLER = "LooperController"
-DEBUG_CONTROLLER = "DebugController"
-
 # navigation / red box movement
 
 midi_note_definitions = {
@@ -20,7 +11,7 @@ midi_note_definitions = {
     4  : [DEVICE_CONTROLLER, 'set_chain_selector', [2]],
     5  : [DEVICE_CONTROLLER, 'set_chain_selector', [3]],
 
-    6  : [TRACK_CONTROLLER, 'get_focus', [1]],
+    6  : [TRACK_CONTROLLER, 'get_focus', [0]],
     
     7  : [DEVICE_CONTROLLER, 'set_chain_selector', [4]],
     8  : [DEVICE_CONTROLLER, 'set_chain_selector', [5]],
@@ -33,7 +24,7 @@ midi_note_definitions = {
     
     14 : [DEVICE_CONTROLLER, 'toggle_device', [CURRENT, CURRENT]],
     15 : [LOOPER_CONTROLLER, 'clipLooper', [0]],    
-    16 : [TRACK_CONTROLLER, 'arm', [1]],
+    16 : [TRACK_CONTROLLER, 'arm', [0]],
     
 #    2  : [DEVICE_CONTROLLER, 'trigger_device_chain', [0, True]],
 #    3  : [DEVICE_CONTROLLER, 'trigger_device_chain', [1, True]],
@@ -43,16 +34,16 @@ midi_note_definitions = {
 #    8  : [DEVICE_CONTROLLER, 'trigger_device_chain', [5, True]],
 #    9  : [DEVICE_CONTROLLER, 'trigger_device_chain', [6, True]],
 #    10 : [DEVICE_CONTROLLER, 'trigger_device_chain', [7, True]],
-    26 : [TRACK_CONTROLLER, 'arm', [2]],
-    36 : [TRACK_CONTROLLER, 'arm', [3]],
-    46 : [TRACK_CONTROLLER, 'arm', [4]],
-    56 : [TRACK_CONTROLLER, 'arm', [5]],
-    66 : [TRACK_CONTROLLER, 'arm', [6]],
+    26 : [TRACK_CONTROLLER, 'arm', [1]],
+    36 : [TRACK_CONTROLLER, 'arm', [2]],
+    46 : [TRACK_CONTROLLER, 'arm', [3]],
+    56 : [TRACK_CONTROLLER, 'arm', [4]],
+    66 : [TRACK_CONTROLLER, 'arm', [5]],
 
-    72 : [LOOPER_CONTROLLER, 'activate_looper', [1]],     
-    74 : [LOOPER_CONTROLLER, 'activate_looper', [2]], 
-    77 : [LOOPER_CONTROLLER, 'switch_view', [1]],
-    79 : [LOOPER_CONTROLLER, 'switch_view', [2]],
+    72 : [LOOPER_CONTROLLER, 'activate_looper', [0]],     
+    74 : [LOOPER_CONTROLLER, 'activate_looper', [1]], 
+    77 : [LOOPER_CONTROLLER, 'switch_view', [0]],
+    79 : [LOOPER_CONTROLLER, 'switch_view', [1]],
     22 : [DEVICE_CONTROLLER, 'navigate_device_focus', [1, PREV]],
     32 : [DEVICE_CONTROLLER, 'navigate_device_focus', [2, PREV]],
     42 : [DEVICE_CONTROLLER, 'navigate_device_focus', [3, PREV]],
@@ -68,27 +59,27 @@ midi_note_definitions = {
     44 : [DEVICE_CONTROLLER, 'toggle_device', [CURRENT, CURRENT]],
     54 : [DEVICE_CONTROLLER, 'toggle_device', [CURRENT, CURRENT]],
     64 : [DEVICE_CONTROLLER, 'toggle_device', [CURRENT, CURRENT]],
-    25 : [LOOPER_CONTROLLER, 'clipLooper', [1]],
-    35 : [LOOPER_CONTROLLER, 'clipLooper', [2]],
-    45 : [LOOPER_CONTROLLER, 'clipLooper', [3]],
-    55 : [LOOPER_CONTROLLER, 'clipLooper', [4]],
-    65 : [LOOPER_CONTROLLER, 'clipLooper', [5]],
+    25 : [LOOPER_CONTROLLER, 'clipLooper', [0]],
+    35 : [LOOPER_CONTROLLER, 'clipLooper', [1]],
+    45 : [LOOPER_CONTROLLER, 'clipLooper', [2]],
+    55 : [LOOPER_CONTROLLER, 'clipLooper', [3]],
+    65 : [LOOPER_CONTROLLER, 'clipLooper', [4]],
     
 
-    92 : [RED_FRAME_CONTROLLER, 'play_clip', [1]],
-    93 : [RED_FRAME_CONTROLLER, 'play_clip', [2]],
-    94 : [RED_FRAME_CONTROLLER, 'play_clip', [3]],
-    95 : [RED_FRAME_CONTROLLER, 'play_clip', [4]],
-    97 : [RED_FRAME_CONTROLLER, 'play_clip', [5]],
-    98 : [RED_FRAME_CONTROLLER, 'play_clip', [6]],
-    99 : [RED_FRAME_CONTROLLER, 'play_clip', [7]],
+    92 : [RED_FRAME_CONTROLLER, 'play_clip', [0]],
+    93 : [RED_FRAME_CONTROLLER, 'play_clip', [1]],
+    94 : [RED_FRAME_CONTROLLER, 'play_clip', [2]],
+    95 : [RED_FRAME_CONTROLLER, 'play_clip', [3]],
+    97 : [RED_FRAME_CONTROLLER, 'play_clip', [4]],
+    98 : [RED_FRAME_CONTROLLER, 'play_clip', [5]],
+    99 : [RED_FRAME_CONTROLLER, 'play_clip', [6]],
     
-    20 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [1]],
-    30 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [2]],
-    40 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [3]],
-    50 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [4]],
-    60 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [5]],
-    70 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [6]],
+    20 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [0]],
+    30 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [1]],
+    40 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [2]],
+    50 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [3]],
+    60 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [4]],
+    70 : [TRACK_CONTROLLER, 'stop_or_restart_clip', [5]],
     100: [TRACK_CONTROLLER, 'stop', [CURRENT]],
     
     17 : [SONG_CONTROLLER, 'record', []],
@@ -109,12 +100,12 @@ midi_note_definitions = {
     49 : [SONG_CONTROLLER, 'tap_tempo', []],
     59 : [SONG_CONTROLLER, 'tap_tempo', []],
     69 : [SONG_CONTROLLER, 'tap_tempo', []],
-    11 : [TRACK_CONTROLLER, 'get_focus', [1]],
-    21 : [TRACK_CONTROLLER, 'get_focus', [2]],
-    31 : [TRACK_CONTROLLER, 'get_focus', [3]],
-    41 : [TRACK_CONTROLLER, 'get_focus', [4]],
-    51 : [TRACK_CONTROLLER, 'get_focus', [5]],
-    61 : [TRACK_CONTROLLER, 'get_focus', [6]],
+    11 : [TRACK_CONTROLLER, 'get_focus', [0]],
+    21 : [TRACK_CONTROLLER, 'get_focus', [1]],
+    31 : [TRACK_CONTROLLER, 'get_focus', [2]],
+    41 : [TRACK_CONTROLLER, 'get_focus', [3]],
+    51 : [TRACK_CONTROLLER, 'get_focus', [4]],
+    61 : [TRACK_CONTROLLER, 'get_focus', [5]],
     # scene
 #scene_down = [82]
 #scene_up = [87]

@@ -266,14 +266,15 @@ class YAAS(ControlSurface):
 
 			if (hasattr(controller, method)):
 				found = True
+				self.log.debug("(YAAS) Calling " + name + "." + method)
 				getattr(controller, method)(param, value)
 	
 			if not found:
-				self.log.error("Could not find controller for " + name + "." + method)
+				self.log.error("(YAAS) Could not find controller for " + name + "." + method)
 				
 		except Exception, err:
-			self.log.error("Error executing " + name + "." + method)
-			self.log.error("Message: " + str(err))	
+			self.log.error("(YAAS) Error executing " + name + "." + method)
+			self.log.error("(YAAS) Message: " + str(err))	
 	
 	controller_dict = {}	
 	def get_controller(self, name):
@@ -291,7 +292,7 @@ class YAAS(ControlSurface):
 			try:
 				controller = globals()[name](self)
 			except Exception, err:
-				self.log.verbose("get_controller problem: " + str(err))
+				self.log.verbose("(YAAS) get_controller problem: " + str(err))
 		if controller is not None:
 			self.log.log_object_attributes(controller)
 			self.controller_dict[name] = controller
@@ -330,7 +331,7 @@ class YAAS(ControlSurface):
 		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
 		global track_index
 		track_index = list(all_tracks).index(selected_track) #and so is this
-		self.log.debug("Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
+		self.log.debug("(YAAS) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 
 		global session
 		session.set_offsets(track_index, session._scene_offset) #(track_offset, scene_offset); we leave scene_offset unchanged, but set track_offset to the selected track. This allows us to jump the red box to the selected track.		
@@ -344,8 +345,9 @@ class YAAS(ControlSurface):
 		selected_scene = self.song().view.selected_scene #this is how we get the currently selected scene, using the Live API
 		all_scenes = self.song().scenes #then get all of the scenes
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
-		self.log.debug("Scene " + str(sceneindex+1) + " selected")
-		
+		self.log.debug("(YAAS) Scene " + str(sceneindex+1) + " selected")
+
+# Connections to ligthhouse	
 	def send_available_methods_to_lighthouse(self):
 		"""
 			All controllers and their commands will send to lighthouse (OSC)			
