@@ -303,7 +303,7 @@ class YAAS(ControlSurface):
 				
 		except Exception, err:
 			self.log.error("Error executing " + name + "." + method)
-			self.log.error("Message: " + str(err))			
+			self.log.error("Message: " + str(err))	
 	
 	controller_dict = {}	
 	def get_controller(self, name):

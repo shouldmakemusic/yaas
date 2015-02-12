@@ -7,7 +7,6 @@ class TrackHelper(YaasHelper):
     def __init__(self, yaas, track):
 
         YaasHelper.__init__(self, yaas)
-        self.log.debug("(TrackHelper) init")
         self.last_played_clip = None
                 
         # if the track given is a number
@@ -79,10 +78,12 @@ class TrackHelper(YaasHelper):
             return
         value = float(value);
         
-        if value > MAX:
-            value = self._track.mixer_device.sends[index].max
-        if value < MIN:
-            value = self._track.mixer_device.sends[index].min
+        max = self._track.mixer_device.sends[index].max
+        min = self._track.mixer_device.sends[index].min
+        if value > max:
+            value = max
+        if value < min:
+            value = min
         self._track.mixer_device.sends[index].value = value
         
     def arm(self):
