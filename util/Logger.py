@@ -61,9 +61,12 @@ class Logger:
             self.oscServer.sendOSC("/yaas/log/error", data)
             
     def log_object_attributes(self, obj):     
-        self.log_object_attributes_extended(obj, False)
+        self.log_object_attributes_intern(obj, False)
         
-    def log_object_attributes_extended(self, obj, extended):
+    def log_object_attributes_extended(self, obj):
+        self.log_object_attributes_intern(obj, True)
+    
+    def log_object_attributes_intern(self, obj, extended):
         for attr in dir(obj):
             method_desc = getattr(obj, attr)
             if extended:
@@ -76,5 +79,4 @@ class Logger:
                     self.verbose( "obj.%s = %s" % (attr, method_desc))
             else:
                 self.verbose( "obj.%s = %s" % (attr, method_desc))
-                
-
+    

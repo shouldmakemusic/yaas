@@ -69,6 +69,9 @@ track_index = 0
 class YAAS(ControlSurface):
 	__module__ = __name__
 	__doc__ = " yet another ableton controller script "
+	
+	midi_note_definitions_from_lighthouse = {}   
+	midi_cc_definitions_from_lighthouse = {} 
 
 	def __init__(self, c_instance):
 
@@ -214,8 +217,15 @@ class YAAS(ControlSurface):
 					# 1 => 1, 11 => 1, 12 => 2
 					pedalnumber = midi_note%10												
 	
-					# device helper
-					if (midi_note in midi_note_definitions):					
+					# definitions from lighthouse
+					#self.log.verbose(str(self.midi_note_definitions_from_lighthouse))
+
+					if (midi_note in self.midi_note_definitions_from_lighthouse):	
+						self.log.debug('Found it in lighthouse definitions')				
+						self.handle_parametered_function(self.midi_note_definitions_from_lighthouse, midi_note, value);
+					
+					# definitions from config_midi.py
+					elif (midi_note in midi_note_definitions):					
 						self.handle_parametered_function(midi_note_definitions, midi_note, value);
 	
 					else:

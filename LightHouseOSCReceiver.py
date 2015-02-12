@@ -15,6 +15,9 @@ import LiveOSC.UDPServer
 
 class LightHouseOSCReceiver:
     
+    midi_note_definitions_from_lighthouse = {}   
+    midi_cc_definitions_from_lighthouse = {} 
+
     def __init__(self, oscServer, logger):
         
         self.log = logger
@@ -30,17 +33,50 @@ class LightHouseOSCReceiver:
         
         self.callbackManager.add(self.sensorX, "/android/sensor")
         self.callbackManager.add(self.send_controller_info, "/yaas/controller/send/info")
+        self.callbackManager.add(self.receive_configuration, "/yaas/controller/receive/configuration")
     
     def setMainScript(self, mainScript):
-        self._parent = mainScript
+        self.yaas = mainScript
         # for now
-        #self._parent._device_helper.select_current_then_select_next_hash_device(0)
-        #device = self._parent._device_helper.get_hash_device()
+        #self.yaas._device_helper.select_current_then_select_next_hash_device(0)
+        #device = self.yaas._device_helper.get_hash_device()
         #if device is not None:
         #    self.log.debug('Using device ' + device.name)  
             
     def send_controller_info(self, msg):
-        self._parent.send_available_methods_to_lighthouse()
+        """
+            Calls YAAS.send_available_methods_to_lighthouse()
+        """
+        self.yaas.send_available_methods_to_lighthouse()
+        
+    def receive_configuration(self, msg):
+        """
+            From LightHouse comes a new configuration to use before the stored one.
+        """
+        #for i in range(len(msg)):
+        #    self.log.debug("Message " + str(i) + ": " + str(msg[i]))
+        
+    #1  : [DEVICE_CONTROLLER, 'select_current_then_select_next_hash_device', [0]],
+        
+        if len(msg) == 3:
+            if msg[2] == 'start':
+                self.log.debug('start receiving')
+                self.midi_note_definitions_from_lighthouse = {}   
+            if msg[2] == 'end':
+                self.log.debug('end receiving')
+                self.log.verbose(str(self.midi_note_definitions_from_lighthouse))
+
+                self.yaas.midi_note_definitions_from_lighthouse = self.midi_note_definitions_from_lighthouse   
+                self.yaas.midi_cc_definitions_from_lighthouse = self.midi_cc_definitions_from_lighthouse
+                
+        if len(msg) == 9:
+            #self.log.debug('entry: ' + str(msg[2]))
+            if msg[2] == 'Midi Note':
+                self.midi_note_definitions_from_lighthouse[int(msg[3])] = [msg[4], msg[5], [msg[6], msg[7], msg[8]]]
+                
+            elif msg[2] == 'Midi CC':
+                self.midi_cc_definitions_from_lighthouse[int(msg[3])] = [msg[4], msg[5], [msg[6], msg[7], msg[8]]]
+            
 
     def sensorX(self, msg):
         """Called when a /android/sensor measurement is received.
@@ -54,7 +90,7 @@ class LightHouseOSCReceiver:
             z = msg[4]
             #print('Received values: ' + str(x) + ", " + str(y) + ", " + str(z))
         
-            device = self._parent._device_helper.get_hash_device()
+            device = self.yaas._device_helper.get_hash_device()
             
             range_util = RangeUtil(-10, 10)
             valueX = range_util.get_value(device.parameters[1], x);
