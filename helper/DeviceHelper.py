@@ -56,24 +56,29 @@ class DeviceHelper(YaasHelper):
             Store this device - from now on the first call selects this one
         """
         
-        self.log.debug("select_current_then_select_next_hash_device")
+        self.log.debug("(DeviceHelper) select_current_then_select_next_hash_device starting at " + str(track_index))
 
         selected_track_helper = self.song_helper().get_selected_track()
         
         if self.hash_device_track_helper is None:
-            self.log.debug("no device was selected so far")
-            self.select_next_hash_device(0)
+            self.log.debug("(DeviceHelper) no device was selected so far")
+            self.select_next_hash_device(track_index)
         #elif self.song().appointed_device.name.startswith('#'):
         elif selected_track_helper.get_track_index() != self.hash_device_track_id:
-            self.log.debug("there was a different track selected")
+            self.log.debug("(DeviceHelper) there was a different track selected")
             self.song_helper().set_selected_track(self.hash_device_track_helper)
             
-        elif self.song().appointed_device.name.startswith('#'):
-            self.log.debug("focus was already on hash device")
+        elif self.song().appointed_device is not None and self.song().appointed_device.name.startswith('#'):
+            self.log.debug("(DeviceHelper) focus was already on hash device")
+            self.select_next_hash_device(self.hash_device_track_id)
+
+        elif self.get_currently_selected_device(track_index) is not None and self.get_currently_selected_device(track_index).name.startswith('#'):
+            self.log.debug("(DeviceHelper) focus was already on hash device")
             self.select_next_hash_device(self.hash_device_track_id)
 
         # get the focus to the selected device
         if self.hash_device is not None:
+            self.log.verbose("(DeviceHelper) focus on hash device")
             self.view_helper().focus_on_track(self.hash_device_track_helper.get_track())
             self.view_helper().focus_on_device(self.hash_device)
             

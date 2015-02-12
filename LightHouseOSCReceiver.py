@@ -34,10 +34,10 @@ class LightHouseOSCReceiver:
     def setMainScript(self, mainScript):
         self._parent = mainScript
         # for now
-        self._parent._device_helper.select_current_then_select_next_hash_device(0)
-        device = self._parent._device_helper.get_hash_device()
-        if device is not None:
-            self.log.debug('Using device ' + device.name)  
+        #self._parent._device_helper.select_current_then_select_next_hash_device(0)
+        #device = self._parent._device_helper.get_hash_device()
+        #if device is not None:
+        #    self.log.debug('Using device ' + device.name)  
             
     def send_controller_info(self, msg):
         self._parent.send_available_methods_to_lighthouse()

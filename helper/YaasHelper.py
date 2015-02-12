@@ -30,3 +30,21 @@ class YaasHelper:
     
     def track_helper(self, track_index):
         return self.yaas._song_helper.get_track(track_index)
+    
+    def view_helper(self):
+        return self.yaas._view_helper
+    
+    def track_helper(self, track_index):
+        """
+            Returns either the current track or the track with
+            the given index.
+            The first track has the index '1'
+            
+            0 -> track_index
+        """
+        if (track_index == CURRENT):
+            track_helper = self.song_helper().get_selected_track()
+        else:
+            track_helper = self.song_helper().get_track(track_index - 1)
+
+        return track_helper

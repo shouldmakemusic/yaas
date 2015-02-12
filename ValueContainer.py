@@ -34,7 +34,7 @@ class ValueContainer():
     def values(self):
         return self._values
     
-    '''
+    """
     #!/usr/local/bin/python
 
 # Python: Retrieve filename of currently-open Ableton Live set
@@ -60,7 +60,7 @@ if logfiles:
     project = os.path.basename(project)
     print project
 
-'''
+"""
         
     def loadValues(self):
         self._values = {}

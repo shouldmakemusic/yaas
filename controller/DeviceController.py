@@ -17,7 +17,7 @@ class DeviceController (YaasController):
 		"""
 		self.log.verbose("(DeviceController) navigate_device_focus called")
 		track_index = params[0]
-		self.log.verbose("(DeviceController) for clip " + str(track_index))
+		self.log.verbose("(DeviceController) for track " + str(track_index))
 		next = params[1]
 
 		selected_track = self.song_helper().get_selected_track()
@@ -84,8 +84,11 @@ class DeviceController (YaasController):
 			0 -> chain_index
 			1 -> True means Exclusive / False means Inclusive
 		"""
+		self.log.verbose("(DeviceController) trigger_device_chain called")
 		chain_index = params[0]
 		exclusive = params[1]
+		self.log.verbose("(DeviceController) for chain " + str(chain_index) + ", exclusive: " + str(exclusive))
+		
 		device = self.device_helper().get_hash_device()
 		
 		if device is not None:
@@ -120,10 +123,13 @@ class DeviceController (YaasController):
 		"""
 			Use the current active hash device and if it is a rack
 			select the chain with the given index
+			Save the values from device knobs 1-4
 			0 -> chain_index
 		"""
-		
+		self.log.verbose("(DeviceController) set_chain_selector called")
 		chain_index = params[0]
+		self.log.verbose("(DeviceController) for chain " + str(chain_index))
+		
 		device = self.device_helper().get_hash_device()
 		
 		if device is not None:
@@ -131,22 +137,25 @@ class DeviceController (YaasController):
 			# find chain parameter
 			chain_parameter = None
 			if device.parameters[9].is_enabled == True:
-				self.log.debug('chain 9 is enabled' )
+				self.log.verbose('the chain selector is not bound to a control')
 				chain_parameter = device.parameters[9]
 			else:
 				for i in range(len(device.parameters)):
 					if device.parameters[i].name == "Chain Selector" and device.parameters[i].is_enabled:
 						chain_parameter = device.parameters[i]
+						self.log.verbose('the chain selector is parameter ' + str(i) )
 			
 			# store old values
-			global _chain_parameter_values
 			chain_name = device.name + '_' + str(int(chain_parameter.value)) + '_'
+			self.log.verbose('chain_name: ' + str(chain_name))
 			self.yaas._value_container.set_value(chain_name + device.parameters[1].name, device.parameters[1].value)
 			self.yaas._value_container.set_value(chain_name + device.parameters[2].name, device.parameters[2].value)
 			self.yaas._value_container.set_value(chain_name + device.parameters[3].name, device.parameters[3].value)
 			self.yaas._value_container.set_value(chain_name + device.parameters[4].name, device.parameters[4].value)							
 			
-			self.log.debug("set chain activator to " + str(chain_index + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name)
+			debug_message = 'set chain activator to ' + str(chain_index + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name
+			self.log.debug(str(debug_message))
+			
 			if len(device.chains) > chain_index:
 				# set selector
 				value = chain_index
@@ -171,11 +180,19 @@ class DeviceController (YaasController):
 						device.parameters[3].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[3].name)
 					if self.yaas._value_container.has_value(chain_name + device.parameters[4].name):
 						device.parameters[4].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[4].name)
-
+		else:
+			self.log.verbose('hash device was none')
+			
 	def select_current_then_select_next_hash_device(self, params, value):
 		""" 
 			First call select first device that starts with '#'
 			If the name of the appointed device starts with '#' find a new '#'-device
 			Store this device - from now on the first call selects this one			 
+			0 -> track_index to start search from
 		"""
-		self.device_helper().select_current_then_select_next_hash_device()
+		self.log.verbose("(DeviceController) set_chain_selector called")
+		track_index = params[0]
+		self.log.verbose("(DeviceController) for chain " + str(track_index))
+		
+		
+		self.device_helper().select_current_then_select_next_hash_device(track_index)

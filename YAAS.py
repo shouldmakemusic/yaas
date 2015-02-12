@@ -313,7 +313,7 @@ class YAAS(ControlSurface):
 			(the methods have to accept params and value as parameters)
 		"""
 		if self.controller_dict.has_key(name):
-			self.log.verbose("return existing controller" + name)
+			#self.log.verbose("return existing controller " + name)
 			return self.controller_dict[name]
 		
 		controller = None
