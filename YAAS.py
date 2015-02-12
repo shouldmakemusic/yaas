@@ -5,6 +5,7 @@ import time # We will be using time functions for time-stamping our log file out
 import sys
 import inspect
 import os
+#import marshal <- this would be for saving the config in .conf files instead of .py
 
 """ These handle the tasks """
 from LightHouseMidiReceiver import LightHouseMidiReceiver
@@ -12,6 +13,9 @@ from controller.RedFrameController import RedFrameController
 from controller.SongController import SongController
 from controller.TrackController import TrackController
 from controller.SceneController import SceneController
+from controller.DeviceController import DeviceController
+from controller.PedalController import PedalController
+from controller.LooperController import LooperController
 # add new controllers here!
 
 """ Constants and configuration """
@@ -19,12 +23,11 @@ from consts import *
 from config_midi import *
 
 """ Helper classes """
-from SongHelper import SongHelper
-from LooperHelper import LooperHelper
-from PedalHelper import PedalHelper
-from DeviceHelper import DeviceHelper
-from ValueContainer import ValueContainer
+from helper.SongHelper import SongHelper
+from helper.DeviceHelper import DeviceHelper
 from helper.ViewHelper import ViewHelper
+from LooperHelper import LooperHelper
+from ValueContainer import ValueContainer
 
 """ Classes for LiveOSC """
 from LiveOSC.LiveOSCCallbacks import LiveOSCCallbacks
@@ -101,14 +104,8 @@ class YAAS(ControlSurface):
 			self._setup_session_control()  # Setup the session object
 			
 			self._song_helper = SongHelper(self)			
-
-			self._pedal_helper = PedalHelper(self)
-			
-			self._device_helper = DeviceHelper(self)
-			self.device_helper = self._device_helper
-			
-			self._looper_helper = LooperHelper(self)
-			
+			self._device_helper = DeviceHelper(self)			
+			self._looper_helper = LooperHelper(self)			
 			self._view_helper = ViewHelper(self)
 
 		# store and retrieve values
@@ -293,31 +290,19 @@ class YAAS(ControlSurface):
 		method =  function_and_param[1]
 		param =  function_and_param[2]
 
-		error = None
 		found = False
 		try:
 			controller = self.get_controller(name)
+
 			if (hasattr(controller, method)):
 				found = True
 				getattr(controller, method)(param, value)
-			
+	
 			if not found:
-				helper = self.get_helper(name)
-				if (hasattr(helper, method)):
-					found = True
-					getattr(helper, method)(param, value)
-					
-			if not found:
-				if isinstance(name, basestring):			
-					self.log.error("Could not find controller or helper for " + name + "." + method)
-				else:
-					self.log.error("Could not find controller or helper for " + name[0] + "." + method)
+				self.log.error("Could not find controller for " + name + "." + method)
 				
 		except Exception, err:
-			if isinstance(name, basestring):			
-				self.log.error("Error executing " + name + "." + method)
-			else:
-				self.log.error("Error executing " + name[0] + "." + method)
+			self.log.error("Error executing " + name + "." + method)
 			self.log.error("Message: " + str(err))			
 			
 	def get_controller(self, name):
@@ -328,28 +313,14 @@ class YAAS(ControlSurface):
 		"""
 		controller = None
 		if isinstance(name, basestring):
-			controller = globals()[name](self)
+			try:
+				controller = globals()[name](self)
+			except Exception, err:
+				self.log.verbose("get_controller problem: " + str(err))
 		if controller is not None:
 			self.log.log_object_attributes(controller)
 		return controller
 		
-	def get_helper(self, param):
-		
-		helper_name = None
-		if isinstance(param, list):
-			helper_name = param[0]
-		else:
-			helper_name = param
-		
-		if helper_name == TRACK_HELPER:
-			return self._song_helper.get_track(param[1])
-		if helper_name == DEVICE_HELPER:
-			return self._device_helper
-		if helper_name == LOOPER_HELPER:
-			return self._looper_helper
-		if helper_name == PEDAL_HELPER:
-			return self._pedal_helper
-
 	def _setup_mixer_control(self):
 
 		is_momentary = True

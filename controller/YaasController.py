@@ -9,9 +9,6 @@ class YaasController:
     def __init__(self, yaas):
         self.yaas = yaas
         self.log = yaas.log
-        self._song_helper = yaas._song_helper
-        self._device_helper = yaas._device_helper
-        self._view_helper = yaas._view_helper
         
     def application(self):
         """
@@ -26,13 +23,25 @@ class YaasController:
         return Live.Application.get_application().get_document()
     
     def song_helper(self):
-        return self._song_helper
+        return self.yaas._song_helper
     
     def view_helper(self):
-        return self._view_helper
+        return self.yaas._view_helper
     
     def device_helper(self):
-        return self._device_helper
+        return self.yaas._device_helper
     
     def track_helper(self, track_index):
-        return self._song_helper.get_track(track_index)
+        """
+            Returns either the current track or the track with
+            the given index.
+            The first track has the index '1'
+            
+            0 -> track_index
+        """
+        if (track_index == CURRENT):
+            track_helper = self.song_helper().get_selected_track()
+        else:
+            track_helper = self.song_helper().get_track(track_index - 1)
+
+        return track_helper

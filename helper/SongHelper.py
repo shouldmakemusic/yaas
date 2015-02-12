@@ -1,31 +1,22 @@
 from __future__ import with_statement
-import Live
 
-from consts import *
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
+from YaasHelper import *
 from TrackHelper import TrackHelper
 
 track_helper = {}
 
-class SongHelper(ControlSurfaceComponent):
+class SongHelper(YaasHelper):
     __module__ = __name__
     __doc__ = 'SongHelper provides easy access to the song'
     
-    def __init__(self, parent):
-        ControlSurfaceComponent.__init__(self)
-        self._parent = parent
-        self.log = self._parent.log
+    def __init__(self, yaas):
+        YaasHelper.__init__(self, yaas)
+        self.log.debug("(SongHelper) init")
     
-    def song(self):
-        return self._parent.song()
-    
-    def disconnect(self):
-        self._parent = None
-        self.track_helper = None
-        if IS_LIVE_9:
-            ControlSurfaceComponent.disconnect(self)    
-            
     def get_selected_track(self):
+        """
+            Returns a track_helper for the currently selected track
+        """
         selected_track = self.song().view.selected_track
         return self.getOrCreateTrackHelper(selected_track)
 
@@ -63,16 +54,10 @@ class SongHelper(ControlSurfaceComponent):
         all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
         return all_tracks
     
-    def on_enabled_changed(self):
-        pass
-
-    def update(self):    
-        pass
-    
     def getOrCreateTrackHelper(self, track):                
         
-        with self._parent.component_guard():
-            new_track_helper = TrackHelper(self, track)
+        with self.yaas.component_guard():
+            new_track_helper = TrackHelper(self.yaas, track)
         index = new_track_helper.get_track_index()
         
         if index in track_helper:

@@ -50,22 +50,5 @@ class SongController (YaasController):
 		self.log.verbose("(SongController) tap_tempo called")
 		self.song().tap_tempo()
 		
-	def select_track(self, params, value):
-		"""
-			Set current view to track
-            0 -> track_index
-		"""
-		self.log.verbose("(SongController) select_track called")
-		track_index = params[0] - 1
-		
-		track = self.song().tracks[track_index]
-		#all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
-		#self.song().view.selected_track = all_tracks[track_index]
-		
-		self.song().view.selected_track = track
-		self.application().view.focus_view("Detail") 
-		self.application().view.focus_view("Detail/DeviceChain") 
-		
-		#self.log.debug("arrayActiveDevices removed ")
 		
 	

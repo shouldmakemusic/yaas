@@ -19,7 +19,7 @@ class TrackController (YaasController):
 		track_index = params[0]
 		self.log.verbose("(TrackController) for clip " + str(track_index))
 
-		track_helper = self.track_helper(track_index - 1)
+		track_helper = self.track_helper(track_index)
 		track_helper.stop_or_restart_clip()
 
 	def stop(self, params, value):
@@ -32,10 +32,31 @@ class TrackController (YaasController):
 		track_index = params[0]
 		self.log.verbose("(TrackController) for clip " + str(track_index))
 
-		if (track_index == CURRENT):
-			track_helper = self.song_helper().get_selected_track()
-		else:
-			track_helper = self.track_helper(track_index - 1)
-
+		track_helper = self.track_helper(track_index)
 		track_helper.get_track().stop_all_clips()
-	
+		
+	def arm(self, params, value):
+		"""
+			Arms the given track or switches it off
+			0 -> track_index
+		"""
+
+		self.log.verbose("(TrackController) arm called")
+		track_index = params[0]
+		self.log.verbose("(TrackController) for clip " + str(track_index))
+
+		track_helper = self.track_helper(track_index)
+		track_helper.arm()
+
+	def get_focus(self, params, value):
+		"""
+			Requests the view focus for the given track
+			0 -> track_index
+		"""
+
+		self.log.verbose("(TrackController) get_focus called")
+		track_index = params[0]
+		self.log.verbose("(TrackController) for clip " + str(track_index))
+		
+		track = self.track_helper(track_index).get_track()
+		self.view_helper().focus_on_track(track)

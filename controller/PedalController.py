@@ -1,35 +1,16 @@
-from __future__ import with_statement
-import Live
-
-from consts import *
-from _Framework.ControlSurfaceComponent import ControlSurfaceComponent
-from TrackHelper import TrackHelper
+from YaasController import *
 
 looper_last_track_index = 0
 _parameter_names_for_device_in_set = {}
 
-class PedalHelper(ControlSurfaceComponent):
+class PedalController(YaasController):
     __module__ = __name__
-    __doc__ = 'PedalHelper handles Pedal actions'
+    __doc__ = 'PedalController handles Pedal actions'
     
-    def __init__(self, parent):
-        ControlSurfaceComponent.__init__(self)
-        self._parent = parent
-        self.log = self._parent.log
-    
-    def song(self):
-        return self._parent.song()
-    
-    def disconnect(self):
-        self._parent = None
-        if IS_LIVE_9:
-            ControlSurfaceComponent.disconnect(self)                
-    
-    def on_enabled_changed(self):
-        pass
+    def __init__(self, yaas):
 
-    def update(self):    
-        pass
+        YaasController.__init__(self, yaas)
+        self.log.debug("(PedalController) init")     
     
     def handle_send(self, params, value):
         

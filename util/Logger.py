@@ -76,3 +76,5 @@ class Logger:
                     self.verbose( "obj.%s = %s" % (attr, method_desc))
             else:
                 self.verbose( "obj.%s = %s" % (attr, method_desc))
+                
+
