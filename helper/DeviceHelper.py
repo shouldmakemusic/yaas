@@ -28,7 +28,6 @@ class DeviceHelper(YaasHelper):
             self.log.debug("Param " + str(index) + " = " + device.parameters[index].name)
                 
 
-
     def get_currently_selected_device(self, track_index):
         """
             Return the currently selected device

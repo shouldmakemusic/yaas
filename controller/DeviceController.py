@@ -141,10 +141,10 @@ class DeviceController (YaasController):
 			# store old values
 			global _chain_parameter_values
 			chain_name = device.name + '_' + str(int(chain_parameter.value)) + '_'
-			self._parent._value_container.set_value(chain_name + device.parameters[1].name, device.parameters[1].value)
-			self._parent._value_container.set_value(chain_name + device.parameters[2].name, device.parameters[2].value)
-			self._parent._value_container.set_value(chain_name + device.parameters[3].name, device.parameters[3].value)
-			self._parent._value_container.set_value(chain_name + device.parameters[4].name, device.parameters[4].value)							
+			self.yaas._value_container.set_value(chain_name + device.parameters[1].name, device.parameters[1].value)
+			self.yaas._value_container.set_value(chain_name + device.parameters[2].name, device.parameters[2].value)
+			self.yaas._value_container.set_value(chain_name + device.parameters[3].name, device.parameters[3].value)
+			self.yaas._value_container.set_value(chain_name + device.parameters[4].name, device.parameters[4].value)							
 			
 			self.log.debug("set chain activator to " + str(chain_index + 1) + ' from ' + str(len(device.chains)) + ' for ' + device.name)
 			if len(device.chains) > chain_index:
@@ -163,14 +163,14 @@ class DeviceController (YaasController):
 				# only if new chain is not 0 (=normal)
 				if (chain_index > 0):
 					chain_name = device.name + '_' + str(chain_index) + '_'
-					if self._parent._value_container.has_value(chain_name + device.parameters[1].name):
-						device.parameters[1].value = self._parent._value_container.get_single_value(chain_name + device.parameters[1].name)
-					if self._parent._value_container.has_value(chain_name + device.parameters[2].name):
-						device.parameters[2].value = self._parent._value_container.get_single_value(chain_name + device.parameters[2].name)
-					if self._parent._value_container.has_value(chain_name + device.parameters[3].name):
-						device.parameters[3].value = self._parent._value_container.get_single_value(chain_name + device.parameters[3].name)
-					if self._parent._value_container.has_value(chain_name + device.parameters[4].name):
-						device.parameters[4].value = self._parent._value_container.get_single_value(chain_name + device.parameters[4].name)
+					if self.yaas._value_container.has_value(chain_name + device.parameters[1].name):
+						device.parameters[1].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[1].name)
+					if self.yaas._value_container.has_value(chain_name + device.parameters[2].name):
+						device.parameters[2].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[2].name)
+					if self.yaas._value_container.has_value(chain_name + device.parameters[3].name):
+						device.parameters[3].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[3].name)
+					if self.yaas._value_container.has_value(chain_name + device.parameters[4].name):
+						device.parameters[4].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[4].name)
 
 	def select_current_then_select_next_hash_device(self, params, value):
 		""" 
