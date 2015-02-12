@@ -5,6 +5,7 @@ import time # We will be using time functions for time-stamping our log file out
 import sys
 import inspect
 import os
+import traceback
 #import marshal <- this would be for saving the config in .conf files instead of .py
 
 """ These handle the tasks """
@@ -184,7 +185,7 @@ class YAAS(ControlSurface):
 
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
-			if not self.midi_note_definitions_from_lighthouse.iteritems().has_key(k):
+			if not self.midi_note_definitions_from_lighthouse.has_key(k):
 				self.log.verbose('registered midi note ' + str(k))
 				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
@@ -291,6 +292,7 @@ class YAAS(ControlSurface):
 		except Exception, err:
 			self.log.error("(YAAS) Error executing " + name + "." + method)
 			self.log.error("(YAAS) Message: " + str(err))	
+			traceback.print_exc(file=sys.stderr)
 	
 	controller_dict = {}	
 	def get_controller(self, name):

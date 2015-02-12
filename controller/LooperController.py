@@ -58,14 +58,23 @@ class LooperController(YaasController):
             Records a clip in the current track.
             First press is record.
             Second is play
+            0 -> track_index
         """
         self.log.verbose("(LooperController) clipLooper called")
         track_index = params[0]
         self.log.verbose("(LooperController) for track " + str(track_index))
 
+        track_helper = self.track_helper(track_index)
+        if track_helper.get_track().arm == False:
+            track_helper.arm()
+        track_helper.get_track_index()
+        self.log.verbose("(LooperController) 1 ")
+        
         current_slot = None;
+        self.log.verbose("(LooperController) 2 ")
         if str(track_index) in self.emulatedLoopClip:
             current_slot = self.emulatedLoopClip[str(track_index)]
+        self.log.verbose("(LooperController) 3 ")
         self.log.debug("Emulate Looper 2 for track " + str(track_index) + " with slot " + str(current_slot))
         
         track = self.song().tracks[track_index]

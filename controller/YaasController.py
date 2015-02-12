@@ -36,12 +36,6 @@ class YaasController:
             Returns either the current track or the track with
             the given index.
             The first track has the index '0'
-            
-            0 -> track_index
         """
-        if (track_index == CURRENT):
-            track_helper = self.song_helper().get_selected_track()
-        else:
-            track_helper = self.song_helper().get_track(track_index)
-
+        track_helper = self.song_helper().get_track(track_index)
         return track_helper
