@@ -304,13 +304,18 @@ class YAAS(ControlSurface):
 		except Exception, err:
 			self.log.error("Error executing " + name + "." + method)
 			self.log.error("Message: " + str(err))			
-			
+	
+	controller_dict = {}	
 	def get_controller(self, name):
 		"""
 			Returns a controller from dir controller
 			For these controllers the event handling is available
 			(the methods have to accept params and value as parameters)
 		"""
+		if self.controller_dict.has_key(name):
+			self.log.verbose("return existing controller" + name)
+			return self.controller_dict[name]
+		
 		controller = None
 		if isinstance(name, basestring):
 			try:
@@ -319,6 +324,7 @@ class YAAS(ControlSurface):
 				self.log.verbose("get_controller problem: " + str(err))
 		if controller is not None:
 			self.log.log_object_attributes(controller)
+			self.controller_dict[name] = controller
 		return controller
 		
 	def _setup_mixer_control(self):
