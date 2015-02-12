@@ -9,10 +9,6 @@ PEDAL_CONTROLLER = "PedalController"
 LOOPER_CONTROLLER = "LooperController"
 
 # navigation / red box movement
-select_box_right = [86, 96, 76]
-select_box_left = [81, 91, 71]
-select_box_down = [85]
-select_box_up = [90]
 
 midi_note_definitions = {
     
@@ -131,6 +127,14 @@ midi_note_definitions = {
     88 : [SCENE_CONTROLLER, 'stop', [CURRENT]],
     84 : [SCENE_CONTROLLER, 'send_available_methods_to_lighthouse', []],
 
+    76 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [True]],
+    86 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [True]],
+    96 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [True]],
+    71 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [False]],
+    81 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [False]],
+    91 : [RED_FRAME_CONTROLLER, 'move_track_view_horizontal', [False]],
+    85 : [RED_FRAME_CONTROLLER, 'move_track_view_vertical', [True]],
+    90 : [RED_FRAME_CONTROLLER, 'move_track_view_vertical', [False]],
 }
 
 midi_cc_definitions = {

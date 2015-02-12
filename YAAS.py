@@ -175,17 +175,7 @@ class YAAS(ControlSurface):
 		self.log.debug("build_midi_map() called")
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
-		
-		#move red box
-		for index in range(len(select_box_right)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_right[index])
-		for index in range(len(select_box_left)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_left[index])
-		for index in range(len(select_box_down)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_down[index])
-		for index in range(len(select_box_up)):
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, select_box_up[index])
-				
+						
 		# midi_note_definitions
 		for k, v in midi_note_definitions.iteritems():
 			self.log.verbose('registered midi note ' + str(k))
@@ -224,27 +214,10 @@ class YAAS(ControlSurface):
 					# hier waere ein mapping besser
 					# welche taste
 					# 1 => 1, 11 => 1, 12 => 2
-					pedalnumber = midi_note%10
-					
-					if (midi_note == 70):
-						self.log.debug("Looper test");
-						self.log.debug("Selected Track Index: " + str(self._song_helper.get_selected_track().get_track_index()))
-						track_helper = self._song_helper.get_selected_track()
-						looper = track_helper.get_device(LOOPER)
-						self._device_helper.log_parameters_for_device(looper)
-												
-					# move red box
-					elif (midi_note in select_box_right):
-						self.move_track_view_horizontal(True)
-					elif (midi_note in select_box_left):
-						self.move_track_view_horizontal(False)
-					elif (midi_note in select_box_down):
-						self.move_track_view_vertical(True);
-					elif (midi_note in select_box_up):
-						self.move_track_view_vertical(False);
+					pedalnumber = midi_note%10												
 	
 					# device helper
-					elif (midi_note in midi_note_definitions):					
+					if (midi_note in midi_note_definitions):					
 						self.handle_parametered_function(midi_note_definitions, midi_note, value);
 	
 					else:
@@ -376,36 +349,6 @@ class YAAS(ControlSurface):
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
 		self.log.debug("Scene " + str(sceneindex+1) + " selected")
 		
-	def move_track_view_vertical(self, down):
-		if down:
-			self.log.debug("track view down")
-			scene_offset = session._scene_offset + 1
-			session.set_offsets(session._track_offset, scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-			self.song().view.selected_scene = self.song().scenes[scene_offset]
-
-		else:
-			self.log.debug("track view up")
-			scene_offset = session._scene_offset - 1
-			if scene_offset < 0:
-				scene_offset = 0
-			session.set_offsets(session._track_offset, scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-			self.song().view.selected_scene = self.song().scenes[scene_offset]
-
-	def move_track_view_horizontal(self, down):
-		if down:
-			self.log.debug("track view right")
-			track_offset = session._track_offset + 1
-			session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-			self.song().view.selected_track = self.song().tracks[track_offset]
-
-		else:
-			self.log.debug("track view left")
-			track_offset = session._track_offset - 1
-			if track_offset < 0:
-				track_offset = 0
-			session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-			self.song().view.selected_track = self.song().tracks[track_offset]			
-
 	def send_available_methods_to_lighthouse(self):
 		self.log.verbose("(YAAS) send_available_methods_to_lighthouse called")
 		self.oscServer.sendOSC('/yaas/commands/clear', 1)

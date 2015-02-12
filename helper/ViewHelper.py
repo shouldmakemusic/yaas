@@ -47,6 +47,38 @@ class ViewHelper (YaasHelper):
         self.application().view.focus_view("Detail/DeviceChain")  
         self.song().view.select_device(device)      
         
+    def move_track_view_vertical(self, down):
+        session = self.yaas.get_session()
+        if down:
+            self.log.debug("track view down")
+            scene_offset = session._scene_offset + 1
+            session.set_offsets(session._track_offset, scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
+            self.song().view.selected_scene = self.song().scenes[scene_offset]
+
+        else:
+            self.log.debug("track view up")
+            scene_offset = session._scene_offset - 1
+            if scene_offset < 0:
+                scene_offset = 0
+            session.set_offsets(session._track_offset, scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
+            self.song().view.selected_scene = self.song().scenes[scene_offset]
+
+    def move_track_view_horizontal(self, right):
+        session = self.yaas.get_session()
+        if right:
+            self.log.debug("track view right")
+            track_offset = session._track_offset + 1
+            session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
+            self.song().view.selected_track = self.song().tracks[track_offset]
+
+        else:
+            self.log.debug("track view left")
+            track_offset = session._track_offset - 1
+            if track_offset < 0:
+                track_offset = 0
+            session.set_offsets(track_offset, session._scene_offset) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
+            self.song().view.selected_track = self.song().tracks[track_offset]            
+
 
         
 

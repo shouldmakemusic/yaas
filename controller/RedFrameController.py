@@ -19,7 +19,6 @@ class RedFrameController (YaasController):
             0 -> clip_number                       
         """
         self.log.verbose("(RedFrameController) play_clip called")
-
         clip_number = params[0] - 1
         self.log.verbose("(RedFrameController) for clip " + str(clip_number))
 
@@ -30,3 +29,24 @@ class RedFrameController (YaasController):
 
         self.song_helper().get_selected_track().fire(clip_number);
         
+    def move_track_view_vertical(self, params, value):
+        """
+            Moves the current position down or up
+            0 -> True ? down : up                
+        """
+        self.log.verbose("(RedFrameController) move_track_view_vertical called")
+        down = params[0]
+        self.log.verbose("(RedFrameController) down? " + str(down))
+
+        self.view_helper().move_track_view_vertical(down)
+        
+    def move_track_view_horizontal(self, params, value):
+        """
+            Moves the red frame left or right
+            0 -> True ? right : left                
+        """
+        self.log.verbose("(RedFrameController) move_track_view_horizontal called")
+        right = params[0]
+        self.log.verbose("(RedFrameController) right? " + str(right))
+
+        self.view_helper().move_track_view_horizontal(right)
