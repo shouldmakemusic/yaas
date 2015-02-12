@@ -50,5 +50,30 @@ class SongController (YaasController):
 		self.log.verbose("(SongController) tap_tempo called")
 		self.song().tap_tempo()
 		
+	def set_tempo(self, params, value):
+		"""
+			Set tempo to 
+			0 -> new tempo
+		"""
+		self.log.verbose("(SongController) set_tempo called")
+		self.song().tempo = params[0]
+		
+	def play(self, params, value):
+		"""
+			Play song
+		"""
+		self.log.verbose("(SongController) play called")
+		self.song().start_playing()
+		
+	def stop(self, params, value):
+		"""
+			Stop song
+		"""
+		self.log.verbose("(SongController) stop called")
+		if self.song().is_playing:
+			self.song().is_playing = False
+		else:
+			self.song().current_song_time = 0
+		
 		
 	
