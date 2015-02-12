@@ -78,7 +78,7 @@ class YAAS(ControlSurface):
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
 		self._c_instance = c_instance
-		
+				
 		# Logger
 		self.log = Logger(self)
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
@@ -178,9 +178,15 @@ class YAAS(ControlSurface):
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 						
 		# midi_note_definitions
-		for k, v in midi_note_definitions.iteritems():
-			self.log.verbose('registered midi note ' + str(k))
+		for k, v in self.midi_note_definitions_from_lighthouse.iteritems():
+			self.log.verbose('registered midi note (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
+
+		# midi_note_definitions
+		for k, v in midi_note_definitions.iteritems():
+			if not self.midi_note_definitions_from_lighthouse.iteritems().has_key(k):
+				self.log.verbose('registered midi note ' + str(k))
+				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions
 		for k, v in midi_cc_definitions.iteritems():
@@ -374,25 +380,37 @@ class YAAS(ControlSurface):
 										
 					if "method" in str(method_desc):						
 						self.log.verbose( "obj.%s = %s" % (attr, method_desc))
-						params = method_desc.func_code.co_varnames
-						#for i in range(method_desc.func_code.co_argcount):
-							#self.log.verbose("param: " + params[i])
 						
-						if method_desc.func_code.co_argcount == 3:
-							#self.log.verbose("criteria 1")
-							if params[0] == "self":
-								#self.log.verbose("criteria 2")
-								if params[1] == "params":
-									#self.log.verbose("criteria 3")
-									if params[2] == "value":
-										#self.log.verbose("criteria 4")
-										self.oscServer.sendOSC('/yaas/commands/list', [name, attr])
+						if hasattr(method_desc, 'func_code'):
+							params = method_desc.func_code.co_varnames
+							#for i in range(method_desc.func_code.co_argcount):
+								#self.log.verbose("param: " + params[i])
+							
+							if hasattr(method_desc, 'func_code'):
+								if method_desc.func_code.co_argcount == 3:
+									#self.log.verbose("criteria 1")
+									if params[0] == "self":
+										#self.log.verbose("criteria 2")
+										if params[1] == "params":
+											#self.log.verbose("criteria 3")
+											if params[2] == "value":
+												#self.log.verbose("criteria 4")
+												self.oscServer.sendOSC('/yaas/commands/list', [name, attr])
 		self.oscServer.sendOSC('/yaas/commands/done', 1)
 		self.log.debug("sent command list to lighthouse")
 				
-# Helper methods to get the globals in the helpers	
+
 	def get_session(self):
+		"""
+			Helper method to get the global sesseion	
+		"""
 		return session
+	
+	def request_rebuild_midi_map(self):
+		"""
+			Initiates a call of rebuild_midi_map() through Live
+		"""
+		self._YAAS__main_script.request_rebuild_midi_map()
 	
 # Administration methods
 	def disconnect(self):

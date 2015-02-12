@@ -68,6 +68,7 @@ class LightHouseOSCReceiver:
 
                 self.yaas.midi_note_definitions_from_lighthouse = self.midi_note_definitions_from_lighthouse   
                 self.yaas.midi_cc_definitions_from_lighthouse = self.midi_cc_definitions_from_lighthouse
+                self.yaas.request_rebuild_midi_map()
                 
         if len(msg) == 9:
             #self.log.debug('entry: ' + str(msg[2]))
