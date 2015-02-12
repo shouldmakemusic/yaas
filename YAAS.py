@@ -9,13 +9,14 @@ import os
 
 """ These handle the tasks """
 from LightHouseMidiReceiver import LightHouseMidiReceiver
+from controller.DebugController import DebugController
+from controller.DeviceController import DeviceController
+from controller.LooperController import LooperController
+from controller.PedalController import PedalController
 from controller.RedFrameController import RedFrameController
+from controller.SceneController import SceneController
 from controller.SongController import SongController
 from controller.TrackController import TrackController
-from controller.SceneController import SceneController
-from controller.DeviceController import DeviceController
-from controller.PedalController import PedalController
-from controller.LooperController import LooperController
 # add new controllers here!
 
 """ Constants and configuration """
@@ -60,15 +61,10 @@ from _Framework.SessionComponent import SessionComponent # Class encompassing se
 session = None #Global session object - global so that we can manipulate the same session object from within any of our methods
 mixer = None #Global mixer object - global so that we can manipulate the same mixer object from within any of our methods
 track = None
+
+# these are for session and mixer handling
 sceneindex = None
-
 track_index = 0
-track_volume_element = None
-mixer_controller = None
-
-
-looper_start_time = None
-looper_last_track_index = None
 
 class YAAS(ControlSurface):
 	__module__ = __name__
@@ -100,9 +96,11 @@ class YAAS(ControlSurface):
 		ControlSurface.__init__(self, c_instance)
 
 		with self.component_guard():
+			
 			self._setup_mixer_control() # Setup the mixer object
 			self._setup_session_control()  # Setup the session object
 			
+			# Initialize the possible helpers
 			self._song_helper = SongHelper(self)			
 			self._device_helper = DeviceHelper(self)			
 			self._looper_helper = LooperHelper(self)			
@@ -249,7 +247,6 @@ class YAAS(ControlSurface):
 				self.log.debug("Different: " + str(midi_bytes))
 				self.handle_sysex(midi_bytes)
 				ControlSurface.receive_midi(self, midi_bytes)
-			#self.set_suppress_rebuild_requests(False)	
 				
 		except Exception, err:
 			self.log.error("(YAAS) receive_midi")
@@ -350,6 +347,9 @@ class YAAS(ControlSurface):
 		self.log.debug("Scene " + str(sceneindex+1) + " selected")
 		
 	def send_available_methods_to_lighthouse(self):
+		"""
+			All controllers and their commands will send to lighthouse (OSC)			
+		"""
 		self.log.verbose("(YAAS) send_available_methods_to_lighthouse called")
 		self.oscServer.sendOSC('/yaas/commands/clear', 1)
 		g = globals().copy()		
