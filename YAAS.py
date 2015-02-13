@@ -93,7 +93,6 @@ class YAAS(ControlSurface):
 		self.basicAPI = 0	
 		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
-		self.oscServer.sendOSC('/yaas/config/port', 9190);
 
 		# here i will handle midi messages from LightHouse
 		self._lighthouse_receiver = LightHouseMidiReceiver(self, c_instance)
@@ -146,6 +145,7 @@ class YAAS(ControlSurface):
 			try:
 				self.basicAPI = LightHouseOSCReceiver(self.oscServer, self.log)
 				self.basicAPI.setMainScript(self)
+				self.basicAPI.send_controller_info(None)
 				self.log.info('LightHouseOSCReceiver running')
 			except Exception, err:
 				self.log.error("Could not setup lighthouse osc recevier: " + str(err))
@@ -372,7 +372,9 @@ class YAAS(ControlSurface):
 			All controllers and their commands will send to lighthouse (OSC)			
 		"""
 		self.log.verbose("(YAAS) send_available_methods_to_lighthouse called")
+		
 		self.oscServer.sendOSC('/yaas/commands/clear', 1)
+		
 		g = globals().copy()		
 		for name, obj in g.iteritems():
 			
