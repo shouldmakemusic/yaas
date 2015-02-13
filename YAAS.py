@@ -25,10 +25,10 @@ from consts import *
 from config_midi import *
 
 """ Helper classes """
-from helper.SongHelper import SongHelper
 from helper.DeviceHelper import DeviceHelper
+from helper.SceneHelper import SceneHelper
+from helper.SongHelper import SongHelper
 from helper.ViewHelper import ViewHelper
-from LooperHelper import LooperHelper
 from ValueContainer import ValueContainer
 
 """ Classes for LiveOSC """
@@ -59,6 +59,7 @@ from _Framework.MixerComponent import MixerComponent # Class encompassing severa
 from _Framework.SessionComponent import SessionComponent # Class encompassing several scene to cover a defined section of Live's session
 
 """ Here we define some global variables """
+# TODO: make them class variables
 session = None #Global session object - global so that we can manipulate the same session object from within any of our methods
 mixer = None #Global mixer object - global so that we can manipulate the same mixer object from within any of our methods
 track = None
@@ -105,9 +106,9 @@ class YAAS(ControlSurface):
 			self._setup_session_control()  # Setup the session object
 			
 			# Initialize the possible helpers
-			self._song_helper = SongHelper(self)			
 			self._device_helper = DeviceHelper(self)			
-			self._looper_helper = LooperHelper(self)			
+			self._scene_helper = SceneHelper(self)			
+			self._song_helper = SongHelper(self)			
 			self._view_helper = ViewHelper(self)
 
 		# store and retrieve values

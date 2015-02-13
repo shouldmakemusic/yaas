@@ -20,10 +20,7 @@ class SceneController (YaasController):
         scene_index = params[0]
         self.log.verbose("(SceneController) with index " + str(scene_index))
         
-        if (scene_index == CURRENT):
-            self.song_helper().get_selected_scene().fire()
-        else:
-            self.song_helper().get_scene(scene_index).fire()
+        self.scene_helper().get_scene(scene_index).fire()
     
     def play_scene_select_next(self, params, value):
         """
@@ -35,7 +32,50 @@ class SceneController (YaasController):
         scene_index = params[0]
         self.log.verbose("(SceneController) with index " + str(scene_index))
 
-        self.song_helper().get_scene(scene_index).fire_as_selected()
+        self.scene_helper().get_scene(scene_index).fire_as_selected()
+
+    def play_scene_only_tracks_with(self, params, value):
+        """
+            Plays the given scene but only clips in tracks whose name
+            start with the given prefix 
+            0 -> scene_index
+            1 -> name
+        """
+        self.log.verbose("(SceneController) play_scene_only_tracks_with called")
+        
+        scene_index = params[0]
+        name = params[1]
+        self.log.verbose("(SceneController) with index " + str(scene_index) + " and name " + name)
+
+        self.scene_helper().play_scene_only_tracks_with(scene_index, name)
+
+    def play_i_tracks_in_current(self, params, value):
+        """
+            Plays the current scene but only clips in tracks whose name
+            start with 'i<number> '
+            If this clipslot has no clip but a stop button -> stop
+            0 -> number
+        """
+        self.log.verbose("(SceneController) play_i_tracks_in_current called")
+        
+        number = params[0]
+        self.log.verbose("(SceneController) with number " + str(number))
+
+        self.scene_helper().play_scene_only_tracks_with(CURRENT, 'i' + str(number))
+
+    def play_e_tracks_in_current(self, params, value):
+        """
+            Plays the current scene but only clips in tracks whose name
+            start with 'e<number> '
+            If this clipslot has no clip but a stop button -> stop
+            0 -> number
+        """
+        self.log.verbose("(SceneController) play_i_tracks_in_current called")
+        
+        number = params[0]
+        self.log.verbose("(SceneController) with number " + str(number))
+
+        self.scene_helper().play_scene_only_tracks_with(CURRENT, 'e' + str(number))
 
     def stop(self, params, value):
         """
@@ -47,14 +87,11 @@ class SceneController (YaasController):
         scene_index = params[0]
         self.log.verbose("(SceneController) with index " + str(scene_index))
         
-        if scene_index == CURRENT:
-            scene = self.song_helper().get_selected_scene()
-        else:
-            self.song_helper().get_scene(scene_index)
+        scene = self.scene_helper().get_scene(scene_index)
             
         for i in range(len(scene.clip_slots)):
             clip_slot = scene.clip_slots[i]
-            if clip_slot.is_playing:
+            if clip_slot.is_playing and clip_clot.has_stop_button:
                 clip_slot.stop()
 
     def scene_down(self, params, value):

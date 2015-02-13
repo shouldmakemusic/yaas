@@ -23,21 +23,8 @@ class SongHelper(YaasHelper):
     def set_selected_track(self, track_helper):
         self.song().view.selected_track = track_helper.get_track()
         
-    def get_selected_scene(self):
-        return self.get_scene(CURRENT)
-        
-    def get_scene(self, scene_index):
-        """
-            Returns the scene with the given index
-            Starting at 1
-            Can also be CURRENT
-        """
-        if (scene_index == CURRENT):
-            return self.song().view.selected_scene
-        
-        return self.song().scenes[scene_index - 1]
-        
     def get_track(self, track_index):
+        
         if (track_index == CURRENT):
             return self.get_selected_track()
 
@@ -51,6 +38,9 @@ class SongHelper(YaasHelper):
         return None
     
     def get_all_tracks(self):
+        return self.song().tracks
+    
+    def get_all_tracks_including_return_and_master(self):
         all_tracks = ((self.song().tracks + self.song().return_tracks) + (self.song().master_track,))
         return all_tracks
     

@@ -25,6 +25,9 @@ class YaasController:
     def song_helper(self):
         return self.yaas._song_helper
     
+    def scene_helper(self):
+        return self.yaas._scene_helper
+    
     def view_helper(self):
         return self.yaas._view_helper
     
