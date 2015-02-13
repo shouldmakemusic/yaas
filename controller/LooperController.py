@@ -65,21 +65,19 @@ class LooperController(YaasController):
         self.log.verbose("(LooperController) for track " + str(track_index))
 
         track_helper = self.track_helper(track_index)
-        if track_helper.get_track().arm == False:
-            track_helper.arm()
+        track_helper.get_track().arm = True
         track_helper.get_track_index()
-        self.log.verbose("(LooperController) 1 ")
         
-        current_slot = None;
-        self.log.verbose("(LooperController) 2 ")
+        saved_slot = None;
+        
         if str(track_index) in self.emulatedLoopClip:
-            current_slot = self.emulatedLoopClip[str(track_index)]
-        self.log.verbose("(LooperController) 3 ")
-        self.log.debug("Emulate Looper 2 for track " + str(track_index) + " with slot " + str(current_slot))
+            saved_slot = self.emulatedLoopClip[str(track_index)]
+        
+        self.log.debug("Click Looper for track " + str(track_index) + " with slot " + str(saved_slot))
         
         track = self.song().tracks[track_index]
         i = 0
-        foundClip = None
+        found_empty_clip = None
         while i<50:            
             if i>=len(track.clip_slots):
                 self.log.debug("did not find empty clip until " + str(i))
@@ -87,35 +85,37 @@ class LooperController(YaasController):
             clip = track.clip_slots[i].clip
 
             if clip == None and (len(track.clip_slots) > i+1 and track.clip_slots[i+1].clip == None) and (len(track.clip_slots) > i+2 and track.clip_slots[i+2].clip == None): 
-                self.log.debug("Clip " + str(i+1) + " is empty");
-                foundClip = i
+                self.log.verbose("Clip " + str(i+1) + " is empty");
+                found_empty_clip = i
                 i = 50;
             i = i + 1
 
-        if foundClip != None:
-            if current_slot != None:
+        if found_empty_clip != None:
+            if saved_slot != None:
                 
-                if track.clip_slots[current_slot].is_recording:
+                if track.clip_slots[saved_slot].is_recording:
                     
-                    track.clip_slots[current_slot].stop()
-                    track.clip_slots[current_slot].fire()
+                    # if its recording set it to play
+                    track.clip_slots[saved_slot].stop()
+                    track.clip_slots[saved_slot].fire()
                     del self.emulatedLoopClip[str(track_index)]
                 else:
-                    self.log.debug("else")
-                    i = current_slot
+                    self.verbose('current slot is not recording')
+                    # record
+                    i = saved_slot
                     while i<50:            
                         clip = track.clip_slots[i].clip
                         #self.log.debug("Clip " + str(clip));
                         if clip == None:
                             #self.log.debug("Clip " + str(i) + " is empty");
-                            foundClip = i
+                            found_empty_clip = i
                             i = 50;
                         i = i + 1
-                    track.clip_slots[foundClip].fire()
-                    self.emulatedLoopClip[str(track_index)] = foundClip
+                    track.clip_slots[found_empty_clip].fire()
+                    self.emulatedLoopClip[str(track_index)] = found_empty_clip
             else:
                 self.log.debug("Switch Looper 1")
-                track.clip_slots[foundClip].fire()
-                self.emulatedLoopClip[str(track_index)] = foundClip
+                track.clip_slots[found_empty_clip].fire()
+                self.emulatedLoopClip[str(track_index)] = found_empty_clip
 
         
