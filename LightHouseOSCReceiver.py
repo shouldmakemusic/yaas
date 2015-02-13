@@ -1,5 +1,6 @@
 import Live
 
+from consts import *
 from util.RangeUtil import RangeUtil
 # OSC
 from LiveOSC.OSCMessage import OSCMessage
@@ -72,23 +73,9 @@ class LightHouseOSCReceiver:
                 
         if len(msg) == 9:
             #self.log.debug('entry: ' + str(msg[2]))
-            value = msg[6] 
-            if value.isdigit():
-                value1 = int(msg[6])
-            else:
-                value1 = msg[6]
-                
-            value = msg[7] 
-            if value.isdigit():
-                value2 = int(msg[7])
-            else:
-                value2 = msg[7]
-                
-            value = msg[8] 
-            if value.isdigit():
-                value3 = int(msg[8])
-            else:
-                value3 = msg[8]
+            value1 = self.get_value(msg[6])
+            value2 = self.get_value(msg[7])
+            value3 = self.get_value(msg[8])
             
             if msg[2] == 'Midi Note':
                 self.midi_note_definitions_from_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
@@ -96,12 +83,15 @@ class LightHouseOSCReceiver:
             elif msg[2] == 'Midi CC':
                 self.midi_cc_definitions_from_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
     
-    def is_number(s):
-        try:
-            int(s)
-            return True
-        except ValueError:
-            return False        
+    def get_value(self, value):
+        
+        if value.isdigit():
+            return int(value)
+        elif value == 'CURRENT':
+            return CURRENT
+        return value
+            
+
 
     def sensorX(self, msg):
         """Called when a /android/sensor measurement is received.
