@@ -6,7 +6,7 @@
 import Live
 """ Constants and configuration """
 from consts import *
-from config_lighthouse import *
+from config_midi_from_lighthouse import *
 from util.RangeUtil import RangeUtil
 
 class LightHouseMidiReceiver:
