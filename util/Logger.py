@@ -33,8 +33,8 @@ class Logger:
                 unused_incoming_port = unused_incoming_port + 1  
                 tries = tries + 1     
         
-        filename = os.path.join(os.path.dirname(__file__)[:-4], os.path.basename("stderr.txt"))
-        self.oscServer.sendOSC("/yaas/config/errorfile", filename)
+        #filename = os.path.join(os.path.dirname(__file__)[:-4], os.path.basename("stderr.txt"))
+        #self.oscServer.sendOSC("/yaas/config/errorfile", filename)
            
         self.debug("Logger started")
                 
