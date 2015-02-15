@@ -104,6 +104,10 @@ class LightHouseOSCReceiver:
             return int(value)
         elif value == 'CURRENT':
             return CURRENT
+        elif value == 'PREV':
+            return PREV
+        elif value == 'NEXT':
+            return NEXT
         return value
             
 
