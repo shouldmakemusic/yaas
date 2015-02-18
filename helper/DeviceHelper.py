@@ -44,9 +44,13 @@ class DeviceHelper(YaasHelper):
         self.hash_device = device
         
     def get_hash_device(self):
+    	if self.hash_device is None:
+    		self.select_current_then_select_next_hash_device(CURRENT)
         return self.hash_device
             
     def get_hash_device_helper(self):
+        if self.hash_device_track_helper is None:
+    		self.select_current_then_select_next_hash_device(CURRENT)
         return self.hash_device_track_helper
             
     def select_current_then_select_next_hash_device(self, track_index):
