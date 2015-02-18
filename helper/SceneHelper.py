@@ -49,6 +49,7 @@ class SceneHelper(YaasHelper):
             start with the given prefix 
             Works also for '# ' track names (that are replaced by numbers)
             If this clipslot has no clip but a stop button -> stop
+            If this clip is playing -> stop
         """        
     	for i in range(len(self.song().tracks)):
             
@@ -62,7 +63,9 @@ class SceneHelper(YaasHelper):
                     clip_slot_index = self.get_scene_index(scene)
 
                 clip_slot = track.clip_slots[clip_slot_index]
-                if (clip_slot.has_clip or track.is_foldable) and not clip_slot.will_record_on_start:
+                if clip_slot.is_playing:
+                	clip_slot.stop()
+                elif (clip_slot.has_clip or track.is_foldable) and not clip_slot.will_record_on_start:
                     clip_slot.fire()
                 elif clip_slot.has_stop_button and not clip_slot.has_clip:
                     track.stop_all_clips()
