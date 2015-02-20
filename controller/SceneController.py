@@ -54,6 +54,7 @@ class SceneController (YaasController):
             Plays the current scene but only clips in tracks whose name
             start with 'i<number> '
             If this clipslot has no clip but a stop button -> stop
+            If this clip is playing -> stop
             0 -> number
         """
         self.log.verbose("(SceneController) play_i_tracks_in_current called")
@@ -68,6 +69,7 @@ class SceneController (YaasController):
             Plays the current scene but only clips in tracks whose name
             start with 'e<number> '
             If this clipslot has no clip but a stop button -> stop
+            If this clip is playing -> stop
             0 -> number
         """
         self.log.verbose("(SceneController) play_i_tracks_in_current called")

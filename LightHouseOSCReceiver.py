@@ -57,7 +57,6 @@ class LightHouseOSCReceiver:
         path = os.path.dirname(__file__)
         self.oscServer.sendOSC("/yaas/config/location", path)
         self.log.verbose('sent ' + path)
-
         
     def receive_configuration(self, msg):
         """
