@@ -49,20 +49,14 @@ class LightHouseOSCReceiver:
         """
             Calls YAAS.send_available_methods_to_lighthouse()
         """
-        self.log.info('sending controller info to lighthouse')
+        self.log.debug('sending controller info to lighthouse')
 
         self.yaas.send_available_methods_to_lighthouse()
         self.oscServer.sendOSC('/yaas/config/port', 9190);
         
-        filename = os.path.join(os.path.dirname(__file__), os.path.basename("stderr.txt"))
-        self.oscServer.sendOSC("/yaas/config/errorfile", filename)
-        self.log.verbose('sent ' + filename)
-        filename = os.path.join(os.path.dirname(__file__), os.path.basename("stout.txt"))
-        self.oscServer.sendOSC("/yaas/config/stdoutfile", filename)
-        self.log.verbose('sent ' + filename)
-        filename = os.path.join(os.path.dirname(__file__), os.path.basename("config_midi.py"))
-        self.oscServer.sendOSC("/yaas/config/configfile", filename)
-        self.log.verbose('sent ' + filename)
+        path = os.path.dirname(__file__)
+        self.oscServer.sendOSC("/yaas/config/location", path)
+        self.log.verbose('sent ' + path)
 
         
     def receive_configuration(self, msg):
