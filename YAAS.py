@@ -52,6 +52,7 @@ from LiveOSC.LiveOSC import LiveOSC
 # YAAS OSC
 from LightHouseOSCReceiver import LightHouseOSCReceiver
 from util.Logger import Logger
+from util.Configuration import Configuration
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -84,7 +85,10 @@ class YAAS(ControlSurface):
 		# Logger
 		self.log = Logger(self)
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
-		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
+		
+		self.config = Configuration(self)
+		
+				
 			
 		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
@@ -93,6 +97,7 @@ class YAAS(ControlSurface):
 		self.basicAPI = 0	
 		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
 		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
+		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
 
 		# here i will handle midi messages from LightHouse
 		self._lighthouse_receiver = LightHouseMidiReceiver(self, c_instance)
