@@ -8,29 +8,30 @@ from ..LiveOSC.OSCServer import OSCServer
 from ..LiveOSC.UDPClient import UDPClient
 from ..LiveOSC.UDPServer import UDPServer
 
-from config_logger import *
+from ..config.Configuration import Configuration
     
 class Logger:
     """
-    Logs to osc receiver on port 9050
+    Logs to osc receiver on port [LightHouse]/port (default.cfg)
     and to ableton live log
     """
     def __init__(self, yaas):
         
         self.yaas = yaas
+        self.config = Configuration(None)
         
-        # setting up the YAAS OSC Server
-        unused_incoming_port = PORT_LOGGER
+        # setting up the YAAS OSC Client
         connected = False
         tries = 0
         
         while not connected and tries < 10:
             try:
-                self.log_to_yaas("Init logger with outgoing port " + str(PORT_LIGHTHOUSE) + " and incoming port " + str(unused_incoming_port))
-                self.oscServer = OSCServer('localhost', PORT_LIGHTHOUSE, None, unused_incoming_port)
+                outgoing_port = self.config.get_lighthouse_port()
+                self.log_to_yaas("Init logger with outgoing port " + str(outgoing_port))
+                self.oscServer = OSCServer('localhost', outgoing_port, None, None)
+                connected = True
             except Exception, err:
                 self.log_to_yaas("ERROR IN LOGGER: " + str(err))
-                unused_incoming_port = unused_incoming_port + 1  
                 tries = tries + 1     
         
         #filename = os.path.join(os.path.dirname(__file__)[:-4], os.path.basename("stderr.txt"))

@@ -122,7 +122,11 @@ class OSCServer:
         second. Or, ~86 callbacks per 60ms tick. 
         """
 
-        self.udpServer = UDPServer(src, srcPort)
+        if (srcPort is not None):
+            self.udpServer = UDPServer(src, srcPort)
+        else:
+            self.udpServer = None
+            
         self.udpClient = UDPClient(dst, dstPort)
         self.udpClient.open()
         
@@ -134,8 +138,9 @@ class OSCServer:
         self.callbackManager = CallbackManager()
         self.callbackManager.add(self.callbackEcho, '/remix/echo')
         self.callbackManager.add(self.callbackEcho, '/remix/time')
-        self.udpServer.setCallbackManager(self.callbackManager)
-        self.udpServer.bind()
+        if (self.udpServer is not None):
+            self.udpServer.setCallbackManager(self.callbackManager)
+            self.udpServer.bind()
         print('OSCServer - init done')
  
     #Should this method go here?
@@ -260,14 +265,17 @@ class OSCServer:
           your hopes up about MIDI over OSC.
         """
         
-        self.udpServer.processIncomingUDP()
+        if self.udpServer is not None:
+            self.udpServer.processIncomingUDP()
         
     def bind(self):
         """Bind to the socket and prepare for incoming connections."""
-        self.udpServer.bind()
+        if self.udpServer is not None:
+            self.udpServer.bind()
         
     def shutdown(self):
         """If we get shutdown by our parent, close the socket we had open"""
         self.udpClient.close()
-        self.udpServer.close()
+        if self.udpServer is not None:
+            self.udpServer.close()
          

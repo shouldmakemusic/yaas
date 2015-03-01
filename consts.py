@@ -2,16 +2,13 @@ import Live
 
 IS_LIVE_9 = Live.Application.get_application().get_major_version() == 9
 
-# for multiple instances these constants have to be adopted
-YAAS_DIR = "YAAS"
-
-PORT_LIGHTHOUSE = 9050
-
 CURRENT = -1
 LOOPER = "Looper"
 CHANNEL = 0 # Channels are numbered 0 through 15, this script only makes use of one MIDI Channel (Channel 1)
 CHANNEL_LIGHTHOUSE = 1 # Midi channel 2
 
+DEFAULT_PORT_LIGHTHOUSE = 9050
+DEFAULT_OSC_RECEIVE = False
 
 MIDI_NOTE_TYPE = 0
 
@@ -39,7 +36,5 @@ DEBUG_CONTROLLER = "DebugController"
 
 NEXT = True
 PREV = False
-
-
 
 CHAIN_MODE_SHORTENED = True

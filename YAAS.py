@@ -52,7 +52,7 @@ from LiveOSC.LiveOSC import LiveOSC
 # YAAS OSC
 from LightHouseOSCReceiver import LightHouseOSCReceiver
 from util.Logger import Logger
-from util.Configuration import Configuration
+from config.Configuration import Configuration
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -85,20 +85,33 @@ class YAAS(ControlSurface):
 		# Logger
 		self.log = Logger(self)
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
-		
-		self.config = Configuration(self)
-		
 				
-			
+		# Configuration	
+		self.config = Configuration(self)
+		self.log.info('Configuration loaded')
+
 		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
 		
 		# setting up the YAAS OSC Server
-		self.basicAPI = 0	
-		self.oscServer = OSCServer('localhost', 9050, None, 9190)		
-		self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
-		self.log.info('Opened OSC Server for YAAS with incoming port 9190 and outgoing port 9050 (lighthouse)')
-
+		self.oscReceiver = 0
+		
+		try:
+			osc_receive = self.config.get_osc_receive()
+			self.log.verbose('(YAAS) osc_receive: ' + str(osc_receive))
+			if osc_receive:
+				incoming_port = self.config.get_yaas_port()
+			else:
+				incoming_port = None
+			outgoing_port = self.config.get_lighthouse_port()
+			
+			self.oscServer = OSCServer('localhost', outgoing_port, None, incoming_port)		
+			self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
+			self.log.info('Opened OSC Server for YAAS with incoming port ' + str(incoming_port) + ' and outgoing port ' + str(outgoing_port) + ' (lighthouse)')
+		except Exception, err:
+			self.log.error("Could not setup lighthouse osc recevier (song not found)")
+			return
+		
 		# here i will handle midi messages from LightHouse
 		self._lighthouse_receiver = LightHouseMidiReceiver(self, c_instance)
 		
@@ -140,7 +153,7 @@ class YAAS(ControlSurface):
 		######################################################
 		# START OSC LISTENER SETUP
 			  
-		if self.basicAPI == 0:
+		if self.oscReceiver == 0:
 			
 			try:
 				doc = self.song()
@@ -148,9 +161,9 @@ class YAAS(ControlSurface):
 				self.log.error("Could not setup lighthouse osc recevier (song not found)")
 				return
 			try:
-				self.basicAPI = LightHouseOSCReceiver(self.oscServer, self.log)
-				self.basicAPI.setMainScript(self)
-				self.basicAPI.send_controller_info(None)
+				self.oscReceiver = LightHouseOSCReceiver(self.oscServer, self.log)
+				self.oscReceiver.setMainScript(self)
+				self.oscReceiver.send_controller_info(None)
 				self.log.info('LightHouseOSCReceiver running')
 			except Exception, err:
 				self.log.error("Could not setup lighthouse osc recevier: " + str(err))
