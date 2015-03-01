@@ -53,20 +53,55 @@ class Configuration:
         return self.config_yaas[option]
         
     def get_lighthouse_port(self):
+        """
+            Returns the port for outgoing messages (default 9050)
+        """
         port = self.get_lighthouse_config('port')
         if isinstance(port, ( int, long ) ):
             return int(port)
         return DEFAULT_PORT_LIGHTHOUSE
     
     def get_osc_receive(self):
+        """
+            Returns if YAAS should also receive osc (default None)
+        """
         osc_receive = self.get_yaas_config('osc_receive')
         if osc_receive == 'True' or osc_receive == 'true' or osc_receive == True:
             return True
         return DEFAULT_OSC_RECEIVE
     
     def get_yaas_port(self):
+        """
+            Returns the port for incoming messages (default None)
+        """
         osc_port = self.get_yaas_config('osc_port')
         if osc_port.isdigit():
             return int(osc_port)
         return None
+    
+    def get_midi_note_definitions_lighthouse(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_from_lighthouse.cfg')))
+            return eval(config.get('Definitions', 'midi_note_definitions_lighthouse'))
+        except Exception, err:
+            self.log.error("Could not read from midi_from_lighthouse.cfg: " + str(err))
+
+    def get_midi_note_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            return eval(config.get('MidiIn', 'midi_note_definitions'))
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+
+    def get_midi_cc_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            return eval(config.get('CC', 'midi_cc_definitions'))
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+
+
         

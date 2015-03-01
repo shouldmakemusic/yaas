@@ -1,12 +1,7 @@
 from __future__ import with_statement
 
 import Live # This allows us (and the Framework methods) to use the Live API on occasion
-import time # We will be using time functions for time-stamping our log file outputs
-import sys
-import inspect
-import os
-import traceback
-#import marshal <- this would be for saving the config in .conf files instead of .py
+import time, sys, inspect, os, traceback 
 
 """ These handle the tasks """
 from LightHouseMidiReceiver import LightHouseMidiReceiver
@@ -22,7 +17,7 @@ from controller.TrackController import TrackController
 
 """ Constants and configuration """
 from consts import *
-from config_midi import *
+from config.Configuration import Configuration
 
 """ Helper classes """
 from helper.DeviceHelper import DeviceHelper
@@ -51,8 +46,9 @@ from LiveOSC.LiveOSC import LiveOSC
 
 # YAAS OSC
 from LightHouseOSCReceiver import LightHouseOSCReceiver
+
+# Logger
 from util.Logger import Logger
-from config.Configuration import Configuration
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -75,6 +71,8 @@ class YAAS(ControlSurface):
 	
 	midi_note_definitions_from_lighthouse = {}   
 	midi_cc_definitions_from_lighthouse = {} 
+	midi_note_definitions = {}
+	midi_cc_definitions = {}
 
 	def __init__(self, c_instance):
 
@@ -88,7 +86,8 @@ class YAAS(ControlSurface):
 				
 		# Configuration	
 		self.config = Configuration(self)
-		self.log.info('Configuration loaded')
+		self.log.info('Configuration loaded')		
+		self.init_midi_config()
 
 		# this enables the function from LiveOSC
 		self._LIVEOSC = LiveOSC(c_instance)
@@ -197,21 +196,25 @@ class YAAS(ControlSurface):
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 						
-		# midi_note_definitions
+		# midi_note_definitions from lighthouse
 		for k, v in self.midi_note_definitions_from_lighthouse.iteritems():
 			self.log.verbose('registered midi note (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
-
 		# midi_note_definitions
-		for k, v in midi_note_definitions.iteritems():
+		for k, v in self.midi_note_definitions.iteritems():
 			if not self.midi_note_definitions_from_lighthouse.has_key(k):
 				self.log.verbose('registered midi note ' + str(k))
 				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
-		# midi_cc_definitions
-		for k, v in midi_cc_definitions.iteritems():
-			self.log.verbose('registered midi cc ' + str(k))
+		# midi_cc_definitions from lighthouse
+		for k, v in self.midi_cc_definitions_from_lighthouse.iteritems():
+			self.log.verbose('registered midi cc (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
+		# midi_cc_definitions
+		for k, v in self.midi_cc_definitions.iteritems():
+			if not self.midi_cc_definitions_from_lighthouse.has_key(k):
+				self.log.verbose('registered midi cc ' + str(k))
+				Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 	def receive_midi(self, midi_bytes):
 
@@ -251,8 +254,8 @@ class YAAS(ControlSurface):
 						self.handle_parametered_function(self.midi_note_definitions_from_lighthouse, midi_note, value);
 					
 					# definitions from config_midi.py
-					elif (midi_note in midi_note_definitions):					
-						self.handle_parametered_function(midi_note_definitions, midi_note, value);
+					elif (midi_note in self.midi_note_definitions):					
+						self.handle_parametered_function(self.midi_note_definitions, midi_note, value);
 	
 					else:
 						self.log.debug("For the control surface: " + str(midi_bytes))
@@ -262,8 +265,12 @@ class YAAS(ControlSurface):
 					
 					self.log.verbose("Received Midi CC: " + str(midi_note))
 					
-					if (midi_note in midi_cc_definitions):					
-						self.handle_parametered_function(midi_cc_definitions, midi_note, value);
+					if (midi_note in self.midi_cc_definitions_from_lighthouse):	
+						self.log.debug('Found it in lighthouse definitions')				
+						self.handle_parametered_function(self.midi_cc_definitions_from_lighthouse, midi_note, value);
+
+					elif (midi_note in self.midi_cc_definitions):					
+						self.handle_parametered_function(self.midi_cc_definitions, midi_note, value);
 					
 					else:
 						self.log.debug("CC for the control surface: " + str(midi_bytes))
@@ -383,7 +390,13 @@ class YAAS(ControlSurface):
 		all_scenes = self.song().scenes #then get all of the scenes
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
 		self.log.debug("(YAAS) Scene " + str(sceneindex+1) + " selected")
-
+		
+	def init_midi_config(self):
+		self.midi_note_definitions = self.config.get_midi_note_definitions()
+		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
+		self.midi_note_definitions_from_lighthouse = {}
+		self.midi_cc_definitions_from_lighthouse = {}
+		
 # Connections to ligthhouse	
 	def send_available_methods_to_lighthouse(self):
 		"""
