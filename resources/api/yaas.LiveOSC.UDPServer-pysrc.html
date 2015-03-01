@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>yaas.LiveOSC.UDPServer</title>
+  <title>YAAS.LiveOSC.UDPServer</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -16,7 +16,7 @@
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -42,8 +42,8 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
-        <a href="yaas.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
+        <a href="YAAS-module.html">Package&nbsp;YAAS</a> ::
+        <a href="YAAS.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
         Module&nbsp;UDPServer
       </span>
     </td>
@@ -54,13 +54,13 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="yaas.LiveOSC.UDPServer-pysrc.html"
+            >]&nbsp;|&nbsp;<a href="YAAS.LiveOSC.UDPServer-pysrc.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<h1 class="epydoc">Source Code for <a href="yaas.LiveOSC.UDPServer-module.html">Module yaas.LiveOSC.UDPServer</a></h1>
+<h1 class="epydoc">Source Code for <a href="YAAS.LiveOSC.UDPServer-module.html">Module YAAS.LiveOSC.UDPServer</a></h1>
 <pre class="py-src">
 <a name="L1"></a><tt class="py-lineno">  1</tt>  <tt class="py-line"><tt class="py-docstring">"""</tt> </tt>
 <a name="L2"></a><tt class="py-lineno">  2</tt>  <tt class="py-line"><tt class="py-docstring"># Copyright (C) 2007 Nathan Ramella (nar@remix.net)</tt> </tt>
@@ -117,41 +117,41 @@
 <a name="L53"></a><tt class="py-lineno"> 53</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">Live</tt> </tt>
 <a name="L54"></a><tt class="py-lineno"> 54</tt>  <tt class="py-line"> </tt>
 <a name="L55"></a><tt class="py-lineno"> 55</tt>  <tt class="py-line"><tt class="py-comment"># Import correct paths for os / version</tt> </tt>
-<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable yaas.LiveOSC.OSCClient.version=yaas.LiveOSC.OSCClient-module.html#version,Variable yaas.LiveOSC.OSCServer.version=yaas.LiveOSC.OSCServer-module.html#version,Variable yaas.LiveOSC.UDPClient.version=yaas.LiveOSC.UDPClient-module.html#version,Variable yaas.LiveOSC.UDPServer.version=yaas.LiveOSC.UDPServer-module.html#version"><a title="yaas.LiveOSC.OSCClient.version
-yaas.LiveOSC.OSCServer.version
-yaas.LiveOSC.UDPClient.version
-yaas.LiveOSC.UDPServer.version" class="py-name" href="#" onclick="return doclink('link-0', 'version', 'link-0');">version</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Live</tt><tt class="py-op">.</tt><tt class="py-name">Application</tt><tt class="py-op">.</tt><tt class="py-name">get_application</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get_major_version</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L56"></a><tt class="py-lineno"> 56</tt>  <tt class="py-line"><tt id="link-0" class="py-name" targets="Variable YAAS.LiveOSC.OSCClient.version=YAAS.LiveOSC.OSCClient-module.html#version,Variable YAAS.LiveOSC.OSCServer.version=YAAS.LiveOSC.OSCServer-module.html#version,Variable YAAS.LiveOSC.UDPClient.version=YAAS.LiveOSC.UDPClient-module.html#version,Variable YAAS.LiveOSC.UDPServer.version=YAAS.LiveOSC.UDPServer-module.html#version"><a title="YAAS.LiveOSC.OSCClient.version
+YAAS.LiveOSC.OSCServer.version
+YAAS.LiveOSC.UDPClient.version
+YAAS.LiveOSC.UDPServer.version" class="py-name" href="#" onclick="return doclink('link-0', 'version', 'link-0');">version</a></tt> <tt class="py-op">=</tt> <tt class="py-name">Live</tt><tt class="py-op">.</tt><tt class="py-name">Application</tt><tt class="py-op">.</tt><tt class="py-name">get_application</tt><tt class="py-op">(</tt><tt class="py-op">)</tt><tt class="py-op">.</tt><tt class="py-name">get_major_version</tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 <a name="L57"></a><tt class="py-lineno"> 57</tt>  <tt class="py-line"><tt class="py-keyword">if</tt> <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">platform</tt> <tt class="py-op">==</tt> <tt class="py-string">"win32"</tt><tt class="py-op">:</tt> </tt>
 <a name="L58"></a><tt class="py-lineno"> 58</tt>  <tt class="py-line">    <tt class="py-keyword">import</tt> <tt class="py-name">socket</tt>    </tt>
 <a name="L59"></a><tt class="py-lineno"> 59</tt>  <tt class="py-line"> </tt>
 <a name="L60"></a><tt class="py-lineno"> 60</tt>  <tt class="py-line"><tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
-<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-1" class="py-name"><a title="yaas.LiveOSC.OSCClient.version
-yaas.LiveOSC.OSCServer.version
-yaas.LiveOSC.UDPClient.version
-yaas.LiveOSC.UDPServer.version" class="py-name" href="#" onclick="return doclink('link-1', 'version', 'link-0');">version</a></tt> <tt class="py-op">&gt;</tt> <tt class="py-number">7</tt><tt class="py-op">:</tt> </tt>
+<a name="L61"></a><tt class="py-lineno"> 61</tt>  <tt class="py-line">    <tt class="py-keyword">if</tt> <tt id="link-1" class="py-name"><a title="YAAS.LiveOSC.OSCClient.version
+YAAS.LiveOSC.OSCServer.version
+YAAS.LiveOSC.UDPClient.version
+YAAS.LiveOSC.UDPServer.version" class="py-name" href="#" onclick="return doclink('link-1', 'version', 'link-0');">version</a></tt> <tt class="py-op">&gt;</tt> <tt class="py-number">7</tt><tt class="py-op">:</tt> </tt>
 <a name="L62"></a><tt class="py-lineno"> 62</tt>  <tt class="py-line">       <tt class="py-comment"># 10.5</tt> </tt>
 <a name="L63"></a><tt class="py-lineno"> 63</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
-<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">            <tt id="link-2" class="py-name" targets="Variable yaas.LiveOSC.OSCClient.file=yaas.LiveOSC.OSCClient-module.html#file,Variable yaas.LiveOSC.OSCServer.file=yaas.LiveOSC.OSCServer-module.html#file,Variable yaas.LiveOSC.UDPClient.file=yaas.LiveOSC.UDPClient-module.html#file,Variable yaas.LiveOSC.UDPServer.file=yaas.LiveOSC.UDPServer-module.html#file"><a title="yaas.LiveOSC.OSCClient.file
-yaas.LiveOSC.OSCServer.file
-yaas.LiveOSC.UDPClient.file
-yaas.LiveOSC.UDPServer.file" class="py-name" href="#" onclick="return doclink('link-2', 'file', 'link-2');">file</a></tt> <tt class="py-op">=</tt> <tt id="link-3" class="py-name" targets="Method yaas.LiveOSC.UDPClient.UDPClient.open()=yaas.LiveOSC.UDPClient.UDPClient-class.html#open"><a title="yaas.LiveOSC.UDPClient.UDPClient.open" class="py-name" href="#" onclick="return doclink('link-3', 'open', 'link-3');">open</a></tt><tt class="py-op">(</tt><tt class="py-string">"/usr/lib/python2.5/string.pyc"</tt><tt class="py-op">)</tt> </tt>
+<a name="L64"></a><tt class="py-lineno"> 64</tt>  <tt class="py-line">            <tt id="link-2" class="py-name" targets="Variable YAAS.LiveOSC.OSCClient.file=YAAS.LiveOSC.OSCClient-module.html#file,Variable YAAS.LiveOSC.OSCServer.file=YAAS.LiveOSC.OSCServer-module.html#file,Variable YAAS.LiveOSC.UDPClient.file=YAAS.LiveOSC.UDPClient-module.html#file,Variable YAAS.LiveOSC.UDPServer.file=YAAS.LiveOSC.UDPServer-module.html#file"><a title="YAAS.LiveOSC.OSCClient.file
+YAAS.LiveOSC.OSCServer.file
+YAAS.LiveOSC.UDPClient.file
+YAAS.LiveOSC.UDPServer.file" class="py-name" href="#" onclick="return doclink('link-2', 'file', 'link-2');">file</a></tt> <tt class="py-op">=</tt> <tt id="link-3" class="py-name" targets="Method YAAS.LiveOSC.UDPClient.UDPClient.open()=YAAS.LiveOSC.UDPClient.UDPClient-class.html#open"><a title="YAAS.LiveOSC.UDPClient.UDPClient.open" class="py-name" href="#" onclick="return doclink('link-3', 'open', 'link-3');">open</a></tt><tt class="py-op">(</tt><tt class="py-string">"/usr/lib/python2.5/string.pyc"</tt><tt class="py-op">)</tt> </tt>
 <a name="L65"></a><tt class="py-lineno"> 65</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">IOError</tt><tt class="py-op">:</tt> </tt>
-<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">            <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method yaas.LiveOSC.OSCMessage.OSCMessage.append()=yaas.LiveOSC.OSCMessage.OSCMessage-class.html#append"><a title="yaas.LiveOSC.OSCMessage.OSCMessage.append" class="py-name" href="#" onclick="return doclink('link-4', 'append', 'link-4');">append</a></tt><tt class="py-op">(</tt><tt class="py-string">"/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5"</tt><tt class="py-op">)</tt> </tt>
-<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">            <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Module yaas.LiveOSC.socket_live8=yaas.LiveOSC.socket_live8-module.html"><a title="yaas.LiveOSC.socket_live8" class="py-name" href="#" onclick="return doclink('link-5', 'socket_live8', 'link-5');">socket_live8</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">socket</tt>   </tt>
+<a name="L66"></a><tt class="py-lineno"> 66</tt>  <tt class="py-line">            <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method YAAS.LiveOSC.OSCMessage.OSCMessage.append()=YAAS.LiveOSC.OSCMessage.OSCMessage-class.html#append"><a title="YAAS.LiveOSC.OSCMessage.OSCMessage.append" class="py-name" href="#" onclick="return doclink('link-4', 'append', 'link-4');">append</a></tt><tt class="py-op">(</tt><tt class="py-string">"/Library/Frameworks/Python.framework/Versions/2.5/lib/python2.5"</tt><tt class="py-op">)</tt> </tt>
+<a name="L67"></a><tt class="py-lineno"> 67</tt>  <tt class="py-line">            <tt class="py-keyword">import</tt> <tt id="link-5" class="py-name" targets="Module YAAS.LiveOSC.socket_live8=YAAS.LiveOSC.socket_live8-module.html"><a title="YAAS.LiveOSC.socket_live8" class="py-name" href="#" onclick="return doclink('link-5', 'socket_live8', 'link-5');">socket_live8</a></tt> <tt class="py-keyword">as</tt> <tt class="py-name">socket</tt>   </tt>
 <a name="L68"></a><tt class="py-lineno"> 68</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
-<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">            <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="yaas.LiveOSC.OSCMessage.OSCMessage.append" class="py-name" href="#" onclick="return doclink('link-6', 'append', 'link-4');">append</a></tt><tt class="py-op">(</tt><tt class="py-string">"/usr/lib/python2.5"</tt><tt class="py-op">)</tt> </tt>
+<a name="L69"></a><tt class="py-lineno"> 69</tt>  <tt class="py-line">            <tt class="py-name">sys</tt><tt class="py-op">.</tt><tt class="py-name">path</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="YAAS.LiveOSC.OSCMessage.OSCMessage.append" class="py-name" href="#" onclick="return doclink('link-6', 'append', 'link-4');">append</a></tt><tt class="py-op">(</tt><tt class="py-string">"/usr/lib/python2.5"</tt><tt class="py-op">)</tt> </tt>
 <a name="L70"></a><tt class="py-lineno"> 70</tt>  <tt class="py-line">            <tt class="py-keyword">import</tt> <tt class="py-name">socket</tt> </tt>
 <a name="L71"></a><tt class="py-lineno"> 71</tt>  <tt class="py-line"> </tt>
 <a name="L72"></a><tt class="py-lineno"> 72</tt>  <tt class="py-line"><tt class="py-comment"># OSC</tt> </tt>
-<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name" targets="Module yaas.LiveOSC.OSCMessage=yaas.LiveOSC.OSCMessage-module.html,Class yaas.LiveOSC.OSCMessage.OSCMessage=yaas.LiveOSC.OSCMessage.OSCMessage-class.html"><a title="yaas.LiveOSC.OSCMessage
-yaas.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-7', 'OSCMessage', 'link-7');">OSCMessage</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name"><a title="yaas.LiveOSC.OSCMessage
-yaas.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-8', 'OSCMessage', 'link-7');">OSCMessage</a></tt> </tt>
-<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-9" class="py-name" targets="Module yaas.LiveOSC.CallbackManager=yaas.LiveOSC.CallbackManager-module.html,Class yaas.LiveOSC.CallbackManager.CallbackManager=yaas.LiveOSC.CallbackManager.CallbackManager-class.html"><a title="yaas.LiveOSC.CallbackManager
-yaas.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="return doclink('link-9', 'CallbackManager', 'link-9');">CallbackManager</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name"><a title="yaas.LiveOSC.CallbackManager
-yaas.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="return doclink('link-10', 'CallbackManager', 'link-9');">CallbackManager</a></tt> </tt>
-<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-11" class="py-name" targets="Module yaas.LiveOSC.OSCUtils=yaas.LiveOSC.OSCUtils-module.html"><a title="yaas.LiveOSC.OSCUtils" class="py-name" href="#" onclick="return doclink('link-11', 'OSCUtils', 'link-11');">OSCUtils</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L73"></a><tt class="py-lineno"> 73</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-7" class="py-name" targets="Module YAAS.LiveOSC.OSCMessage=YAAS.LiveOSC.OSCMessage-module.html,Class YAAS.LiveOSC.OSCMessage.OSCMessage=YAAS.LiveOSC.OSCMessage.OSCMessage-class.html"><a title="YAAS.LiveOSC.OSCMessage
+YAAS.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-7', 'OSCMessage', 'link-7');">OSCMessage</a></tt> <tt class="py-keyword">import</tt> <tt id="link-8" class="py-name"><a title="YAAS.LiveOSC.OSCMessage
+YAAS.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-8', 'OSCMessage', 'link-7');">OSCMessage</a></tt> </tt>
+<a name="L74"></a><tt class="py-lineno"> 74</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-9" class="py-name" targets="Module YAAS.LiveOSC.CallbackManager=YAAS.LiveOSC.CallbackManager-module.html,Class YAAS.LiveOSC.CallbackManager.CallbackManager=YAAS.LiveOSC.CallbackManager.CallbackManager-class.html"><a title="YAAS.LiveOSC.CallbackManager
+YAAS.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="return doclink('link-9', 'CallbackManager', 'link-9');">CallbackManager</a></tt> <tt class="py-keyword">import</tt> <tt id="link-10" class="py-name"><a title="YAAS.LiveOSC.CallbackManager
+YAAS.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="return doclink('link-10', 'CallbackManager', 'link-9');">CallbackManager</a></tt> </tt>
+<a name="L75"></a><tt class="py-lineno"> 75</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-11" class="py-name" targets="Module YAAS.LiveOSC.OSCUtils=YAAS.LiveOSC.OSCUtils-module.html"><a title="YAAS.LiveOSC.OSCUtils" class="py-name" href="#" onclick="return doclink('link-11', 'OSCUtils', 'link-11');">OSCUtils</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
 <a name="L76"></a><tt class="py-lineno"> 76</tt>  <tt class="py-line">     </tt>
-<a name="UDPServer"></a><div id="UDPServer-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="UDPServer-toggle" onclick="return toggle('UDPServer');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html">UDPServer</a><tt class="py-op">:</tt> </tt>
+<a name="UDPServer"></a><div id="UDPServer-def"><a name="L77"></a><tt class="py-lineno"> 77</tt> <a class="py-toggle" href="#" id="UDPServer-toggle" onclick="return toggle('UDPServer');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html">UDPServer</a><tt class="py-op">:</tt> </tt>
 </div><div id="UDPServer-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="UDPServer-expanded"><a name="L78"></a><tt class="py-lineno"> 78</tt>  <tt class="py-line"> </tt>
 <a name="L79"></a><tt class="py-lineno"> 79</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
 <a name="L80"></a><tt class="py-lineno"> 80</tt>  <tt class="py-line"><tt class="py-docstring">    RemixNet.UDPServer</tt> </tt>
@@ -165,7 +165,7 @@ yaas.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="
 <a name="L88"></a><tt class="py-lineno"> 88</tt>  <tt class="py-line"><tt class="py-docstring">    callbacks.</tt> </tt>
 <a name="L89"></a><tt class="py-lineno"> 89</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
 <a name="L90"></a><tt class="py-lineno"> 90</tt>  <tt class="py-line">        </tt>
-<a name="UDPServer.__init__"></a><div id="UDPServer.__init__-def"><a name="L91"></a><tt class="py-lineno"> 91</tt> <a class="py-toggle" href="#" id="UDPServer.__init__-toggle" onclick="return toggle('UDPServer.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">src</tt><tt class="py-op">,</tt> <tt class="py-param">srcPort</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="UDPServer.__init__"></a><div id="UDPServer.__init__-def"><a name="L91"></a><tt class="py-lineno"> 91</tt> <a class="py-toggle" href="#" id="UDPServer.__init__-toggle" onclick="return toggle('UDPServer.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">src</tt><tt class="py-op">,</tt> <tt class="py-param">srcPort</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="UDPServer.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.__init__-expanded"><a name="L92"></a><tt class="py-lineno"> 92</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
 <a name="L93"></a><tt class="py-lineno"> 93</tt>  <tt class="py-line"><tt class="py-docstring">        Sets up the UDPServer component of this package. By default </tt> </tt>
 <a name="L94"></a><tt class="py-lineno"> 94</tt>  <tt class="py-line"><tt class="py-docstring">        we listen to all interfaces on port 9000 for incoming requests </tt> </tt>
@@ -186,7 +186,7 @@ yaas.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="
 <a name="L109"></a><tt class="py-lineno">109</tt>  <tt class="py-line">         </tt>
 <a name="L110"></a><tt class="py-lineno">110</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">buf</tt> <tt class="py-op">=</tt> <tt class="py-number">4096</tt> </tt>
 </div><a name="L111"></a><tt class="py-lineno">111</tt>  <tt class="py-line"> </tt>
-<a name="UDPServer.processIncomingUDP"></a><div id="UDPServer.processIncomingUDP-def"><a name="L112"></a><tt class="py-lineno">112</tt> <a class="py-toggle" href="#" id="UDPServer.processIncomingUDP-toggle" onclick="return toggle('UDPServer.processIncomingUDP');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html#processIncomingUDP">processIncomingUDP</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="UDPServer.processIncomingUDP"></a><div id="UDPServer.processIncomingUDP-def"><a name="L112"></a><tt class="py-lineno">112</tt> <a class="py-toggle" href="#" id="UDPServer.processIncomingUDP-toggle" onclick="return toggle('UDPServer.processIncomingUDP');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html#processIncomingUDP">processIncomingUDP</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="UDPServer.processIncomingUDP-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.processIncomingUDP-expanded"><a name="L113"></a><tt class="py-lineno">113</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
 <a name="L114"></a><tt class="py-lineno">114</tt>  <tt class="py-line"><tt class="py-docstring">        Attempt to process incoming packets in the network buffer. If none are</tt> </tt>
 <a name="L115"></a><tt class="py-lineno">115</tt>  <tt class="py-line"><tt class="py-docstring">        available it will return. If there is data, and a callback manager has been</tt> </tt>
@@ -211,49 +211,51 @@ yaas.LiveOSC.CallbackManager.CallbackManager" class="py-name" href="#" onclick="
 <a name="L134"></a><tt class="py-lineno">134</tt>  <tt class="py-line">                        <tt class="py-comment"># If you want to write your own special handlers for dealing</tt> </tt>
 <a name="L135"></a><tt class="py-lineno">135</tt>  <tt class="py-line">                        <tt class="py-comment"># with incoming data, this is the place. self.data contains</tt> </tt>
 <a name="L136"></a><tt class="py-lineno">136</tt>  <tt class="py-line">                        <tt class="py-comment"># the raw data sent to our UDP socket.</tt> </tt>
-<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">                 </tt>
-<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">                        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt><tt class="py-op">:</tt> </tt>
-<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">                            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method yaas.LiveOSC.CallbackManager.CallbackManager.handle()=yaas.LiveOSC.CallbackManager.CallbackManager-class.html#handle,Method yaas.LiveOSC.LiveOSC.LiveOSC.handle()=yaas.LiveOSC.LiveOSC.LiveOSC-class.html#handle,Method yaas.LiveOSC.LogServer.LoggerRequestHandler.handle()=yaas.LiveOSC.LogServer.LoggerRequestHandler-class.html#handle"><a title="yaas.LiveOSC.CallbackManager.CallbackManager.handle
-yaas.LiveOSC.LiveOSC.LiveOSC.handle
-yaas.LiveOSC.LogServer.LoggerRequestHandler.handle" class="py-name" href="#" onclick="return doclink('link-12', 'handle', 'link-12');">handle</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
-<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">                         </tt>
-<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">Exception</tt><tt class="py-op">,</tt> <tt class="py-name">e</tt><tt class="py-op">:</tt> </tt>
-<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
-</div><a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line"> </tt>
-<a name="UDPServer.setCallbackManager"></a><div id="UDPServer.setCallbackManager-def"><a name="L144"></a><tt class="py-lineno">144</tt> <a class="py-toggle" href="#" id="UDPServer.setCallbackManager-toggle" onclick="return toggle('UDPServer.setCallbackManager');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html#setCallbackManager">setCallbackManager</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">callbackManager</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="UDPServer.setCallbackManager-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.setCallbackManager-expanded"><a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L146"></a><tt class="py-lineno">146</tt>  <tt class="py-line"><tt class="py-docstring">        You can specify a callbackManager here as derived from OSC.py. </tt> </tt>
-<a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line"><tt class="py-docstring">        We use this function in OSCServer to register the default /remix/</tt> </tt>
-<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line"><tt class="py-docstring">        namespace addresses as utility callbacks.</tt> </tt>
-<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line">         </tt>
-<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt> <tt class="py-op">=</tt> <tt class="py-name">callbackManager</tt> </tt>
-</div><a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line"> </tt>
-<a name="UDPServer.bind"></a><div id="UDPServer.bind-def"><a name="L153"></a><tt class="py-lineno">153</tt> <a class="py-toggle" href="#" id="UDPServer.bind-toggle" onclick="return toggle('UDPServer.bind');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html#bind">bind</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="UDPServer.bind-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.bind-expanded"><a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
-<a name="L155"></a><tt class="py-lineno">155</tt>  <tt class="py-line"><tt class="py-docstring">        After initializing you must UDPServer.listen() to bind to the socket</tt> </tt>
-<a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line"><tt class="py-docstring">        and accept whatever packets are in the buffer. Since we're binding a </tt> </tt>
-<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"><tt class="py-docstring">        non-blocking socket, your program (and Ableton Live) will still be </tt> </tt>
-<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"><tt class="py-docstring">        able to run.</tt> </tt>
-<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line">         </tt>
-<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">addr</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">src</tt><tt class="py-op">,</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">srcPort</tt><tt class="py-op">)</tt> </tt>
-<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt> <tt class="py-op">=</tt> <tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">(</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">AF_INET</tt><tt class="py-op">,</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">SOCK_DGRAM</tt><tt class="py-op">)</tt> </tt>
-<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method yaas.LiveOSC.OSCServer.OSCServer.bind()=yaas.LiveOSC.OSCServer.OSCServer-class.html#bind,Method yaas.LiveOSC.UDPServer.UDPServer.bind()=yaas.LiveOSC.UDPServer.UDPServer-class.html#bind"><a title="yaas.LiveOSC.OSCServer.OSCServer.bind
-yaas.LiveOSC.UDPServer.UDPServer.bind" class="py-name" href="#" onclick="return doclink('link-13', 'bind', 'link-13');">bind</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">addr</tt><tt class="py-op">)</tt> </tt>
-<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt class="py-name">setblocking</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
-</div><a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line"> </tt>
-<a name="UDPServer.close"></a><div id="UDPServer.close-def"><a name="L166"></a><tt class="py-lineno">166</tt> <a class="py-toggle" href="#" id="UDPServer.close-toggle" onclick="return toggle('UDPServer.close');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.UDPServer.UDPServer-class.html#close">close</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="UDPServer.close-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.close-expanded"><a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line">        <tt class="py-docstring">""" </tt> </tt>
-<a name="L168"></a><tt class="py-lineno">168</tt>  <tt class="py-line"><tt class="py-docstring">        Close our UDPSock</tt> </tt>
-<a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
-<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line">        <tt class="py-comment"># Closing time!</tt> </tt>
-<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method yaas.LiveOSC.Logger.Logger.close()=yaas.LiveOSC.Logger.Logger-class.html#close,Method yaas.LiveOSC.UDPClient.UDPClient.close()=yaas.LiveOSC.UDPClient.UDPClient-class.html#close,Method yaas.LiveOSC.UDPServer.UDPServer.close()=yaas.LiveOSC.UDPServer.UDPServer-class.html#close,Method yaas.LiveOSC.socket_live8._fileobject.close()=yaas.LiveOSC.socket_live8._fileobject-class.html#close,Method yaas.LiveOSC.socket_live8._socketobject.close()=yaas.LiveOSC.socket_live8._socketobject-class.html#close"><a title="yaas.LiveOSC.Logger.Logger.close
-yaas.LiveOSC.UDPClient.UDPClient.close
-yaas.LiveOSC.UDPServer.UDPServer.close
-yaas.LiveOSC.socket_live8._fileobject.close
-yaas.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-14', 'close', 'link-14');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
-</div></div><a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L137"></a><tt class="py-lineno">137</tt>  <tt class="py-line">                         </tt>
+<a name="L138"></a><tt class="py-lineno">138</tt>  <tt class="py-line">                        <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-string">'UDP raw: '</tt> <tt class="py-op">+</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L139"></a><tt class="py-lineno">139</tt>  <tt class="py-line">                 </tt>
+<a name="L140"></a><tt class="py-lineno">140</tt>  <tt class="py-line">                        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt><tt class="py-op">:</tt> </tt>
+<a name="L141"></a><tt class="py-lineno">141</tt>  <tt class="py-line">                            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt><tt class="py-op">.</tt><tt id="link-12" class="py-name" targets="Method YAAS.LiveOSC.CallbackManager.CallbackManager.handle()=YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#handle,Method YAAS.LiveOSC.LiveOSC.LiveOSC.handle()=YAAS.LiveOSC.LiveOSC.LiveOSC-class.html#handle,Method YAAS.LiveOSC.LogServer.LoggerRequestHandler.handle()=YAAS.LiveOSC.LogServer.LoggerRequestHandler-class.html#handle"><a title="YAAS.LiveOSC.CallbackManager.CallbackManager.handle
+YAAS.LiveOSC.LiveOSC.LiveOSC.handle
+YAAS.LiveOSC.LogServer.LoggerRequestHandler.handle" class="py-name" href="#" onclick="return doclink('link-12', 'handle', 'link-12');">handle</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L142"></a><tt class="py-lineno">142</tt>  <tt class="py-line">                         </tt>
+<a name="L143"></a><tt class="py-lineno">143</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt> <tt class="py-name">Exception</tt><tt class="py-op">,</tt> <tt class="py-name">e</tt><tt class="py-op">:</tt> </tt>
+<a name="L144"></a><tt class="py-lineno">144</tt>  <tt class="py-line">            <tt class="py-keyword">pass</tt> </tt>
+</div><a name="L145"></a><tt class="py-lineno">145</tt>  <tt class="py-line"> </tt>
+<a name="UDPServer.setCallbackManager"></a><div id="UDPServer.setCallbackManager-def"><a name="L146"></a><tt class="py-lineno">146</tt> <a class="py-toggle" href="#" id="UDPServer.setCallbackManager-toggle" onclick="return toggle('UDPServer.setCallbackManager');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html#setCallbackManager">setCallbackManager</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">callbackManager</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UDPServer.setCallbackManager-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.setCallbackManager-expanded"><a name="L147"></a><tt class="py-lineno">147</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L148"></a><tt class="py-lineno">148</tt>  <tt class="py-line"><tt class="py-docstring">        You can specify a callbackManager here as derived from OSC.py. </tt> </tt>
+<a name="L149"></a><tt class="py-lineno">149</tt>  <tt class="py-line"><tt class="py-docstring">        We use this function in OSCServer to register the default /remix/</tt> </tt>
+<a name="L150"></a><tt class="py-lineno">150</tt>  <tt class="py-line"><tt class="py-docstring">        namespace addresses as utility callbacks.</tt> </tt>
+<a name="L151"></a><tt class="py-lineno">151</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L152"></a><tt class="py-lineno">152</tt>  <tt class="py-line">         </tt>
+<a name="L153"></a><tt class="py-lineno">153</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbackManager</tt> <tt class="py-op">=</tt> <tt class="py-name">callbackManager</tt> </tt>
+</div><a name="L154"></a><tt class="py-lineno">154</tt>  <tt class="py-line"> </tt>
+<a name="UDPServer.bind"></a><div id="UDPServer.bind-def"><a name="L155"></a><tt class="py-lineno">155</tt> <a class="py-toggle" href="#" id="UDPServer.bind-toggle" onclick="return toggle('UDPServer.bind');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html#bind">bind</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UDPServer.bind-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.bind-expanded"><a name="L156"></a><tt class="py-lineno">156</tt>  <tt class="py-line">        <tt class="py-docstring">"""</tt> </tt>
+<a name="L157"></a><tt class="py-lineno">157</tt>  <tt class="py-line"><tt class="py-docstring">        After initializing you must UDPServer.listen() to bind to the socket</tt> </tt>
+<a name="L158"></a><tt class="py-lineno">158</tt>  <tt class="py-line"><tt class="py-docstring">        and accept whatever packets are in the buffer. Since we're binding a </tt> </tt>
+<a name="L159"></a><tt class="py-lineno">159</tt>  <tt class="py-line"><tt class="py-docstring">        non-blocking socket, your program (and Ableton Live) will still be </tt> </tt>
+<a name="L160"></a><tt class="py-lineno">160</tt>  <tt class="py-line"><tt class="py-docstring">        able to run.</tt> </tt>
+<a name="L161"></a><tt class="py-lineno">161</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L162"></a><tt class="py-lineno">162</tt>  <tt class="py-line">         </tt>
+<a name="L163"></a><tt class="py-lineno">163</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">addr</tt> <tt class="py-op">=</tt> <tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">src</tt><tt class="py-op">,</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">srcPort</tt><tt class="py-op">)</tt> </tt>
+<a name="L164"></a><tt class="py-lineno">164</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt> <tt class="py-op">=</tt> <tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">(</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">AF_INET</tt><tt class="py-op">,</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">SOCK_DGRAM</tt><tt class="py-op">)</tt> </tt>
+<a name="L165"></a><tt class="py-lineno">165</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt id="link-13" class="py-name" targets="Method YAAS.LiveOSC.OSCServer.OSCServer.bind()=YAAS.LiveOSC.OSCServer.OSCServer-class.html#bind,Method YAAS.LiveOSC.UDPServer.UDPServer.bind()=YAAS.LiveOSC.UDPServer.UDPServer-class.html#bind"><a title="YAAS.LiveOSC.OSCServer.OSCServer.bind
+YAAS.LiveOSC.UDPServer.UDPServer.bind" class="py-name" href="#" onclick="return doclink('link-13', 'bind', 'link-13');">bind</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">addr</tt><tt class="py-op">)</tt> </tt>
+<a name="L166"></a><tt class="py-lineno">166</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt class="py-name">setblocking</tt><tt class="py-op">(</tt><tt class="py-number">0</tt><tt class="py-op">)</tt> </tt>
+</div><a name="L167"></a><tt class="py-lineno">167</tt>  <tt class="py-line"> </tt>
+<a name="UDPServer.close"></a><div id="UDPServer.close-def"><a name="L168"></a><tt class="py-lineno">168</tt> <a class="py-toggle" href="#" id="UDPServer.close-toggle" onclick="return toggle('UDPServer.close');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.UDPServer.UDPServer-class.html#close">close</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="UDPServer.close-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="UDPServer.close-expanded"><a name="L169"></a><tt class="py-lineno">169</tt>  <tt class="py-line">        <tt class="py-docstring">""" </tt> </tt>
+<a name="L170"></a><tt class="py-lineno">170</tt>  <tt class="py-line"><tt class="py-docstring">        Close our UDPSock</tt> </tt>
+<a name="L171"></a><tt class="py-lineno">171</tt>  <tt class="py-line"><tt class="py-docstring">        """</tt> </tt>
+<a name="L172"></a><tt class="py-lineno">172</tt>  <tt class="py-line">        <tt class="py-comment"># Closing time!</tt> </tt>
+<a name="L173"></a><tt class="py-lineno">173</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">UDPSock</tt><tt class="py-op">.</tt><tt id="link-14" class="py-name" targets="Method YAAS.LiveOSC.Logger.Logger.close()=YAAS.LiveOSC.Logger.Logger-class.html#close,Method YAAS.LiveOSC.UDPClient.UDPClient.close()=YAAS.LiveOSC.UDPClient.UDPClient-class.html#close,Method YAAS.LiveOSC.UDPServer.UDPServer.close()=YAAS.LiveOSC.UDPServer.UDPServer-class.html#close,Method YAAS.LiveOSC.socket_live8._fileobject.close()=YAAS.LiveOSC.socket_live8._fileobject-class.html#close,Method YAAS.LiveOSC.socket_live8._socketobject.close()=YAAS.LiveOSC.socket_live8._socketobject-class.html#close"><a title="YAAS.LiveOSC.Logger.Logger.close
+YAAS.LiveOSC.UDPClient.UDPClient.close
+YAAS.LiveOSC.UDPServer.UDPServer.close
+YAAS.LiveOSC.socket_live8._fileobject.close
+YAAS.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-14', 'close', 'link-14');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L174"></a><tt class="py-lineno">174</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -266,7 +268,7 @@ expandto(location.href);
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -291,7 +293,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:49 2015
+    Generated by Epydoc 3.0.1 on Sun Mar  1 20:47:50 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

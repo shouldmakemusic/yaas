@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>yaas.LightHouseOSCReceiver.LightHouseOSCReceiver</title>
+  <title>YAAS.LightHouseOSCReceiver.LightHouseOSCReceiver</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -16,7 +16,7 @@
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -42,8 +42,8 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
-        <a href="yaas.LightHouseOSCReceiver-module.html">Module&nbsp;LightHouseOSCReceiver</a> ::
+        <a href="YAAS-module.html">Package&nbsp;YAAS</a> ::
+        <a href="YAAS.LightHouseOSCReceiver-module.html">Module&nbsp;LightHouseOSCReceiver</a> ::
         Class&nbsp;LightHouseOSCReceiver
       </span>
     </td>
@@ -54,14 +54,14 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="yaas.LightHouseOSCReceiver.LightHouseOSCReceiver-class.html"
+            >]&nbsp;|&nbsp;<a href="YAAS.LightHouseOSCReceiver.LightHouseOSCReceiver-class.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
 <!-- ==================== CLASS DESCRIPTION ==================== -->
-<h1 class="epydoc">Class LightHouseOSCReceiver</h1><p class="nomargin-top"><span class="codelink"><a href="yaas.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver">source&nbsp;code</a></span></p>
+<h1 class="epydoc">Class LightHouseOSCReceiver</h1><p class="nomargin-top"><span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver">source&nbsp;code</a></span></p>
 <!-- ==================== INSTANCE METHODS ==================== -->
 <a name="section-InstanceMethods"></a>
 <table class="summary" border="1" cellpadding="3"
@@ -89,7 +89,7 @@
         <span class="summary-sig-arg">oscServer</span>,
         <span class="summary-sig-arg">logger</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.__init__">source&nbsp;code</a></span>
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.__init__">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -106,7 +106,7 @@
           <td><span class="summary-sig"><a name="setMainScript"></a><span class="summary-sig-name">setMainScript</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">mainScript</span>)</span></td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.setMainScript">source&nbsp;code</a></span>
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.setMainScript">source&nbsp;code</a></span>
             
           </td>
         </tr>
@@ -120,16 +120,102 @@
     </td><td class="summary">
       <table width="100%" cellpadding="0" cellspacing="0" border="0">
         <tr>
-          <td><span class="summary-sig"><a href="yaas.LightHouseOSCReceiver.LightHouseOSCReceiver-class.html#sensorX" class="summary-sig-name">sensorX</a>(<span class="summary-sig-arg">self</span>,
+          <td><span class="summary-sig"><a name="send_controller_info"></a><span class="summary-sig-name">send_controller_info</span>(<span class="summary-sig-arg">self</span>,
         <span class="summary-sig-arg">msg</span>)</span><br />
-      Called when a /yaas/sensor measurement is received.</td>
+      Calls YAAS.send_available_methods_to_lighthouse()</td>
           <td align="right" valign="top">
-            <span class="codelink"><a href="yaas.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.sensorX">source&nbsp;code</a></span>
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.send_controller_info">source&nbsp;code</a></span>
             
           </td>
         </tr>
       </table>
       
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="receive_configuration"></a><span class="summary-sig-name">receive_configuration</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span><br />
+      From LightHouse comes a new configuration to use before the stored 
+      one.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.receive_configuration">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_value"></a><span class="summary-sig-name">get_value</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">value</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.get_value">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="YAAS.LightHouseOSCReceiver.LightHouseOSCReceiver-class.html#sensorX" class="summary-sig-name">sensorX</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">msg</span>)</span><br />
+      Called when a /android/sensor measurement is received.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.sensorX">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Class Variables</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="midi_note_definitions_from_lighthouse"></a><span class="summary-name">midi_note_definitions_from_lighthouse</span> = <code title="{}">{}</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="midi_cc_definitions_from_lighthouse"></a><span class="summary-name">midi_cc_definitions_from_lighthouse</span> = <code title="{}">{}</code>
     </td>
   </tr>
 </table>
@@ -162,12 +248,12 @@
         <span class="sig-arg">msg</span>)</span>
   </h3>
   </td><td align="right" valign="top"
-    ><span class="codelink"><a href="yaas.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.sensorX">source&nbsp;code</a></span>&nbsp;
+    ><span class="codelink"><a href="YAAS.LightHouseOSCReceiver-pysrc.html#LightHouseOSCReceiver.sensorX">source&nbsp;code</a></span>&nbsp;
     </td>
   </tr></table>
   
-  <p>Called when a /yaas/sensor measurement is received.</p>
-  <p>Messages: /yaas/sensor (float tempo)   Set the tempo, replies with 
+  <p>Called when a /android/sensor measurement is received.</p>
+  <p>Messages: /android/sensor (float tempo)   Set the tempo, replies with 
   /live/tempo (float tempo)</p>
   <dl class="fields">
   </dl>
@@ -180,7 +266,7 @@
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -205,7 +291,7 @@
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:48 2015
+    Generated by Epydoc 3.0.1 on Sun Mar  1 20:47:50 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

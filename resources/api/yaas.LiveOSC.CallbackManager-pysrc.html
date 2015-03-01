@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>yaas.LiveOSC.CallbackManager</title>
+  <title>YAAS.LiveOSC.CallbackManager</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -16,7 +16,7 @@
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -42,8 +42,8 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
-        <a href="yaas.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
+        <a href="YAAS-module.html">Package&nbsp;YAAS</a> ::
+        <a href="YAAS.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
         Module&nbsp;CallbackManager
       </span>
     </td>
@@ -54,13 +54,13 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="yaas.LiveOSC.CallbackManager-pysrc.html"
+            >]&nbsp;|&nbsp;<a href="YAAS.LiveOSC.CallbackManager-pysrc.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<h1 class="epydoc">Source Code for <a href="yaas.LiveOSC.CallbackManager-module.html">Module yaas.LiveOSC.CallbackManager</a></h1>
+<h1 class="epydoc">Source Code for <a href="YAAS.LiveOSC.CallbackManager-module.html">Module YAAS.LiveOSC.CallbackManager</a></h1>
 <pre class="py-src">
 <a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-comment">#!/usr/bin/python</tt> </tt>
 <a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-comment">#</tt> </tt>
@@ -94,31 +94,31 @@
 <a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"><tt class="py-comment">#   - dwh</tt> </tt>
 <a name="L31"></a><tt class="py-lineno">31</tt>  <tt class="py-line"> </tt>
 <a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module yaas.LiveOSC.struct=yaas.LiveOSC.struct-module.html"><a title="yaas.LiveOSC.struct" class="py-name" href="#" onclick="return doclink('link-0', 'struct', 'link-0');">struct</a></tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-0" class="py-name" targets="Module YAAS.LiveOSC.struct=YAAS.LiveOSC.struct-module.html"><a title="YAAS.LiveOSC.struct" class="py-name" href="#" onclick="return doclink('link-0', 'struct', 'link-0');">struct</a></tt> </tt>
 <a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">math</tt> </tt>
 <a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">string</tt> </tt>
-<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module yaas.LiveOSC.OSCMessage=yaas.LiveOSC.OSCMessage-module.html,Class yaas.LiveOSC.OSCMessage.OSCMessage=yaas.LiveOSC.OSCMessage.OSCMessage-class.html"><a title="yaas.LiveOSC.OSCMessage
-yaas.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-1', 'OSCMessage', 'link-1');">OSCMessage</a></tt> </tt>
-<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Module yaas.LiveOSC.OSCUtils=yaas.LiveOSC.OSCUtils-module.html"><a title="yaas.LiveOSC.OSCUtils" class="py-name" href="#" onclick="return doclink('link-2', 'OSCUtils', 'link-2');">OSCUtils</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
+<a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt id="link-1" class="py-name" targets="Module YAAS.LiveOSC.OSCMessage=YAAS.LiveOSC.OSCMessage-module.html,Class YAAS.LiveOSC.OSCMessage.OSCMessage=YAAS.LiveOSC.OSCMessage.OSCMessage-class.html"><a title="YAAS.LiveOSC.OSCMessage
+YAAS.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doclink('link-1', 'OSCMessage', 'link-1');">OSCMessage</a></tt> </tt>
+<a name="L37"></a><tt class="py-lineno">37</tt>  <tt class="py-line"><tt class="py-keyword">from</tt> <tt id="link-2" class="py-name" targets="Module YAAS.LiveOSC.OSCUtils=YAAS.LiveOSC.OSCUtils-module.html"><a title="YAAS.LiveOSC.OSCUtils" class="py-name" href="#" onclick="return doclink('link-2', 'OSCUtils', 'link-2');">OSCUtils</a></tt> <tt class="py-keyword">import</tt> <tt class="py-op">*</tt> </tt>
 <a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager"></a><div id="CallbackManager-def"><a name="L39"></a><tt class="py-lineno">39</tt> <a class="py-toggle" href="#" id="CallbackManager-toggle" onclick="return toggle('CallbackManager');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html">CallbackManager</a><tt class="py-op">:</tt> </tt>
+<a name="CallbackManager"></a><div id="CallbackManager-def"><a name="L39"></a><tt class="py-lineno">39</tt> <a class="py-toggle" href="#" id="CallbackManager-toggle" onclick="return toggle('CallbackManager');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html">CallbackManager</a><tt class="py-op">:</tt> </tt>
 </div><div id="CallbackManager-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="CallbackManager-expanded"><a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">    <tt class="py-docstring">"""This utility class maps OSC addresses to callables.</tt> </tt>
 <a name="L41"></a><tt class="py-lineno">41</tt>  <tt class="py-line"><tt class="py-docstring"></tt> </tt>
 <a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line"><tt class="py-docstring">    The CallbackManager calls its callbacks with a list</tt> </tt>
 <a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line"><tt class="py-docstring">    of decoded OSC arguments, including the address and</tt> </tt>
 <a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line"><tt class="py-docstring">    the typetags as the first two arguments."""</tt> </tt>
 <a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager.__init__"></a><div id="CallbackManager.__init__-def"><a name="L46"></a><tt class="py-lineno">46</tt> <a class="py-toggle" href="#" id="CallbackManager.__init__-toggle" onclick="return toggle('CallbackManager.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="CallbackManager.__init__"></a><div id="CallbackManager.__init__-def"><a name="L46"></a><tt class="py-lineno">46</tt> <a class="py-toggle" href="#" id="CallbackManager.__init__-toggle" onclick="return toggle('CallbackManager.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="CallbackManager.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.__init__-expanded"><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbacks</tt> <tt class="py-op">=</tt> <tt class="py-op">{</tt><tt class="py-op">}</tt> </tt>
-<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method yaas.LiveOSC.CallbackManager.CallbackManager.add()=yaas.LiveOSC.CallbackManager.CallbackManager-class.html#add"><a title="yaas.LiveOSC.CallbackManager.CallbackManager.add" class="py-name" href="#" onclick="return doclink('link-3', 'add', 'link-3');">add</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method yaas.LiveOSC.CallbackManager.CallbackManager.unbundler()=yaas.LiveOSC.CallbackManager.CallbackManager-class.html#unbundler"><a title="yaas.LiveOSC.CallbackManager.CallbackManager.unbundler" class="py-name" href="#" onclick="return doclink('link-4', 'unbundler', 'link-4');">unbundler</a></tt><tt class="py-op">,</tt> <tt class="py-string">"#bundle"</tt><tt class="py-op">)</tt> </tt>
+<a name="L48"></a><tt class="py-lineno">48</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method YAAS.LiveOSC.CallbackManager.CallbackManager.add()=YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#add"><a title="YAAS.LiveOSC.CallbackManager.CallbackManager.add" class="py-name" href="#" onclick="return doclink('link-3', 'add', 'link-3');">add</a></tt><tt class="py-op">(</tt><tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Method YAAS.LiveOSC.CallbackManager.CallbackManager.unbundler()=YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#unbundler"><a title="YAAS.LiveOSC.CallbackManager.CallbackManager.unbundler" class="py-name" href="#" onclick="return doclink('link-4', 'unbundler', 'link-4');">unbundler</a></tt><tt class="py-op">,</tt> <tt class="py-string">"#bundle"</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager.handle"></a><div id="CallbackManager.handle-def"><a name="L50"></a><tt class="py-lineno">50</tt> <a class="py-toggle" href="#" id="CallbackManager.handle-toggle" onclick="return toggle('CallbackManager.handle');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html#handle">handle</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">data</tt><tt class="py-op">,</tt> <tt class="py-param">source</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="CallbackManager.handle"></a><div id="CallbackManager.handle-def"><a name="L50"></a><tt class="py-lineno">50</tt> <a class="py-toggle" href="#" id="CallbackManager.handle-toggle" onclick="return toggle('CallbackManager.handle');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#handle">handle</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">data</tt><tt class="py-op">,</tt> <tt class="py-param">source</tt> <tt class="py-op">=</tt> <tt class="py-name">None</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="CallbackManager.handle-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.handle-expanded"><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line">        <tt class="py-docstring">"""Given OSC data, tries to call the callback with the</tt> </tt>
 <a name="L52"></a><tt class="py-lineno">52</tt>  <tt class="py-line"><tt class="py-docstring">        right address."""</tt> </tt>
-<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">        <tt class="py-name">decoded</tt> <tt class="py-op">=</tt> <tt id="link-5" class="py-name" targets="Function yaas.LiveOSC.OSCUtils.decodeOSC()=yaas.LiveOSC.OSCUtils-module.html#decodeOSC"><a title="yaas.LiveOSC.OSCUtils.decodeOSC" class="py-name" href="#" onclick="return doclink('link-5', 'decodeOSC', 'link-5');">decodeOSC</a></tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
-<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method yaas.LiveOSC.CallbackManager.CallbackManager.dispatch()=yaas.LiveOSC.CallbackManager.CallbackManager-class.html#dispatch"><a title="yaas.LiveOSC.CallbackManager.CallbackManager.dispatch" class="py-name" href="#" onclick="return doclink('link-6', 'dispatch', 'link-6');">dispatch</a></tt><tt class="py-op">(</tt><tt class="py-name">decoded</tt><tt class="py-op">)</tt> </tt>
+<a name="L53"></a><tt class="py-lineno">53</tt>  <tt class="py-line">        <tt class="py-name">decoded</tt> <tt class="py-op">=</tt> <tt id="link-5" class="py-name" targets="Function YAAS.LiveOSC.OSCUtils.decodeOSC()=YAAS.LiveOSC.OSCUtils-module.html#decodeOSC"><a title="YAAS.LiveOSC.OSCUtils.decodeOSC" class="py-name" href="#" onclick="return doclink('link-5', 'decodeOSC', 'link-5');">decodeOSC</a></tt><tt class="py-op">(</tt><tt class="py-name">data</tt><tt class="py-op">)</tt> </tt>
+<a name="L54"></a><tt class="py-lineno">54</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name" targets="Method YAAS.LiveOSC.CallbackManager.CallbackManager.dispatch()=YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#dispatch"><a title="YAAS.LiveOSC.CallbackManager.CallbackManager.dispatch" class="py-name" href="#" onclick="return doclink('link-6', 'dispatch', 'link-6');">dispatch</a></tt><tt class="py-op">(</tt><tt class="py-name">decoded</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L55"></a><tt class="py-lineno">55</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager.dispatch"></a><div id="CallbackManager.dispatch-def"><a name="L56"></a><tt class="py-lineno">56</tt> <a class="py-toggle" href="#" id="CallbackManager.dispatch-toggle" onclick="return toggle('CallbackManager.dispatch');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html#dispatch">dispatch</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">message</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="CallbackManager.dispatch"></a><div id="CallbackManager.dispatch-def"><a name="L56"></a><tt class="py-lineno">56</tt> <a class="py-toggle" href="#" id="CallbackManager.dispatch-toggle" onclick="return toggle('CallbackManager.dispatch');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#dispatch">dispatch</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">message</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="CallbackManager.dispatch-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.dispatch-expanded"><a name="L57"></a><tt class="py-lineno">57</tt>  <tt class="py-line">        <tt class="py-docstring">"""Sends decoded OSC data to an appropriate calback"""</tt> </tt>
 <a name="L58"></a><tt class="py-lineno">58</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
 <a name="L59"></a><tt class="py-lineno">59</tt>  <tt class="py-line">            <tt class="py-name">address</tt> <tt class="py-op">=</tt> <tt class="py-name">message</tt><tt class="py-op">[</tt><tt class="py-number">0</tt><tt class="py-op">]</tt> </tt>
@@ -132,21 +132,22 @@ yaas.LiveOSC.OSCMessage.OSCMessage" class="py-name" href="#" onclick="return doc
 <a name="L67"></a><tt class="py-lineno">67</tt>  <tt class="py-line">         </tt>
 <a name="L68"></a><tt class="py-lineno">68</tt>  <tt class="py-line">        <tt class="py-keyword">return</tt> </tt>
 </div><a name="L69"></a><tt class="py-lineno">69</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager.add"></a><div id="CallbackManager.add-def"><a name="L70"></a><tt class="py-lineno">70</tt> <a class="py-toggle" href="#" id="CallbackManager.add-toggle" onclick="return toggle('CallbackManager.add');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html#add">add</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">callback</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="CallbackManager.add"></a><div id="CallbackManager.add-def"><a name="L70"></a><tt class="py-lineno">70</tt> <a class="py-toggle" href="#" id="CallbackManager.add-toggle" onclick="return toggle('CallbackManager.add');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#add">add</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">callback</tt><tt class="py-op">,</tt> <tt class="py-param">name</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="CallbackManager.add-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.add-expanded"><a name="L71"></a><tt class="py-lineno">71</tt>  <tt class="py-line">        <tt class="py-docstring">"""Adds a callback to our set of callbacks,</tt> </tt>
 <a name="L72"></a><tt class="py-lineno">72</tt>  <tt class="py-line"><tt class="py-docstring">        or removes the callback with name if callback</tt> </tt>
 <a name="L73"></a><tt class="py-lineno">73</tt>  <tt class="py-line"><tt class="py-docstring">        is None."""</tt> </tt>
 <a name="L74"></a><tt class="py-lineno">74</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">callback</tt> <tt class="py-op">==</tt> <tt class="py-name">None</tt><tt class="py-op">:</tt> </tt>
-<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">            <tt class="py-keyword">del</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbacks</tt><tt class="py-op">[</tt><tt id="link-7" class="py-name" targets="Variable yaas.LiveOSC.socket_live8._fileobject.name=yaas.LiveOSC.socket_live8._fileobject-class.html#name"><a title="yaas.LiveOSC.socket_live8._fileobject.name" class="py-name" href="#" onclick="return doclink('link-7', 'name', 'link-7');">name</a></tt><tt class="py-op">]</tt> </tt>
+<a name="L75"></a><tt class="py-lineno">75</tt>  <tt class="py-line">            <tt class="py-keyword">del</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbacks</tt><tt class="py-op">[</tt><tt id="link-7" class="py-name" targets="Variable YAAS.LiveOSC.socket_live8._fileobject.name=YAAS.LiveOSC.socket_live8._fileobject-class.html#name"><a title="YAAS.LiveOSC.socket_live8._fileobject.name" class="py-name" href="#" onclick="return doclink('link-7', 'name', 'link-7');">name</a></tt><tt class="py-op">]</tt> </tt>
 <a name="L76"></a><tt class="py-lineno">76</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
-<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbacks</tt><tt class="py-op">[</tt><tt id="link-8" class="py-name"><a title="yaas.LiveOSC.socket_live8._fileobject.name" class="py-name" href="#" onclick="return doclink('link-8', 'name', 'link-7');">name</a></tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">callback</tt> </tt>
-</div><a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line"> </tt>
-<a name="CallbackManager.unbundler"></a><div id="CallbackManager.unbundler-def"><a name="L79"></a><tt class="py-lineno">79</tt> <a class="py-toggle" href="#" id="CallbackManager.unbundler-toggle" onclick="return toggle('CallbackManager.unbundler');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.CallbackManager.CallbackManager-class.html#unbundler">unbundler</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">messages</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="CallbackManager.unbundler-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.unbundler-expanded"><a name="L80"></a><tt class="py-lineno">80</tt>  <tt class="py-line">        <tt class="py-docstring">"""Dispatch the messages in a decoded bundle."""</tt> </tt>
-<a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">        <tt class="py-comment"># first two elements are #bundle and the time tag, rest are messages.</tt> </tt>
-<a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">message</tt> <tt class="py-keyword">in</tt> <tt class="py-name">messages</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
-<a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-9" class="py-name"><a title="yaas.LiveOSC.CallbackManager.CallbackManager.dispatch" class="py-name" href="#" onclick="return doclink('link-9', 'dispatch', 'link-6');">dispatch</a></tt><tt class="py-op">(</tt><tt class="py-name">message</tt><tt class="py-op">)</tt> </tt>
-</div></div><a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line"> </tt><script type="text/javascript">
+<a name="L77"></a><tt class="py-lineno">77</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">callbacks</tt><tt class="py-op">[</tt><tt id="link-8" class="py-name"><a title="YAAS.LiveOSC.socket_live8._fileobject.name" class="py-name" href="#" onclick="return doclink('link-8', 'name', 'link-7');">name</a></tt><tt class="py-op">]</tt> <tt class="py-op">=</tt> <tt class="py-name">callback</tt> </tt>
+<a name="L78"></a><tt class="py-lineno">78</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt> <tt class="py-string">'added callback '</tt> <tt class="py-op">+</tt> <tt id="link-9" class="py-name"><a title="YAAS.LiveOSC.socket_live8._fileobject.name" class="py-name" href="#" onclick="return doclink('link-9', 'name', 'link-7');">name</a></tt> </tt>
+</div><a name="L79"></a><tt class="py-lineno">79</tt>  <tt class="py-line"> </tt>
+<a name="CallbackManager.unbundler"></a><div id="CallbackManager.unbundler-def"><a name="L80"></a><tt class="py-lineno">80</tt> <a class="py-toggle" href="#" id="CallbackManager.unbundler-toggle" onclick="return toggle('CallbackManager.unbundler');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.CallbackManager.CallbackManager-class.html#unbundler">unbundler</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">messages</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="CallbackManager.unbundler-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="CallbackManager.unbundler-expanded"><a name="L81"></a><tt class="py-lineno">81</tt>  <tt class="py-line">        <tt class="py-docstring">"""Dispatch the messages in a decoded bundle."""</tt> </tt>
+<a name="L82"></a><tt class="py-lineno">82</tt>  <tt class="py-line">        <tt class="py-comment"># first two elements are #bundle and the time tag, rest are messages.</tt> </tt>
+<a name="L83"></a><tt class="py-lineno">83</tt>  <tt class="py-line">        <tt class="py-keyword">for</tt> <tt class="py-name">message</tt> <tt class="py-keyword">in</tt> <tt class="py-name">messages</tt><tt class="py-op">[</tt><tt class="py-number">2</tt><tt class="py-op">:</tt><tt class="py-op">]</tt><tt class="py-op">:</tt> </tt>
+<a name="L84"></a><tt class="py-lineno">84</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-10" class="py-name"><a title="YAAS.LiveOSC.CallbackManager.CallbackManager.dispatch" class="py-name" href="#" onclick="return doclink('link-10', 'dispatch', 'link-6');">dispatch</a></tt><tt class="py-op">(</tt><tt class="py-name">message</tt><tt class="py-op">)</tt> </tt>
+</div></div><a name="L85"></a><tt class="py-lineno">85</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
@@ -159,7 +160,7 @@ expandto(location.href);
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -184,7 +185,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:49 2015
+    Generated by Epydoc 3.0.1 on Sun Mar  1 20:47:50 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"

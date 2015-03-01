@@ -3,7 +3,7 @@
           "DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <title>yaas.LiveOSC.Logger</title>
+  <title>YAAS.LiveOSC.Logger</title>
   <link rel="stylesheet" href="epydoc.css" type="text/css" />
   <script type="text/javascript" src="epydoc.js"></script>
 </head>
@@ -16,7 +16,7 @@
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -42,8 +42,8 @@
   <tr valign="top">
     <td width="100%">
       <span class="breadcrumbs">
-        <a href="yaas-module.html">Package&nbsp;yaas</a> ::
-        <a href="yaas.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
+        <a href="YAAS-module.html">Package&nbsp;YAAS</a> ::
+        <a href="YAAS.LiveOSC-module.html">Package&nbsp;LiveOSC</a> ::
         Module&nbsp;Logger
       </span>
     </td>
@@ -54,13 +54,13 @@
     onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
         <tr><td align="right"><span class="options"
             >[<a href="frames.html" target="_top">frames</a
-            >]&nbsp;|&nbsp;<a href="yaas.LiveOSC.Logger-pysrc.html"
+            >]&nbsp;|&nbsp;<a href="YAAS.LiveOSC.Logger-pysrc.html"
             target="_top">no&nbsp;frames</a>]</span></td></tr>
       </table>
     </td>
   </tr>
 </table>
-<h1 class="epydoc">Source Code for <a href="yaas.LiveOSC.Logger-module.html">Module yaas.LiveOSC.Logger</a></h1>
+<h1 class="epydoc">Source Code for <a href="YAAS.LiveOSC.Logger-module.html">Module YAAS.LiveOSC.Logger</a></h1>
 <pre class="py-src">
 <a name="L1"></a><tt class="py-lineno"> 1</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">sys</tt> </tt>
 <a name="L2"></a><tt class="py-lineno"> 2</tt>  <tt class="py-line"><tt class="py-keyword">import</tt> <tt class="py-name">time</tt> </tt>
@@ -70,13 +70,13 @@
 <a name="L6"></a><tt class="py-lineno"> 6</tt>  <tt class="py-line"><tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
 <a name="L7"></a><tt class="py-lineno"> 7</tt>  <tt class="py-line">    <tt class="py-keyword">print</tt> <tt class="py-string">"No Sockets"</tt> </tt>
 <a name="L8"></a><tt class="py-lineno"> 8</tt>  <tt class="py-line">     </tt>
-<a name="Logger"></a><div id="Logger-def"><a name="L9"></a><tt class="py-lineno"> 9</tt> <a class="py-toggle" href="#" id="Logger-toggle" onclick="return toggle('Logger');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html">Logger</a><tt class="py-op">:</tt> </tt>
+<a name="Logger"></a><div id="Logger-def"><a name="L9"></a><tt class="py-lineno"> 9</tt> <a class="py-toggle" href="#" id="Logger-toggle" onclick="return toggle('Logger');">-</a><tt class="py-line"><tt class="py-keyword">class</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html">Logger</a><tt class="py-op">:</tt> </tt>
 </div><div id="Logger-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="Logger-expanded"><a name="L10"></a><tt class="py-lineno">10</tt>  <tt class="py-line">    <tt class="py-docstring">"""</tt> </tt>
 <a name="L11"></a><tt class="py-lineno">11</tt>  <tt class="py-line"><tt class="py-docstring">    Simple logger.</tt> </tt>
 <a name="L12"></a><tt class="py-lineno">12</tt>  <tt class="py-line"><tt class="py-docstring">    Tries to use a socket which connects to localhost port 4444 by default.</tt> </tt>
 <a name="L13"></a><tt class="py-lineno">13</tt>  <tt class="py-line"><tt class="py-docstring">    If that fails then it logs to a file</tt> </tt>
 <a name="L14"></a><tt class="py-lineno">14</tt>  <tt class="py-line"><tt class="py-docstring">    """</tt> </tt>
-<a name="Logger.__init__"></a><div id="Logger.__init__-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="Logger.__init__-toggle" onclick="return toggle('Logger.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="Logger.__init__"></a><div id="Logger.__init__-def"><a name="L15"></a><tt class="py-lineno">15</tt> <a class="py-toggle" href="#" id="Logger.__init__-toggle" onclick="return toggle('Logger.__init__');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html#__init__">__init__</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="Logger.__init__-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.__init__-expanded"><a name="L16"></a><tt class="py-lineno">16</tt>  <tt class="py-line">        <tt class="py-keyword">try</tt><tt class="py-op">:</tt> </tt>
 <a name="L17"></a><tt class="py-lineno">17</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt> <tt class="py-op">=</tt> <tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">(</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">AF_INET</tt><tt class="py-op">,</tt> <tt class="py-name">socket</tt><tt class="py-op">.</tt><tt class="py-name">SOCK_STREAM</tt><tt class="py-op">)</tt> </tt>
 <a name="L18"></a><tt class="py-lineno">18</tt>  <tt class="py-line">        <tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
@@ -92,44 +92,44 @@
 <a name="L28"></a><tt class="py-lineno">28</tt>  <tt class="py-line">            <tt class="py-keyword">except</tt><tt class="py-op">:</tt> </tt>
 <a name="L29"></a><tt class="py-lineno">29</tt>  <tt class="py-line">                <tt class="py-keyword">print</tt> <tt class="py-string">"Couldn't connect socket"</tt>                 </tt>
 </div><a name="L30"></a><tt class="py-lineno">30</tt>  <tt class="py-line"> </tt>
-<a name="Logger.log"></a><div id="Logger.log-def"><a name="L31"></a><tt class="py-lineno">31</tt> <a class="py-toggle" href="#" id="Logger.log-toggle" onclick="return toggle('Logger.log');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html#log">log</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="Logger.log"></a><div id="Logger.log-def"><a name="L31"></a><tt class="py-lineno">31</tt> <a class="py-toggle" href="#" id="Logger.log-toggle" onclick="return toggle('Logger.log');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html#log">log</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="Logger.log-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.log-expanded"><a name="L32"></a><tt class="py-lineno">32</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">connected</tt><tt class="py-op">:</tt> </tt>
-<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Method yaas.LiveOSC.Logger.Logger.send()=yaas.LiveOSC.Logger.Logger-class.html#send,Method yaas.LiveOSC.OSCClient.OSCClient.send()=yaas.LiveOSC.OSCClient.OSCClient-class.html#send,Method yaas.LiveOSC.UDPClient.UDPClient.send()=yaas.LiveOSC.UDPClient.UDPClient-class.html#send"><a title="yaas.LiveOSC.Logger.Logger.send
-yaas.LiveOSC.OSCClient.OSCClient.send
-yaas.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-0', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt> <tt class="py-op">+</tt> <tt class="py-string">'\n'</tt><tt class="py-op">)</tt> </tt>
+<a name="L33"></a><tt class="py-lineno">33</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-0" class="py-name" targets="Method YAAS.LiveOSC.Logger.Logger.send()=YAAS.LiveOSC.Logger.Logger-class.html#send,Method YAAS.LiveOSC.OSCClient.OSCClient.send()=YAAS.LiveOSC.OSCClient.OSCClient-class.html#send,Method YAAS.LiveOSC.UDPClient.UDPClient.send()=YAAS.LiveOSC.UDPClient.UDPClient-class.html#send"><a title="YAAS.LiveOSC.Logger.Logger.send
+YAAS.LiveOSC.OSCClient.OSCClient.send
+YAAS.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-0', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt> <tt class="py-op">+</tt> <tt class="py-string">'\n'</tt><tt class="py-op">)</tt> </tt>
 <a name="L34"></a><tt class="py-lineno">34</tt>  <tt class="py-line">        <tt class="py-keyword">else</tt><tt class="py-op">:</tt> </tt>
 <a name="L35"></a><tt class="py-lineno">35</tt>  <tt class="py-line">            <tt class="py-keyword">print</tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L36"></a><tt class="py-lineno">36</tt>  <tt class="py-line">         </tt>
-<a name="Logger.send"></a><div id="Logger.send-def"><a name="L37"></a><tt class="py-lineno">37</tt> <a class="py-toggle" href="#" id="Logger.send-toggle" onclick="return toggle('Logger.send');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html#send">send</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="Logger.send"></a><div id="Logger.send-def"><a name="L37"></a><tt class="py-lineno">37</tt> <a class="py-toggle" href="#" id="Logger.send-toggle" onclick="return toggle('Logger.send');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html#send">send</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt><tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="Logger.send-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.send-expanded"><a name="L38"></a><tt class="py-lineno">38</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">connected</tt><tt class="py-op">:</tt> </tt>
-<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name"><a title="yaas.LiveOSC.Logger.Logger.send
-yaas.LiveOSC.OSCClient.OSCClient.send
-yaas.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-1', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt><tt class="py-op">)</tt> </tt>
+<a name="L39"></a><tt class="py-lineno">39</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-1" class="py-name"><a title="YAAS.LiveOSC.Logger.Logger.send
+YAAS.LiveOSC.OSCClient.OSCClient.send
+YAAS.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-1', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt> <tt class="py-op">+</tt> <tt class="py-string">"\n"</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L40"></a><tt class="py-lineno">40</tt>  <tt class="py-line">     </tt>
-<a name="Logger.close"></a><div id="Logger.close-def"><a name="L41"></a><tt class="py-lineno">41</tt> <a class="py-toggle" href="#" id="Logger.close-toggle" onclick="return toggle('Logger.close');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html#close">close</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+<a name="Logger.close"></a><div id="Logger.close-def"><a name="L41"></a><tt class="py-lineno">41</tt> <a class="py-toggle" href="#" id="Logger.close-toggle" onclick="return toggle('Logger.close');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html#close">close</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
 </div><div id="Logger.close-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.close-expanded"><a name="L42"></a><tt class="py-lineno">42</tt>  <tt class="py-line">        <tt class="py-keyword">if</tt> <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">connected</tt><tt class="py-op">:</tt> </tt>
-<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="yaas.LiveOSC.Logger.Logger.send
-yaas.LiveOSC.OSCClient.OSCClient.send
-yaas.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-2', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-string">"Closing.."</tt><tt class="py-op">)</tt> </tt>
-<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method yaas.LiveOSC.Logger.Logger.close()=yaas.LiveOSC.Logger.Logger-class.html#close,Method yaas.LiveOSC.UDPClient.UDPClient.close()=yaas.LiveOSC.UDPClient.UDPClient-class.html#close,Method yaas.LiveOSC.UDPServer.UDPServer.close()=yaas.LiveOSC.UDPServer.UDPServer-class.html#close,Method yaas.LiveOSC.socket_live8._fileobject.close()=yaas.LiveOSC.socket_live8._fileobject-class.html#close,Method yaas.LiveOSC.socket_live8._socketobject.close()=yaas.LiveOSC.socket_live8._socketobject-class.html#close"><a title="yaas.LiveOSC.Logger.Logger.close
-yaas.LiveOSC.UDPClient.UDPClient.close
-yaas.LiveOSC.UDPServer.UDPServer.close
-yaas.LiveOSC.socket_live8._fileobject.close
-yaas.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-3', 'close', 'link-3');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L43"></a><tt class="py-lineno">43</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-2" class="py-name"><a title="YAAS.LiveOSC.Logger.Logger.send
+YAAS.LiveOSC.OSCClient.OSCClient.send
+YAAS.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-2', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-string">"Closing.."</tt><tt class="py-op">)</tt> </tt>
+<a name="L44"></a><tt class="py-lineno">44</tt>  <tt class="py-line">            <tt class="py-name">self</tt><tt class="py-op">.</tt><tt class="py-name">socket</tt><tt class="py-op">.</tt><tt id="link-3" class="py-name" targets="Method YAAS.LiveOSC.Logger.Logger.close()=YAAS.LiveOSC.Logger.Logger-class.html#close,Method YAAS.LiveOSC.UDPClient.UDPClient.close()=YAAS.LiveOSC.UDPClient.UDPClient-class.html#close,Method YAAS.LiveOSC.UDPServer.UDPServer.close()=YAAS.LiveOSC.UDPServer.UDPServer-class.html#close,Method YAAS.LiveOSC.socket_live8._fileobject.close()=YAAS.LiveOSC.socket_live8._fileobject-class.html#close,Method YAAS.LiveOSC.socket_live8._socketobject.close()=YAAS.LiveOSC.socket_live8._socketobject-class.html#close"><a title="YAAS.LiveOSC.Logger.Logger.close
+YAAS.LiveOSC.UDPClient.UDPClient.close
+YAAS.LiveOSC.UDPServer.UDPServer.close
+YAAS.LiveOSC.socket_live8._fileobject.close
+YAAS.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-3', 'close', 'link-3');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 <a name="L45"></a><tt class="py-lineno">45</tt>  <tt class="py-line">             </tt>
-<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Variable yaas.errorLog=yaas-module.html#errorLog"><a title="yaas.errorLog" class="py-name" href="#" onclick="return doclink('link-4', 'errorLog', 'link-4');">errorLog</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="yaas.LiveOSC.Logger.Logger.close
-yaas.LiveOSC.UDPClient.UDPClient.close
-yaas.LiveOSC.UDPServer.UDPServer.close
-yaas.LiveOSC.socket_live8._fileobject.close
-yaas.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-5', 'close', 'link-3');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
+<a name="L46"></a><tt class="py-lineno">46</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-4" class="py-name" targets="Variable YAAS.errorLog=YAAS-module.html#errorLog"><a title="YAAS.errorLog" class="py-name" href="#" onclick="return doclink('link-4', 'errorLog', 'link-4');">errorLog</a></tt><tt class="py-op">.</tt><tt id="link-5" class="py-name"><a title="YAAS.LiveOSC.Logger.Logger.close
+YAAS.LiveOSC.UDPClient.UDPClient.close
+YAAS.LiveOSC.UDPServer.UDPServer.close
+YAAS.LiveOSC.socket_live8._fileobject.close
+YAAS.LiveOSC.socket_live8._socketobject.close" class="py-name" href="#" onclick="return doclink('link-5', 'close', 'link-3');">close</a></tt><tt class="py-op">(</tt><tt class="py-op">)</tt> </tt>
 </div><a name="L47"></a><tt class="py-lineno">47</tt>  <tt class="py-line">             </tt>
-<a name="Logger.write"></a><div id="Logger.write-def"><a name="L48"></a><tt class="py-lineno">48</tt> <a class="py-toggle" href="#" id="Logger.write-toggle" onclick="return toggle('Logger.write');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="yaas.LiveOSC.Logger.Logger-class.html#write">write</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
-</div><div id="Logger.write-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.write-expanded"><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="yaas.errorLog" class="py-name" href="#" onclick="return doclink('link-6', 'errorLog', 'link-4');">errorLog</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Method yaas.LiveOSC.Logger.Logger.write()=yaas.LiveOSC.Logger.Logger-class.html#write,Method yaas.LiveOSC.socket_live8._fileobject.write()=yaas.LiveOSC.socket_live8._fileobject-class.html#write,Method yaas.util.Logger.Logger.write()=yaas.util.Logger.Logger-class.html#write"><a title="yaas.LiveOSC.Logger.Logger.write
-yaas.LiveOSC.socket_live8._fileobject.write
-yaas.util.Logger.Logger.write" class="py-name" href="#" onclick="return doclink('link-7', 'write', 'link-7');">write</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
-<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="yaas.LiveOSC.Logger.Logger.send
-yaas.LiveOSC.OSCClient.OSCClient.send
-yaas.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-8', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-string">"STDERR: "</tt> <tt class="py-op">+</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+<a name="Logger.write"></a><div id="Logger.write-def"><a name="L48"></a><tt class="py-lineno">48</tt> <a class="py-toggle" href="#" id="Logger.write-toggle" onclick="return toggle('Logger.write');">-</a><tt class="py-line">    <tt class="py-keyword">def</tt> <a class="py-def-name" href="YAAS.LiveOSC.Logger.Logger-class.html#write">write</a><tt class="py-op">(</tt><tt class="py-param">self</tt><tt class="py-op">,</tt> <tt class="py-param">msg</tt><tt class="py-op">)</tt><tt class="py-op">:</tt> </tt>
+</div><div id="Logger.write-collapsed" style="display:none;" pad="++" indent="++++++++"></div><div id="Logger.write-expanded"><a name="L49"></a><tt class="py-lineno">49</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-6" class="py-name"><a title="YAAS.errorLog" class="py-name" href="#" onclick="return doclink('link-6', 'errorLog', 'link-4');">errorLog</a></tt><tt class="py-op">.</tt><tt id="link-7" class="py-name" targets="Method YAAS.LiveOSC.Logger.Logger.write()=YAAS.LiveOSC.Logger.Logger-class.html#write,Method YAAS.LiveOSC.socket_live8._fileobject.write()=YAAS.LiveOSC.socket_live8._fileobject-class.html#write,Method YAAS.util.Logger.Logger.write()=YAAS.util.Logger.Logger-class.html#write"><a title="YAAS.LiveOSC.Logger.Logger.write
+YAAS.LiveOSC.socket_live8._fileobject.write
+YAAS.util.Logger.Logger.write" class="py-name" href="#" onclick="return doclink('link-7', 'write', 'link-7');">write</a></tt><tt class="py-op">(</tt><tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
+<a name="L50"></a><tt class="py-lineno">50</tt>  <tt class="py-line">        <tt class="py-name">self</tt><tt class="py-op">.</tt><tt id="link-8" class="py-name"><a title="YAAS.LiveOSC.Logger.Logger.send
+YAAS.LiveOSC.OSCClient.OSCClient.send
+YAAS.LiveOSC.UDPClient.UDPClient.send" class="py-name" href="#" onclick="return doclink('link-8', 'send', 'link-0');">send</a></tt><tt class="py-op">(</tt><tt class="py-string">"STDERR: "</tt> <tt class="py-op">+</tt> <tt class="py-name">msg</tt><tt class="py-op">)</tt> </tt>
 </div></div><a name="L51"></a><tt class="py-lineno">51</tt>  <tt class="py-line"> </tt><script type="text/javascript">
 <!--
 expandto(location.href);
@@ -143,7 +143,7 @@ expandto(location.href);
   <tr valign="middle">
   <!-- Home link -->
       <th>&nbsp;&nbsp;&nbsp;<a
-        href="yaas-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+        href="YAAS-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
       <th>&nbsp;&nbsp;&nbsp;<a
@@ -168,7 +168,7 @@ expandto(location.href);
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">
-    Generated by Epydoc 3.0.1 on Sat Feb  7 03:58:49 2015
+    Generated by Epydoc 3.0.1 on Sun Mar  1 20:47:50 2015
     </td>
     <td align="right" class="footer">
       <a target="mainFrame" href="http://epydoc.sourceforge.net"
