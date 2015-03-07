@@ -351,8 +351,8 @@ class YAAS(ControlSurface):
 
 		if self.config.red_frame_visible():
 			is_momentary = True
-			num_tracks = 1 #single column
-			num_scenes = 7 #seven rows, which will be mapped to seven "white" notes
+			num_tracks = self.config.red_frame_width()
+			num_scenes = self.config.red_frame_height()
 			session = SessionComponent(num_tracks, num_scenes) #(num_tracks, num_scenes) A session highlight ("red box") will appear with any two non-zero values
 			self.set_highlighting_session_component(session)
 			session.set_offsets(0, 0) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left

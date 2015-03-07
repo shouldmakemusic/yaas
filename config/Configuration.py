@@ -142,6 +142,22 @@ class Configuration:
             return False
         return True
         
+    def red_frame_width(self):
+        """
+            Returns the width of the red frame
+        """        
+        self.log.verbose("(Configuration) red_frame_width")
+        red_frame_width = self.get_yaas_config('red_frame_width')
+        return int(red_frame_width)
+        
+    def red_frame_height(self):
+        """
+            Returns the height of the red frame
+        """        
+        self.log.verbose("(Configuration) red_frame_height")
+        red_frame_height = self.get_yaas_config('red_frame_height')
+        return int(red_frame_height)
+        
     def replace_constants(self, definitions):
         
         for k, v in definitions.iteritems():
