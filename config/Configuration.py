@@ -113,20 +113,34 @@ class Configuration:
         except Exception, err:
             self.log.error("Could not read from midi_mapping.cfg (cc): " + str(err))
 
-    def show_red_frame(self):
+    def red_frame_visible(self):
         """
             Returns if yaas should show a red frame for selecting clips
         """        
-        self.log.verbose("(Configuration) show red frame")
-        show_red_frame = self.get_yaas_config('show_red_frame')
-        if show_red_frame == 'True' or show_red_frame == 'true' or show_red_frame == True:
+        self.log.verbose("(Configuration) red_frame_visible")
+        show_red_frame = self.get_yaas_config('red_frame_visible')
+        if eval(show_red_frame) == True:
             self.log.verbose("(Configuration) = True")
             return True
-        if show_red_frame == 'False' or show_red_frame == 'false' or show_red_frame == False:
+        if eval(show_red_frame) == False:
             self.log.verbose("(Configuration) = False")
             return False
         self.log.verbose("(Configuration) = " + str(DEFAULT_SHOW_RED_FRAME))
         return DEFAULT_SHOW_RED_FRAME
+        
+    def red_frame_fixed_on_top(self):
+        """
+            Returns if the red frame should always stay on top (first scene)
+        """        
+        self.log.verbose("(Configuration) red_frame_fixed_on_top")
+        red_frame_fixed_on_top = self.get_yaas_config('red_frame_fixed_on_top')
+        if eval(red_frame_fixed_on_top) == True:
+            self.log.verbose("(Configuration) = True")
+            return True
+        if eval(red_frame_fixed_on_top) == False:
+            self.log.verbose("(Configuration) = False")
+            return False
+        return True
         
     def replace_constants(self, definitions):
         
@@ -140,5 +154,9 @@ class Configuration:
                     params[i] = PREV
                 elif params[i] == 'NEXT':
                     params[i] = NEXT
+                elif params[i] == 'True' or params[i] == 'true':
+                    params[i] = True
+                elif params[i] == 'False' or params[i] == 'false':
+                    params[i] = False
         return definitions
         
