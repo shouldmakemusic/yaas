@@ -349,7 +349,7 @@ class YAAS(ControlSurface):
 		global session #We want to instantiate the global session as a SessionComponent object (it was a global "None" type up until now...)
 		global sceneindex
 
-		if self.config.show_red_frame():
+		if self.config.red_frame_visible():
 			is_momentary = True
 			num_tracks = 1 #single column
 			num_scenes = 7 #seven rows, which will be mapped to seven "white" notes
@@ -371,7 +371,7 @@ class YAAS(ControlSurface):
 		track_index = list(all_tracks).index(selected_track) #and so is this
 		self.log.debug("(YAAS) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 
-		if self.config.show_red_frame():
+		if self.config.red_frame_visible():
 			mixer.channel_strip(0).set_track(selected_track)
 			session.set_offsets(track_index, session._scene_offset) #(track_offset, scene_offset); we leave scene_offset unchanged, but set track_offset to the selected track. This allows us to jump the red box to the selected track.		
 
@@ -385,7 +385,11 @@ class YAAS(ControlSurface):
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
 		self.log.debug("(YAAS) Scene " + str(sceneindex) + " selected")
 
-		#if self.config.show_red_frame():
+		if self.config.red_frame_visible():
+			if not self.config.red_frame_fixed_on_top():
+				self.log.verbose("(Yaas) scene_offset: " + str(session._scene_offset))
+				session.set_offsets(track_index, sceneindex)
+				self.log.verbose("(Yaas) scene_offset: " + str(session._scene_offset))
 		
 	def init_midi_config(self):
 		self.midi_note_definitions = self.config.get_midi_note_definitions()

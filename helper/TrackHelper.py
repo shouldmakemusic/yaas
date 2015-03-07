@@ -99,7 +99,8 @@ class TrackHelper(YaasHelper):
     	"""
     		Fires clip with the given number
     	"""
-    	self._track.clip_slots[clip_number].fire()
+        if clip_number < len(self._track.clip_slots):
+    	       self._track.clip_slots[clip_number].fire()
             
     def stop_or_restart_clip(self):
         """

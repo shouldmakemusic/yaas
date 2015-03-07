@@ -158,5 +158,7 @@ class Configuration:
                     params[i] = True
                 elif params[i] == 'False' or params[i] == 'false':
                     params[i] = False
+                elif isinstance(params[i], ( int, long ) ):
+                    params[i] = int(params[i])
         return definitions
         
