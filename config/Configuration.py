@@ -3,6 +3,10 @@ import ConfigParser
 
 from ..consts import DEFAULT_PORT_LIGHTHOUSE
 from ..consts import DEFAULT_OSC_RECEIVE
+from ..consts import DEFAULT_SHOW_RED_FRAME
+from ..consts import PREV
+from ..consts import NEXT
+from ..consts import CURRENT
 
 # https://wiki.python.org/moin/ConfigParserExamples
 class Configuration:
@@ -83,7 +87,9 @@ class Configuration:
         try:
             config = ConfigParser.ConfigParser()
             config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_from_lighthouse.cfg')))
-            return eval(config.get('Definitions', 'midi_note_definitions_lighthouse'))
+            definitions = eval(config.get('Definitions', 'midi_note_definitions_lighthouse'))
+            definitions = self.replace_constants(definitions)
+            return definitions
         except Exception, err:
             self.log.error("Could not read from midi_from_lighthouse.cfg: " + str(err))
 
@@ -91,7 +97,9 @@ class Configuration:
         try:
             config = ConfigParser.ConfigParser()
             config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
-            return eval(config.get('MidiIn', 'midi_note_definitions'))
+            definitions = eval(config.get('MidiIn', 'midi_note_definitions'))
+            definitions = self.replace_constants(definitions)
+            return definitions
         except Exception, err:
             self.log.error("Could not read from midi_mapping.cfg: " + str(err))
 
@@ -99,9 +107,31 @@ class Configuration:
         try:
             config = ConfigParser.ConfigParser()
             config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
-            return eval(config.get('CC', 'midi_cc_definitions'))
+            definitions = eval(config.get('CC', 'midi_cc_definitions'))
+            definitions = self.replace_constants(definitions)
+            return definitions
         except Exception, err:
-            self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+            self.log.error("Could not read from midi_mapping.cfg (cc): " + str(err))
 
-
+    def show_red_frame(self):
+        """
+            Returns if yaas should show a red frame for selecting clips
+        """        
+        show_red_frame = self.get_yaas_config('show_red_frame')
+        if show_red_frame == 'True' or show_red_frame == 'true' or show_red_frame == True:
+            return True
+        return DEFAULT_SHOW_RED_FRAME
+        
+    def replace_constants(self, definitions):
+        for k, v in definitions.iteritems():
+            params = definitions[k][2]
+            self.log.verbose(str(params))
+            for i in range(len(params)):
+                if params[i] == 'CURRENT':
+                    params[i] = CURRENT
+                elif params[i] == 'PREV':
+                    params[i] = PREV
+                elif params[i] == 'NEXT':
+                    params[i] = NEXT
+        return definitions
         
