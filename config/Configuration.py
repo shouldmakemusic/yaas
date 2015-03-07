@@ -117,15 +117,22 @@ class Configuration:
         """
             Returns if yaas should show a red frame for selecting clips
         """        
+        self.log.verbose("(Configuration) show red frame")
         show_red_frame = self.get_yaas_config('show_red_frame')
         if show_red_frame == 'True' or show_red_frame == 'true' or show_red_frame == True:
+            self.log.verbose("(Configuration) = True")
             return True
+        if show_red_frame == 'False' or show_red_frame == 'false' or show_red_frame == False:
+            self.log.verbose("(Configuration) = False")
+            return False
+        self.log.verbose("(Configuration) = " + str(DEFAULT_SHOW_RED_FRAME))
         return DEFAULT_SHOW_RED_FRAME
         
     def replace_constants(self, definitions):
+        
         for k, v in definitions.iteritems():
             params = definitions[k][2]
-            self.log.verbose(str(params))
+            self.log.verbose('(Configuration) ' + str(params))
             for i in range(len(params)):
                 if params[i] == 'CURRENT':
                     params[i] = CURRENT

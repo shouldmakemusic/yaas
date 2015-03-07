@@ -238,14 +238,6 @@ class YAAS(ControlSurface):
 					
 					self.log.debug("Received Midi Note: " + str(midi_note))
 					
-					# bank
-					# 1 => 0, 11 => 1, 21 => 2
-					track_id = (midi_note//10) - 1
-					# hier waere ein mapping besser
-					# welche taste
-					# 1 => 1, 11 => 1, 12 => 2
-					pedalnumber = midi_note%10												
-	
 					# definitions from lighthouse
 					#self.log.verbose(str(self.midi_note_definitions_from_lighthouse))
 
@@ -354,42 +346,46 @@ class YAAS(ControlSurface):
 
 	def _setup_session_control(self):
 
-		is_momentary = True
-		num_tracks = 1 #single column
-		num_scenes = 7 #seven rows, which will be mapped to seven "white" notes
 		global session #We want to instantiate the global session as a SessionComponent object (it was a global "None" type up until now...)
-		session = SessionComponent(num_tracks, num_scenes) #(num_tracks, num_scenes) A session highlight ("red box") will appear with any two non-zero values
-		self.set_highlighting_session_component(session)
-		session.set_offsets(0, 0) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
-
 		global sceneindex
-		sceneindex = 0;
 
-		session.set_mixer(mixer) #Bind the mixer to the session so that they move together
+		if self.config.show_red_frame():
+			is_momentary = True
+			num_tracks = 1 #single column
+			num_scenes = 7 #seven rows, which will be mapped to seven "white" notes
+			session = SessionComponent(num_tracks, num_scenes) #(num_tracks, num_scenes) A session highlight ("red box") will appear with any two non-zero values
+			self.set_highlighting_session_component(session)
+			session.set_offsets(0, 0) #(track_offset, scene_offset) Sets the initial offset of the "red box" from top left
+	
+			sceneindex = 0;
+	
+			session.set_mixer(mixer) #Bind the mixer to the session so that they move together
 
 	def _on_selected_track_changed(self):
 
-		"""here we set the mixer and session to the selected track, when the selected track changes"""
-		selected_track = self.song().view.selected_track #this is how to get the currently selected track, using the Live API
-		mixer.channel_strip(0).set_track(selected_track)
-		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
 		global track_index
+		global session
+		
+		selected_track = self.song().view.selected_track #this is how to get the currently selected track, using the Live API
+		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
 		track_index = list(all_tracks).index(selected_track) #and so is this
 		self.log.debug("(YAAS) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 
-		global session
-		session.set_offsets(track_index, session._scene_offset) #(track_offset, scene_offset); we leave scene_offset unchanged, but set track_offset to the selected track. This allows us to jump the red box to the selected track.		
+		if self.config.show_red_frame():
+			mixer.channel_strip(0).set_track(selected_track)
+			session.set_offsets(track_index, session._scene_offset) #(track_offset, scene_offset); we leave scene_offset unchanged, but set track_offset to the selected track. This allows us to jump the red box to the selected track.		
 
 	def _on_selected_scene_changed(self):
 
 		global scene
 		global sceneindex
 
-		"""Here we set the mixer and session to the selected track, when the selected track changes"""
 		selected_scene = self.song().view.selected_scene #this is how we get the currently selected scene, using the Live API
 		all_scenes = self.song().scenes #then get all of the scenes
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
-		self.log.debug("(YAAS) Scene " + str(sceneindex+1) + " selected")
+		self.log.debug("(YAAS) Scene " + str(sceneindex) + " selected")
+
+		#if self.config.show_red_frame():
 		
 	def init_midi_config(self):
 		self.midi_note_definitions = self.config.get_midi_note_definitions()
