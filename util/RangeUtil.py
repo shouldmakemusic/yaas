@@ -1,5 +1,5 @@
 """
-# Copyright (C) 2014 Manuel Hirschauer (manuel@hirschauer.net)
+# Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
