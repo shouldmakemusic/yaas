@@ -69,8 +69,9 @@ class YAAS(ControlSurface):
 	__module__ = __name__
 	__doc__ = " yet another ableton controller script "
 	
-	midi_note_definitions_from_lighthouse = {}   
-	midi_cc_definitions_from_lighthouse = {} 
+	midi_note_definitions_for_lighthouse = {}
+	midi_notes_definitions_temporarily = {}   
+	midi_cc_definitions_temporarily = {} 
 	midi_note_definitions = {}
 	midi_cc_definitions = {}
 
@@ -197,22 +198,22 @@ class YAAS(ControlSurface):
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 						
 		# midi_note_definitions from lighthouse
-		for k, v in self.midi_note_definitions_from_lighthouse.iteritems():
+		for k, v in self.midi_notes_definitions_temporarily.iteritems():
 			self.log.verbose('registered midi note (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 		# midi_note_definitions
 		for k, v in self.midi_note_definitions.iteritems():
-			if not self.midi_note_definitions_from_lighthouse.has_key(k):
+			if not self.midi_notes_definitions_temporarily.has_key(k):
 				self.log.verbose('registered midi note ' + str(k))
 				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions from lighthouse
-		for k, v in self.midi_cc_definitions_from_lighthouse.iteritems():
+		for k, v in self.midi_cc_definitions_temporarily.iteritems():
 			self.log.verbose('registered midi cc (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 		# midi_cc_definitions
 		for k, v in self.midi_cc_definitions.iteritems():
-			if not self.midi_cc_definitions_from_lighthouse.has_key(k):
+			if not self.midi_cc_definitions_temporarily.has_key(k):
 				self.log.verbose('registered midi cc ' + str(k))
 				Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
@@ -239,11 +240,11 @@ class YAAS(ControlSurface):
 					self.log.debug("Received Midi Note: " + str(midi_note))
 					
 					# definitions from lighthouse
-					#self.log.verbose(str(self.midi_note_definitions_from_lighthouse))
+					#self.log.verbose(str(self.midi_notes_definitions_temporarily))
 
-					if (midi_note in self.midi_note_definitions_from_lighthouse):	
+					if (midi_note in self.midi_notes_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_note_definitions_from_lighthouse, midi_note, value);
+						self.handle_parametered_function(self.midi_notes_definitions_temporarily, midi_note, value);
 					
 					# definitions from config_midi.py
 					elif (midi_note in self.midi_note_definitions):					
@@ -257,9 +258,9 @@ class YAAS(ControlSurface):
 					
 					self.log.verbose("Received Midi CC: " + str(midi_note))
 					
-					if (midi_note in self.midi_cc_definitions_from_lighthouse):	
+					if (midi_note in self.midi_cc_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_cc_definitions_from_lighthouse, midi_note, value);
+						self.handle_parametered_function(self.midi_cc_definitions_temporarily, midi_note, value);
 
 					elif (midi_note in self.midi_cc_definitions):					
 						self.handle_parametered_function(self.midi_cc_definitions, midi_note, value);
@@ -394,8 +395,8 @@ class YAAS(ControlSurface):
 	def init_midi_config(self):
 		self.midi_note_definitions = self.config.get_midi_note_definitions()
 		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
-		self.midi_note_definitions_from_lighthouse = {}
-		self.midi_cc_definitions_from_lighthouse = {}
+		self.midi_notes_definitions_temporarily = {}
+		self.midi_cc_definitions_temporarily = {}
 		
 # Connections to ligthhouse	
 	def send_available_methods_to_lighthouse(self):

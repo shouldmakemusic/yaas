@@ -12,10 +12,10 @@ class LightHouseMidiReceiver:
     __module__ = __name__
     __doc__ = "LightHouseMidiReceiver handles incoming messages from LightHouse"
     
-    def __init__(self, parent, c_instance):
-        self.log = parent.log
+    def __init__(self, yaas, c_instance):
+        self.log = yaas.log
         self._LightHouseMidiReceiver__c_instance = c_instance
-        self._parent = parent
+        self.yaas = yaas
         self._range_util_android = RangeUtil(0, 100)
         self._currentClipNumber = 0        
 
@@ -32,7 +32,7 @@ class LightHouseMidiReceiver:
         Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, 14)
         
         # midi_note_definitions
-        for k, v in midi_note_definitions_lighthouse.iteritems():
+        for k, v in self.yaas.midi_note_definitions_for_lighthouse.iteritems():
             #self.log.debug('registered ' + str(k))
             Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL_LIGHTHOUSE, k)
 
@@ -52,20 +52,20 @@ class LightHouseMidiReceiver:
             #print('found message_type ' + str(message_type)); 
             if (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
                 #print('found pressed'); 
-                if (midi_note in midi_note_definitions_lighthouse):
+                if (midi_note in midi_note_definitions_for_lighthouse):
                     self.log.verbose('found action');                    
-                    self._parent.handle_parametered_function(midi_note_definitions_lighthouse, midi_note, value);
+                    self.yaas.handle_parametered_function(midi_note_definitions_for_lighthouse, midi_note, value);
                 if (midi_note == 1):
                     if (value == 1):                        
                         #print('found start')
-                        track_helper = self._parent._song_helper.get_track_for_name("Alto Flute")
+                        track_helper = self.yaas._song_helper.get_track_for_name("Alto Flute")
                         if (track_helper is not None):
                             #print('track: ' + track_helper.get_track().name)
                             #device = track_helper.get_device("Flute")
                             track_helper.get_track().clip_slots[1].fire()
                     if (value == 2):                        
                         #print('found stop')
-                        track_helper = self._parent._song_helper.get_track_for_name("Alto Flute")
+                        track_helper = self.yaas._song_helper.get_track_for_name("Alto Flute")
                         if (track_helper is not None):
                             #print('track: ' + track_helper.get_track().name)
                             #device = track_helper.get_device("Flute")
@@ -94,7 +94,7 @@ class LightHouseMidiReceiver:
         return
     def add_second_track(self, value):
         
-        track_helper = self._parent._song_helper.get_track_for_name("DrumBeat")
+        track_helper = self.yaas._song_helper.get_track_for_name("DrumBeat")
         if (track_helper is not None):
             value = value - 70
             if (value > 5):
@@ -103,7 +103,7 @@ class LightHouseMidiReceiver:
                 track_helper.get_track().clip_slots[self._currentClipNumber].stop()
                 
     def startClip(self, value):
-        track_helper = self._parent._song_helper.get_track_for_name("DrumNorm")
+        track_helper = self.yaas._song_helper.get_track_for_name("DrumNorm")
         if (track_helper is not None):
             value = value - 70
             if (value != self._currentClipNumber):
@@ -114,7 +114,7 @@ class LightHouseMidiReceiver:
             
     def handleKnob(self, type, value):
         
-        track_helper = self._parent._song_helper.get_track_for_name("Alto Flute")
+        track_helper = self.yaas._song_helper.get_track_for_name("Alto Flute")
         if (track_helper is not None):
             device = track_helper.get_device("Flute")
             if (device is not None):
@@ -128,4 +128,4 @@ class LightHouseMidiReceiver:
         return self._LightHouseMidiReceiver__c_instance.handle()
     
     def song(self):
-        return self._parent.song()
+        return self.yaas.song()
