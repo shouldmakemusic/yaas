@@ -113,7 +113,7 @@ class TrackHelper(YaasHelper):
         # before stopping - is some clip currently playing?
         was_playing = False
         for i in range(len(track.clip_slots)):
-            if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording:
+            if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording or track.clip_slots[i].is_triggered:
 
                 # remember track number
                 self.last_played_clip = i
