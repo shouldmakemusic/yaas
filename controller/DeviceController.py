@@ -24,6 +24,8 @@ class DeviceController (YaasController):
 	__module__ = __name__
 	__doc__ = "Control everything that can happen with or inside a device"
 
+	_parameter_names_for_device_in_set = {}
+
 	def __init__(self, yaas):
 
 		YaasController.__init__(self, yaas)
@@ -215,3 +217,42 @@ class DeviceController (YaasController):
 		
 		
 		self.device_helper().select_current_then_select_next_hash_device(track_index)
+		
+	def handle_effect_slider(self, params, value):
+		
+		track_id = params[0]
+		parameter_id = params[1]
+		
+		device = self.device_helper().get_hash_device()
+					
+		if device is not None:
+			
+			set_name = 'default'
+			name = set_name + '_' + device.name
+			parameter = device.parameters[parameter_id]
+			
+			if not(name in self._parameter_names_for_device_in_set.keys()):
+				parameter_names = {}
+				for index in range(len(device.parameters)):
+					parameter_name = device.parameters[index].name
+					parameter_names[parameter_name] = index
+					self.log.verbose("added param " + parameter_name + " with index " + str(index))
+					
+				self._parameter_names_for_device_in_set[name] = parameter_names
+				self.log.debug("stored parameters for " + name)
+
+			min = parameter.min
+			max = parameter.max
+			
+			max_name = "Max " + parameter.name
+			self.log.verbose("max name " + max_name)
+			if max_name in self._parameter_names_for_device_in_set[name]:
+				#self.log.debug("found")
+				index = self._parameter_names_for_device_in_set[name][max_name]
+				#self.log.debug("index " + str(index))
+				max = device.parameters[index].value + 1
+			#self.log.debug("max value " + str(max))
+				
+			value = self.get_normalized_value(min, max, value)	
+			parameter.value = value
+				
