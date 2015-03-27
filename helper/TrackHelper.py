@@ -121,6 +121,16 @@ class TrackHelper(YaasHelper):
     	"""
         if clip_number < len(self._track.clip_slots):
     	       self._track.clip_slots[clip_number].fire()
+               
+    def get_playing_clip(self):
+        """
+            Returns the currently playing clip
+        """
+        track = self._track
+        for i in range(len(track.clip_slots)):
+            if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording or track.clip_slots[i].is_triggered:
+                return track.clip_slots[i].clip
+        return None
             
     def stop_or_restart_clip(self):
         """

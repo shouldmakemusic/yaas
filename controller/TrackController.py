@@ -55,6 +55,22 @@ class TrackController (YaasController):
 		track_helper = self.track_helper(track_index)
 		track_helper.get_track().stop_all_clips()
 		
+	def stop_immediately(self, params, value):
+		"""
+			Stop the clip in the given track immediately
+			0 -> track_index
+		"""
+
+		self.log.verbose("(TrackController) stop_immediately called")
+		track_index = params[0]
+		self.log.verbose("(TrackController) for track " + str(track_index))
+
+		track_helper = self.track_helper(track_index)
+		clip = track_helper.get_playing_clip()
+		if clip is not None:
+			clip.muted = True
+			clip.muted = False
+		
 	def arm(self, params, value):
 		"""
 			Arms the given track or switches it off
