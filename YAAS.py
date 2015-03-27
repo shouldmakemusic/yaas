@@ -134,7 +134,7 @@ class YAAS(ControlSurface):
 			outgoing_port = self.config.get_lighthouse_port()
 			
 			self.oscServer = OSCServer('localhost', outgoing_port, None, incoming_port)		
-			self.oscServer.sendOSC('/yaas/oscserver/startup', 1)
+			self.oscServer.sendOSC('/osc/yaasserver/startup', 'successfull')
 			self.log.info('Opened OSC Server for YAAS with incoming port ' + str(incoming_port) + ' and outgoing port ' + str(outgoing_port) + ' (lighthouse)')
 		except Exception, err:
 			self.log.error("Could not setup lighthouse osc recevier (song not found)")
@@ -267,8 +267,6 @@ class YAAS(ControlSurface):
 	
 				if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
 					
-					self.log.debug(str(self.midi_note_off_definitions_temporarily))
-					self.log.debug(str(self.midi_note_off_definitions))
 					# definitions send from lighthouse only for this session
 					if (midi_note in self.midi_note_off_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
@@ -507,3 +505,7 @@ class YAAS(ControlSurface):
 
 	def script_handle(self):
 		return self._YAAS__main_script.handle()
+	
+	def can_lock_to_devices(self):
+		return False
+
