@@ -83,7 +83,8 @@ class SceneHelper(YaasHelper):
                     clip_slot_index = self.get_scene_index(scene)
 
                 clip_slot = track.clip_slots[clip_slot_index]
-                if clip_slot.is_playing:
+
+                if clip_slot.is_playing or clip_slot.is_recording or clip_slot.is_triggered:
                 	clip_slot.stop()
                 elif (clip_slot.has_clip or track.is_foldable) and not clip_slot.will_record_on_start:
                     clip_slot.fire()
