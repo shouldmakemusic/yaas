@@ -78,4 +78,19 @@ class SongHelper(YaasHelper):
             track_helper[index] = new_track_helper
             
         return track_helper[index]
+    
+    def set_current_time(self):
+        """
+            Sets the current song time (in beats)
+            0 -> beats
+        """
+        beats = params[0]
+        self.song().current_song_time = beats
+
+    def get_current_time(self):
+        """
+            Sets the current song time (in beats)
+        """
+        return self.song().current_song_time
+
         
