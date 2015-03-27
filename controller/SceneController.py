@@ -92,7 +92,7 @@ class SceneController (YaasController):
             If this clip is playing -> stop
             0 -> number
         """
-        self.log.verbose("(SceneController) play_i_tracks_in_current called")
+        self.log.verbose("(SceneController) play_e_tracks_in_current called")
         
         number = params[0]
         self.log.verbose("(SceneController) with number " + str(number))
