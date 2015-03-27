@@ -95,5 +95,46 @@ class SongController (YaasController):
 		else:
 			self.song().current_song_time = 0
 		
-		
+	def continue_playing(self, params, value):
+	    """
+	    	Continues Playing
+	    """
+	    self.song().continue_playing()
+
+	def play_selection(self, params, value):
+	    """
+	    	Plays the current selection
+	    """
+	    self.song().play_selection()
 	
+	def jump_by(self, params, value):
+	    """
+	    	Jumps the playhead relative to it's current position by time..
+	    	Stops playback
+	    	0 -> beats
+	    """
+	    beats = params[0]
+	    self.song().jump_by(beats)
+	    
+	def scrub_by(self, params, value):
+	    """
+	    	Jumps the playhead relative to it's current position by time.  
+	    	Does not stop playback
+	    	0 -> beats
+	    """
+	    beats = params[0]
+	    self.song().scrub_by(beats)
+		
+	def jump_to_next_cue():
+		"""
+			Jumps to the right, if possible. 
+		"""
+		self.song().jump_to_next_cue()    
+	
+	def jump_to_prev_cue():
+		"""
+			Jumps to the left, if possible. 
+		"""
+		self.song().jump_to_prev_cue()
+
+		
