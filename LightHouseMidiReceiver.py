@@ -67,9 +67,9 @@ class LightHouseMidiReceiver:
             #print('found message_type ' + str(message_type)); 
             if (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
                 #print('found pressed'); 
-                if (midi_note in midi_note_definitions_for_lighthouse):
+                if (midi_note in self.yaas.midi_note_definitions_for_lighthouse):
                     self.log.verbose('found action');                    
-                    self.yaas.handle_parametered_function(midi_note_definitions_for_lighthouse, midi_note, value);
+                    self.yaas.handle_parametered_function(self.yaas.midi_note_definitions_for_lighthouse, midi_note, value);
                 if (midi_note == 1):
                     if (value == 1):                        
                         #print('found start')

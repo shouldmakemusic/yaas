@@ -123,6 +123,16 @@ class Configuration:
         except Exception, err:
             self.log.error("Could not read from midi_mapping.cfg: " + str(err))
 
+    def get_midi_note_off_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            definitions = eval(config.get('MidiIn', 'midi_note_off_definitions'))
+            definitions = self.replace_constants(definitions)
+            return definitions
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+
     def get_midi_cc_definitions(self):
         try:
             config = ConfigParser.ConfigParser()

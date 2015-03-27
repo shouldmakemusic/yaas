@@ -1,5 +1,5 @@
 """
-# Copyright (C) 2007 Nathan Ramella (nar@remix.net)
+# Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -15,16 +15,14 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #
+# This software contains code with
+# Copyright (C) 2007 Nathan Ramella (nar@remix.net)
+# Copyright (C) 2007 Rob King (rob@re-mu.org)
+# When i used the hole files the copyright is at the top but some parts
+# are integrated in this class
+#
 # For questions regarding this module contact
-# Nathan Ramella <nar@remix.net> or visit http://www.remix.net
-
-This script is based off the Ableton Live supplied MIDI Remote Scripts, customised
-for OSC request delivery and response. This script can be run without any extra
-Python libraries out of the box. 
-
-This is the second file that is loaded, by way of being instantiated through
-__init__.py
-
+# Manuel Hirschauer <manuel@hirschauer.net> 
 """
 from __future__ import with_statement
 
@@ -98,9 +96,11 @@ class YAAS(ControlSurface):
 	__doc__ = " yet another ableton controller script "
 	
 	midi_note_definitions_for_lighthouse = {}
-	midi_notes_definitions_temporarily = {}   
+	midi_note_definitions_temporarily = {}  
+	midi_note_off_definitions_temporarily = {} 
 	midi_cc_definitions_temporarily = {} 
 	midi_note_definitions = {}
+	midi_note_off_definitions = {}
 	midi_cc_definitions = {}
 
 	def __init__(self, c_instance):
@@ -226,13 +226,20 @@ class YAAS(ControlSurface):
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
 						
 		# midi_note_definitions from lighthouse
-		for k, v in self.midi_notes_definitions_temporarily.iteritems():
+		for k, v in self.midi_note_definitions_temporarily.iteritems():
 			self.log.verbose('registered midi note (lighthouse) ' + str(k))
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
+		for k, v in self.midi_note_off_definitions_temporarily.iteritems():
+			self.log.verbose('registered midi note off (lighthouse) ' + str(k))
 			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 		# midi_note_definitions
 		for k, v in self.midi_note_definitions.iteritems():
-			if not self.midi_notes_definitions_temporarily.has_key(k):
+			if not self.midi_note_definitions_temporarily.has_key(k):
 				self.log.verbose('registered midi note ' + str(k))
+				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
+		for k, v in self.midi_note_off_definitions.iteritems():
+			if not self.midi_note_off_definitions_temporarily.has_key(k):
+				self.log.verbose('registered midi note off ' + str(k))
 				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
 			
 		# midi_cc_definitions from lighthouse
@@ -260,19 +267,29 @@ class YAAS(ControlSurface):
 	
 				if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
 					
-					#self.log.debug("Button released");
-					return
+					self.log.debug(str(self.midi_note_off_definitions_temporarily))
+					self.log.debug(str(self.midi_note_off_definitions))
+					# definitions send from lighthouse only for this session
+					if (midi_note in self.midi_note_off_definitions_temporarily):	
+						self.log.debug('Found it in lighthouse definitions')				
+						self.handle_parametered_function(self.midi_note_off_definitions_temporarily, midi_note, value);
+					
+					# definitions from config_midi.py
+					elif (midi_note in self.midi_note_off_definitions):					
+						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value);
+	
+					else:
+						self.log.debug("For the control surface (note off): " + str(midi_bytes))
+						ControlSurface.receive_midi(self, midi_bytes)
 	
 				elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
 					
 					self.log.debug("Received Midi Note: " + str(midi_note))
 					
-					# definitions from lighthouse
-					#self.log.verbose(str(self.midi_notes_definitions_temporarily))
-
-					if (midi_note in self.midi_notes_definitions_temporarily):	
+					# definitions send from lighthouse only for this session
+					if (midi_note in self.midi_note_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_notes_definitions_temporarily, midi_note, value);
+						self.handle_parametered_function(self.midi_note_definitions_temporarily, midi_note, value);
 					
 					# definitions from config_midi.py
 					elif (midi_note in self.midi_note_definitions):					
@@ -422,8 +439,10 @@ class YAAS(ControlSurface):
 		
 	def init_midi_config(self):
 		self.midi_note_definitions = self.config.get_midi_note_definitions()
+		self.midi_note_off_definitions = self.config.get_midi_note_off_definitions()
 		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
-		self.midi_notes_definitions_temporarily = {}
+		self.midi_note_definitions_temporarily = {}
+		self.midi_note_off_definitions_temporarily = {}
 		self.midi_cc_definitions_temporarily = {}
 		
 # Connections to ligthhouse	
