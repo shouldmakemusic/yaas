@@ -277,7 +277,7 @@ class YAAS(ControlSurface):
 						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value);
 	
 					else:
-						self.log.debug("For the control surface (note off): " + str(midi_bytes))
+						self.log.verbose("For the control surface (note off): " + str(midi_bytes))
 						ControlSurface.receive_midi(self, midi_bytes)
 	
 				elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
@@ -294,7 +294,7 @@ class YAAS(ControlSurface):
 						self.handle_parametered_function(self.midi_note_definitions, midi_note, value);
 	
 					else:
-						self.log.debug("For the control surface: " + str(midi_bytes))
+						self.log.verbose("For the control surface: " + str(midi_bytes))
 						ControlSurface.receive_midi(self, midi_bytes)
 						
 				elif (message_type == MESSAGE_TYPE_MIDI_CC):
