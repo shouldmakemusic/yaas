@@ -36,6 +36,7 @@ class DeviceController (YaasController):
 	def navigate_device_focus(self, params, value):
 		"""
 			Selects next or previous device
+			
 			@param params[0]: track_index
 			@param params[1]: next? True : False
 		"""

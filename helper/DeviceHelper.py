@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,6 +17,8 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    DeviceHelper handles Device actions
+"""
 from __future__ import with_statement
 import Live
 
@@ -27,9 +28,9 @@ from TrackHelper import TrackHelper
 active_device = None
 
 class DeviceHelper(YaasHelper):
-    
-    __module__ = __name__
-    __doc__ = 'DeviceHelper handles Device actions'
+    """
+        DeviceHelper handles Device actions
+    """
     
     hash_device_track_id = 0
     hash_device_track_helper = None
@@ -51,13 +52,18 @@ class DeviceHelper(YaasHelper):
     def get_currently_selected_device(self, track_index):
         """
             Return the currently selected device
+            
+            @param track_index: int
+            @return: Live Device
         """        
         track_helper = self.track_helper(track_index)
         device = track_helper.get_selected_device()        
         return device
     
-    """ Stores the device in this class """
     def store_hash_device(self, track_id, device):
+        """ 
+            Stores the device in this class 
+        """
         
         self.hash_device_track_id = track_id
         self.hash_device_track_helper = self.song_helper().get_track(track_id)

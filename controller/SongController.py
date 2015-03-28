@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,15 +17,17 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+	Control everything that has to do with the song
+"""
 from YaasController import YaasController
 
 OFF = 0
 ON = 1
 
-class SongController (YaasController):
-
-	__module__ = __name__
-	__doc__ = "Control everything that has to do with the song"
+class SongController (YaasController):	
+	"""
+		Control everything that has to do with the song
+	"""
     
 	def __init__(self, yaas):
 
@@ -73,7 +74,8 @@ class SongController (YaasController):
 	def set_tempo(self, params, value):
 		"""
 			Set tempo to 
-			0 -> new tempo
+			
+			@param params[0]: new tempo
 		"""
 		self.log.verbose("(SongController) set_tempo called")
 		self.song().tempo = params[0]
@@ -110,8 +112,10 @@ class SongController (YaasController):
 	def jump_by(self, params, value):
 	    """
 	    	Jumps the playhead relative to it's current position by time..
+	    	
 	    	Stops playback
-	    	0 -> beats
+	    	
+	    	@param params[0]: beats
 	    """
 	    beats = params[0]
 	    self.song().jump_by(beats)
@@ -119,21 +123,25 @@ class SongController (YaasController):
 	def scrub_by(self, params, value):
 	    """
 	    	Jumps the playhead relative to it's current position by time.  
+	    	
 	    	Does not stop playback
-	    	0 -> beats
+	    	
+	    	@param params[0]: beats
 	    """
 	    beats = params[0]
 	    self.song().scrub_by(beats)
 		
 	def jump_to_next_cue():
 		"""
-			Jumps to the right, if possible. 
+			Jumps to the right, if possible.
+			 
 		"""
 		self.song().jump_to_next_cue()    
 	
 	def jump_to_prev_cue():
 		"""
 			Jumps to the left, if possible. 
+			
 		"""
 		self.song().jump_to_prev_cue()
 

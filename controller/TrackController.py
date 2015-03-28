@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+	Control everything that can happen inside a track
+"""
 from YaasController import *
 
 class TrackController (YaasController):
-	__module__ = __name__
-	__doc__ = "Control everything that can happen inside a track"
+	"""
+		Control everything that can happen inside a track
+	"""
 
 	def __init__(self, yaas):
 
@@ -32,8 +34,10 @@ class TrackController (YaasController):
 	def stop_or_restart_clip(self, params, value):
 		"""
 			If a clip is playing in the given track - stop it and remember it
+			
 			If this method is called again and no clip is playing - start it again
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 		self.log.verbose("(TrackController) stop_or_restart_clip called")
 		track_index = params[0]
@@ -45,7 +49,8 @@ class TrackController (YaasController):
 	def stop(self, params, value):
 		"""
 			Stop the clip in the given track
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 
 		self.log.verbose("(TrackController) stop called")
@@ -58,7 +63,8 @@ class TrackController (YaasController):
 	def stop_immediately(self, params, value):
 		"""
 			Stop the clip in the given track immediately
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 
 		self.log.verbose("(TrackController) stop_immediately called")
@@ -74,7 +80,8 @@ class TrackController (YaasController):
 	def arm(self, params, value):
 		"""
 			Arms the given track or switches it off
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 
 		self.log.verbose("(TrackController) arm called")
@@ -87,7 +94,8 @@ class TrackController (YaasController):
 	def get_focus(self, params, value):
 		"""
 			Requests the view focus for the given track
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 
 		self.log.verbose("(TrackController) get_focus called")
@@ -100,7 +108,8 @@ class TrackController (YaasController):
 	def toggle_mute_track(self, params, value):
 		"""
 			Toggles the muted state for the given track
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 
 		self.log.verbose("(TrackController) toggleMuteTrack called")
@@ -117,7 +126,8 @@ class TrackController (YaasController):
 	def toggle_solo_track(self, params, value):
 		"""
 			Toggles the soloed state for the given track
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 		self.log.verbose("(TrackController) toggle_solo_track called")
 		track_index = params[0]
@@ -131,8 +141,9 @@ class TrackController (YaasController):
 
 	def set_pan(self, params, value):
 		"""
-			Sets the pan for the given track	
-			0 -> track_index
+			Sets the pan for the given track
+				
+			@param params[0]: track_index
 		"""
 		self.log.verbose("(TrackController) set_pan called")
 		track_index = params[0]
@@ -143,8 +154,9 @@ class TrackController (YaasController):
 	def set_send(self, params, value):
 		"""
 			Sets the send value for the given track
-			0 -> track_index
-			1 -> send_index
+			
+			@param params[0]: track_index
+			@param params[1]: send_index
 		"""
 		self.log.verbose("(TrackController) set_send called")
 		track_index = params[0]
@@ -159,7 +171,8 @@ class TrackController (YaasController):
 	def set_volume(self, params, value):
 		"""
 			Sets the volume for the given track
-			0 -> track_index
+			
+			@param params[0]: track_index
 		"""
 		self.log.verbose("(TrackController) set_volume called")
 		track_index = params[0]

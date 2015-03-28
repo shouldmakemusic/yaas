@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,13 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+"""
 from YaasController import *
 
 looper_last_track_index = 0
 
 class LooperController(YaasController):
-    __module__ = __name__
-    __doc__ = 'LooperController'
+    """
+    """
     
     emulatedLoopClip = {}
       
@@ -78,7 +78,8 @@ class LooperController(YaasController):
             Records a clip in the current track.
             First press is record.
             Second is play
-            0 -> track_index
+            
+            @param params[0]: track_index
         """
         self.log.verbose("(LooperController) clipLooper called")
         track_index = params[0]

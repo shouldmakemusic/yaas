@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Control the behavior of the red frame
+"""
 from YaasController import *
 
 class RedFrameController (YaasController):
-    __module__ = __name__
-    __doc__ = "Control the behavior of the red frame"
+    """
+        Control the behavior of the red frame
+    """
     
     def __init__(self, yaas):
 
@@ -34,7 +36,8 @@ class RedFrameController (YaasController):
             Plays the xth clip in the red frame
             At the moment this works only for the track style red frame 
             Has to be tested when triing different styles for the red frame
-            0 -> clip_number                       
+            
+            @param params[0]: clip_number                       
         """
         self.log.verbose("(RedFrameController) play_clip called")
         clip_number = params[0]
@@ -51,7 +54,8 @@ class RedFrameController (YaasController):
     def move_track_view_vertical(self, params, value):
         """
             Moves the current position down or up
-            0 -> True ? down : up                
+            
+            @param params[0]: True ? down : up                
         """
         self.log.verbose("(RedFrameController) move_track_view_vertical called")
         down = params[0]
@@ -62,7 +66,8 @@ class RedFrameController (YaasController):
     def move_track_view_horizontal(self, params, value):
         """
             Moves the red frame left or right
-            0 -> True ? right : left                
+            
+            @param params[0]: True ? right : left                
         """
         self.log.verbose("(RedFrameController) move_track_view_horizontal called")
         right = params[0]

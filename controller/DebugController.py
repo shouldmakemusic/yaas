@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,12 +17,15 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Debug methods and tests
+"""
 from YaasController import *
 
 class DebugController (YaasController):
-    __module__ = __name__
-    __doc__ = "Debug methods and tests"
-    
+    """
+        Debug methods and tests
+    """
+        
     def __init__(self, yaas):
 
         YaasController.__init__(self, yaas)
