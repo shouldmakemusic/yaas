@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -17,14 +16,27 @@
 #
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
-"""
 
 from __future__ import with_statement
 import os
 
 class ValueContainer():
-    __module__ = __name__
-    __doc__ = 'Contains variables that will be loaded at startup'
+    """
+    Keeps hold of variables that can be restored at any point.
+    
+    It can store values and reload them from a local file.
+    
+    Store a variable from any helper/controller:
+    
+    C{self.yaas._value_container.set_value(chain_name + device.parameters[1].name, device.parameters[1].value)}
+    
+    Retrieve variable:
+    
+    C{if self.yaas._value_container.has_value(chain_name + device.parameters[1].name):}
+    
+    C{device.parameters[1].value = self.yaas._value_container.get_single_value(chain_name + device.parameters[1].name)}
+
+    """    
     
     def __init__(self, parent):
         self._parent = parent

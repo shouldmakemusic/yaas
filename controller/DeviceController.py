@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+	Control everything that can happen with or inside a device
+"""
 from YaasController import *
 
 class DeviceController (YaasController):
-	__module__ = __name__
-	__doc__ = "Control everything that can happen with or inside a device"
+	"""
+		Control everything that can happen with or inside a device
+	"""
 
 	_parameter_names_for_device_in_set = {}
 
@@ -34,8 +36,8 @@ class DeviceController (YaasController):
 	def navigate_device_focus(self, params, value):
 		"""
 			Selects next or previous device
-			0 -> track_index
-			1 -> next? True : False
+			@param params[0]: track_index
+			@param params[1]: next? True : False
 		"""
 		self.log.verbose("(DeviceController) navigate_device_focus called")
 		track_index = params[0]
@@ -68,8 +70,9 @@ class DeviceController (YaasController):
 	def toggle_device(self, params, value):
 		"""
 			Switches defined device on/off
-			0 -> track_index
-			1 -> device_index
+			
+			@param params[0]: track_index
+			@param params[1]: device_index
 		"""
 
 		track_index = params[0]
@@ -102,8 +105,8 @@ class DeviceController (YaasController):
 			exclusive means only one chain is not muted
 			inclusive means the selected chain gets switched
 
-			0 -> chain_index
-			1 -> True means Exclusive / False means Inclusive
+			@param params[0]: chain_index
+			@param params[1]: True means Exclusive / False means Inclusive
 		"""
 		self.log.verbose("(DeviceController) trigger_device_chain called")
 		chain_index = params[0]
@@ -145,7 +148,8 @@ class DeviceController (YaasController):
 			Use the current active hash device and if it is a rack
 			select the chain with the given index
 			Save the values from device knobs 1-4
-			0 -> chain_index
+			
+			@param params[0]: chain_index
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
 		chain_index = params[0]
@@ -208,8 +212,9 @@ class DeviceController (YaasController):
 		""" 
 			First call select first device that starts with '#'
 			If the name of the appointed device starts with '#' find a new '#'-device
-			Store this device - from now on the first call selects this one			 
-			0 -> track_index to start search from
+			Store this device - from now on the first call selects this one		
+				 
+			@param params[0]: track_index to start search from
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
 		track_index = params[0]

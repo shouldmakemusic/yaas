@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -23,6 +22,8 @@
 #
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
+"""
+	Main controller script
 """
 from __future__ import with_statement
 
