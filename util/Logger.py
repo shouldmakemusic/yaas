@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,6 +17,8 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Logs to osc receiver on port and to ableton live log
+"""
 import sys
 import time
 import os
@@ -32,8 +33,8 @@ from ..config.Configuration import Configuration
     
 class Logger:
     """
-    Logs to osc receiver on port [LightHouse]/port (default.cfg)
-    and to ableton live log
+        Logs to osc receiver on port [LightHouse]/port (default.cfg)
+        and to ableton live log
     """
     def __init__(self, yaas):
         

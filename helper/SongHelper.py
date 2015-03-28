@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,6 +17,8 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    SongHelper provides easy access to the song
+"""
 from __future__ import with_statement
 
 from YaasHelper import *
@@ -26,8 +27,9 @@ from TrackHelper import TrackHelper
 track_helper = {}
 
 class SongHelper(YaasHelper):
-    __module__ = __name__
-    __doc__ = 'SongHelper provides easy access to the song'
+    """
+        SongHelper provides easy access to the song
+    """
     
     def __init__(self, yaas):
         YaasHelper.__init__(self, yaas)

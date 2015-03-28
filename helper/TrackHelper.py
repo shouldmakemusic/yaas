@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    TrackHelper provides easy access to the track functions
+"""
 from YaasHelper import *
 
 class TrackHelper(YaasHelper):
-    __module__ = __name__
-    __doc__ = 'TrackHelper provides easy access to the track functions'
+    """
+        TrackHelper provides easy access to the track functions
+    """
     
     def __init__(self, yaas, track):
 

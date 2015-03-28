@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -17,12 +16,14 @@
 #
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
-
-This file contains the RangeUtil that converts numbers in ranges to the target ableton range
-
+"""
+    Converts numbers in ranges to the target ableton range
 """
 
 class RangeUtil:
+    """
+        Converts numbers in ranges to the target ableton range
+    """
     
     def __init__(self, source_min_value, source_max_value):
         

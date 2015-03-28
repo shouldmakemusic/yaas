@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,14 +17,17 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    LightHouseMidiReceiver handles incoming messages from LightHouse
+"""
 import Live
 """ Constants and configuration """
 from consts import *
 from util.RangeUtil import RangeUtil
 
 class LightHouseMidiReceiver:
-    __module__ = __name__
-    __doc__ = "LightHouseMidiReceiver handles incoming messages from LightHouse"
+    """
+        LightHouseMidiReceiver handles incoming messages from LightHouse
+    """
     
     def __init__(self, yaas, c_instance):
         self.log = yaas.log
