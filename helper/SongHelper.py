@@ -91,7 +91,9 @@ class SongHelper(YaasHelper):
 
     def get_current_time(self):
         """
-            Sets the current song time (in beats)
+            Get the current song time (in beats)
+            
+            @return: time in beats, eg. 0.0, 4.30163265306
         """
         return self.song().current_song_time
 

@@ -96,53 +96,71 @@ class SongController (YaasController):
 			self.song().is_playing = False
 		else:
 			self.song().current_song_time = 0
+		return True
 		
 	def continue_playing(self, params, value):
 	    """
 	    	Continues Playing
 	    """
-	    self.song().continue_playing()
+	    self.log.verbose("(SongController) continue_playing called")
+	    self.log.verbose("(SongController) current_song_time " + str(self.song_helper().get_current_time()))
+	    
+	    if self.song_helper().get_current_time() == 0.0:
+	    	self.song().start_playing()
+	    else:
+	    	self.song().continue_playing()
+	    return True
 
 	def play_selection(self, params, value):
 	    """
 	    	Plays the current selection
 	    """
+	    self.log.verbose("(SongController) play_selection called")
 	    self.song().play_selection()
 	
 	def jump_by(self, params, value):
 	    """
 	    	Jumps the playhead relative to it's current position by time..
 	    	
-	    	Stops playback
-	    	
 	    	@param params[0]: beats
 	    """
+	    self.log.verbose("(SongController) jump_by called")
 	    beats = params[0]
 	    self.song().jump_by(beats)
-	    
-	def scrub_by(self, params, value):
-	    """
-	    	Jumps the playhead relative to it's current position by time.  
-	    	
-	    	Does not stop playback
-	    	
-	    	@param params[0]: beats
-	    """
-	    beats = params[0]
-	    self.song().scrub_by(beats)
 		
-	def jump_to_next_cue():
+	def jump_to_next_cue(self, params, value):
 		"""
 			Jumps to the right, if possible.
-			 
 		"""
+		self.log.verbose("(SongController) jump_to_next_cue called")
 		self.song().jump_to_next_cue()    
 	
-	def jump_to_prev_cue():
+	def jump_to_prev_cue(self, params, value):
 		"""
-			Jumps to the left, if possible. 
-			
+			Jumps to the left, if possible. 			
 		"""
+		self.log.verbose("(SongController) jump_to_prev_cue called")
 		self.song().jump_to_prev_cue()
+
+	def set_cue(self, params, value):
+		"""
+			Sets a cue at the current position			
+		"""
+		self.log.verbose("(SongController) set_cue called")
+		self.song().set_or_delete_cue()
+
+	def toggle_loop(self, params, value):
+		"""
+			Toggles the loop switch
+			
+			@return: show light on controller
+		"""
+		self.log.verbose("(SongController) toggle_loop called")
+
+		if self.song().loop:
+			self.song().loop = False
+		else:
+			self.song().loop = True;
+		return track.arm
 
 		
