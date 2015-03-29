@@ -103,13 +103,14 @@ class YAAS(ControlSurface):
 	midi_note_definitions = {}
 	midi_note_off_definitions = {}
 	midi_cc_definitions = {}
-
+	
 	def __init__(self, c_instance):
 
 		self._YAAS__main_script = c_instance
 		self._YAAS__main_parent = self
 		self._c_instance = c_instance
-				
+		self.__c_instance = c_instance
+						
 		# Logger
 		self.log = Logger(self)
 		self.log.info(time.strftime("%d.%m.%Y %H:%M:%S", time.localtime()) + "--------------= YAAS log opened =--------------") # Writes message into Live's main log file. This is a ControlSurface method.
@@ -212,13 +213,23 @@ class YAAS(ControlSurface):
 		######################################################
 
 			
-	def send_midi(self, midi_event_bytes):
+	def send_midi(self, midi_bytes):
 		"""
 			Use this function to send MIDI events through Live to the _real_ MIDI devices 
 			that this script is assigned to.
 		"""
-		self.log.debug('(YAAS) send_midi')
-		self.__c_instance.send_midi(midi_event_bytes)
+		if midi_bytes is not None:
+			self.log.debug('(YAAS) send_midi' + str(midi_bytes))
+			self._YAAS__main_script.send_midi(midi_bytes)
+		
+	def refresh_state(self):
+		self.log.verbose('(YAAS) refresh')
+		
+	def update_display(self):
+		"""
+			This is called really really often
+		"""
+		#self.log.verbose('(YAAS) update_display')		
 		
 	def build_midi_map(self, midi_map_handle):
 		"""
@@ -276,11 +287,11 @@ class YAAS(ControlSurface):
 					# definitions send from lighthouse only for this session
 					if (midi_note in self.midi_note_off_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_note_off_definitions_temporarily, midi_note, value);
+						self.handle_parametered_function(self.midi_note_off_definitions_temporarily, midi_note, value, midi_bytes);
 					
 					# definitions from config_midi.py
 					elif (midi_note in self.midi_note_off_definitions):					
-						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value);
+						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value, midi_bytes);
 	
 					else:
 						self.log.verbose("For the control surface (note off): " + str(midi_bytes))
@@ -293,11 +304,11 @@ class YAAS(ControlSurface):
 					# definitions send from lighthouse only for this session
 					if (midi_note in self.midi_note_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_note_definitions_temporarily, midi_note, value);
+						self.handle_parametered_function(self.midi_note_definitions_temporarily, midi_note, value, midi_bytes);
 					
 					# definitions from config_midi.py
 					elif (midi_note in self.midi_note_definitions):					
-						self.handle_parametered_function(self.midi_note_definitions, midi_note, value);
+						self.handle_parametered_function(self.midi_note_definitions, midi_note, value, midi_bytes);
 	
 					else:
 						self.log.verbose("For the control surface: " + str(midi_bytes))
@@ -309,10 +320,10 @@ class YAAS(ControlSurface):
 					
 					if (midi_note in self.midi_cc_definitions_temporarily):	
 						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_cc_definitions_temporarily, midi_note, value);
+						self.handle_parametered_function(self.midi_cc_definitions_temporarily, midi_note, value, midi_bytes);
 
 					elif (midi_note in self.midi_cc_definitions):					
-						self.handle_parametered_function(self.midi_cc_definitions, midi_note, value);
+						self.handle_parametered_function(self.midi_cc_definitions, midi_note, value, midi_bytes);
 					
 					else:
 						self.log.debug("CC for the control surface: " + str(midi_bytes))
@@ -338,7 +349,7 @@ class YAAS(ControlSurface):
 			self.log.error("Could not execute midi " + str(midi_bytes))
 			self.log.error("Because of " + str(err))
 		
-	def handle_parametered_function(self, definitions, button, value):
+	def handle_parametered_function(self, definitions, button, value, midi_bytes):
 		
 		function_and_param = definitions[button]
 		name = function_and_param[0]
@@ -355,6 +366,11 @@ class YAAS(ControlSurface):
 				self.log.debug("(YAAS) Calling " + name + "." + method)
 				show_light = getattr(controller, method)(param, value)
 				self.log.verbose("(YAAS) Lights " + str(show_light))
+				if show_light is not None:
+					if show_light is False:
+						midi_bytes = list(midi_bytes)
+						midi_bytes[2] = 0
+					self.send_midi(tuple(midi_bytes))
 	
 			if not found:
 				self.log.error("(YAAS) Could not find controller for " + name + "." + method)

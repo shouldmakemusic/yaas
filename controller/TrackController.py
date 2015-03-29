@@ -141,10 +141,10 @@ class TrackController (YaasController):
 		track = self.track_helper(track_index).get_track()
 		if track.solo:
 			track.solo = 0
-			return True
+			return False
 		else:
 			track.solo = 1
-			return False
+			return True
 
 	def set_pan(self, params, value):
 		"""
