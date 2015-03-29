@@ -20,6 +20,7 @@
     Base class for controllers
 """
 import Live
+from ..util.RangeUtil import RangeUtil
 
 CURRENT = -1
 
@@ -31,6 +32,8 @@ class YaasController:
     def __init__(self, yaas):
         self.yaas = yaas
         self.log = yaas.log
+        
+        self.range_util = RangeUtil(0, 127)
         
     def application(self):
         """

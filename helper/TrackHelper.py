@@ -164,21 +164,4 @@ class TrackHelper(YaasHelper):
             if self.last_played_clip is not None:
                 track.clip_slots[self.last_played_clip].fire()            
 
-    def get_normalized_value_from_target(self, target, value):
-        '''
-            Takes min and max from target and returns get_normalized_value
-            The target could be e.g. a DeviceParameter like send (has to have the properties .min and .max) 
-        '''
-        min = target.min
-        max = target.max    
-        return self.get_normalized_value(min, max, value)
-
-    def get_normalized_value(self, min, max, value):
-        '''
-            Returns a normalized value.
-            ((max + min) * value / 128) - min
-        '''
-        new_value = ((max + min) * value / 128.0) - min
-        #self.log.debug("new value " + str(new_value))    
-        return new_value
     

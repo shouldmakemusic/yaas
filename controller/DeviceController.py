@@ -258,7 +258,10 @@ class DeviceController (YaasController):
 				#self.log.debug("index " + str(index))
 				max = device.parameters[index].value + 1
 			#self.log.debug("max value " + str(max))
-				
-			value = self.get_normalized_value(min, max, value)	
-			parameter.value = value
+			
+			# TODO same fix as in trackconroller (use rangeutil)
+			#value = self.get_normalized_value(min, max, value)	
+			self.range_util.set_target_min_max(min, max)
+			new_value = self.range_util.get_target_value(value);		
+			parameter.value = new_value
 				

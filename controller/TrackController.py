@@ -29,7 +29,7 @@ class TrackController (YaasController):
 	def __init__(self, yaas):
 
 		YaasController.__init__(self, yaas)
-		self.log.debug("(TrackController) init")        
+		self.log.debug("(TrackController) init")
 
 	def stop_or_restart_clip(self, params, value):
 		"""
@@ -111,6 +111,8 @@ class TrackController (YaasController):
 			
 			@param params[0]: track_index
 		"""
+		if value == 0:
+			return
 
 		self.log.verbose("(TrackController) toggleMuteTrack called")
 		track_index = params[0]
@@ -129,6 +131,9 @@ class TrackController (YaasController):
 			
 			@param params[0]: track_index
 		"""
+		if value == 0:
+			return
+		
 		self.log.verbose("(TrackController) toggle_solo_track called")
 		track_index = params[0]
 		self.log.verbose("(TrackController) for track " + str(track_index))
@@ -136,20 +141,25 @@ class TrackController (YaasController):
 		track = self.track_helper(track_index).get_track()
 		if track.solo:
 			track.solo = 0
+			return True
 		else:
 			track.solo = 1
+			return False
 
 	def set_pan(self, params, value):
 		"""
 			Sets the pan for the given track
-				
+			
 			@param params[0]: track_index
 		"""
-		self.log.verbose("(TrackController) set_pan called")
+		self.log.verbose("(TrackController) set_pan called (" + str(value) + ")")
 		track_index = params[0]
 		self.log.verbose("(TrackController) for track " + str(track_index))
 
-		self.track_helper(track_index).get_track().value = value
+		track_helper = self.track_helper(track_index)
+		track = track_helper.get_track()
+		new_value = self.range_util.get_value(track.mixer_device.panning, value);
+		track.mixer_device.panning.value = new_value
 		
 	def set_send(self, params, value):
 		"""
@@ -163,8 +173,8 @@ class TrackController (YaasController):
 		send_index = params[1]
 		self.log.verbose("(TrackController) for track " + str(track_index) + " and send " + str(send_index))
 		
-		track_helper = self.song_helper().get_track(track_index)		
-		new_value = track_helper.get_normalized_value_from_target(track_helper.get_track().mixer_device.sends[send_id], value)		
+		track_helper = self.song_helper().get_track(track_index)
+		new_value = self.range_util.get_value(track_helper.get_track().mixer_device.sends[send_id], value);		
 		#self.log.verbose("set send " + str(send_index) + " for track " + str(track_index) + " to value " + str(new_value))
 		track_helper.set_send_value(send_index, new_value)
 		

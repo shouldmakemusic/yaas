@@ -163,18 +163,18 @@ class YAAS(ControlSurface):
 		
 	def connect_script_instances(self, instanciated_scripts):
 		"""
-		Called by the Application as soon as all scripts are initialized.
-		You can connect yourself to other running scripts here, as we do it
-		connect the extension modules
+			Called by the Application as soon as all scripts are initialized.
+			You can connect yourself to other running scripts here, as we do it
+			connect the extension modules
 		"""
 		self.log.debug('(YAAS) connect_script_instances')
 		return
 
 	def update_display(self):
 		"""
-		This function is run every 100ms, so we use it to initiate our Song.current_song_time
-		listener to allow us to process incoming OSC commands as quickly as possible under
-		the current listener scheme.
+			This function is run every 100ms, so we use it to initiate our Song.current_song_time
+			listener to allow us to process incoming OSC commands as quickly as possible under
+			the current listener scheme.
 		"""
 		# Enable LiveOSC functions
 		self._LIVEOSC.update_display()
@@ -214,14 +214,19 @@ class YAAS(ControlSurface):
 			
 	def send_midi(self, midi_event_bytes):
 		"""
-		Use this function to send MIDI events through Live to the _real_ MIDI devices 
-		that this script is assigned to.
+			Use this function to send MIDI events through Live to the _real_ MIDI devices 
+			that this script is assigned to.
 		"""
 		self.log.debug('(YAAS) send_midi')
-		pass
+		self.__c_instance.send_midi(midi_event_bytes)
 		
 	def build_midi_map(self, midi_map_handle):
-
+		"""
+			New MIDI mappings can only be set when the scripts 'build_midi_map' function
+			is invoked by our C instance sibling. Its either invoked when we have requested it
+			(see 'request_rebuild_midi_map') or when due to a change in Lives internal state,
+			a rebuild is needed.
+		"""
 		self.log.debug("build_midi_map() called")
 		ControlSurface.build_midi_map(self, midi_map_handle)
 		self._lighthouse_receiver.build_midi_map(midi_map_handle)
@@ -343,11 +348,13 @@ class YAAS(ControlSurface):
 		found = False
 		try:
 			controller = self.get_controller(name)
+			#self.log.verbose(str(controller))
 
 			if (hasattr(controller, method)):
 				found = True
 				self.log.debug("(YAAS) Calling " + name + "." + method)
-				getattr(controller, method)(param, value)
+				show_light = getattr(controller, method)(param, value)
+				self.log.verbose("(YAAS) Lights " + str(show_light))
 	
 			if not found:
 				self.log.error("(YAAS) Could not find controller for " + name + "." + method)
@@ -373,7 +380,7 @@ class YAAS(ControlSurface):
 			try:
 				controller = globals()[name](self)
 			except Exception, err:
-				self.log.verbose("(YAAS) get_controller problem: " + str(err))
+				self.log.error("(YAAS) get_controller problem: " + str(err))
 		if controller is not None:
 			self.log.log_object_attributes(controller)
 			self.controller_dict[name] = controller
