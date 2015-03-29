@@ -99,6 +99,15 @@ class LightHouseOSCReceiver:
                 self.log.debug('end receiving')
                 self.log.verbose('midi from lighthouse: ' + str(self.midi_note_definitions_temporarily))
 
+                follow_up_events = {}
+                for k, v in self.midi_note_definitions_temporarily.iteritems():
+                    if len(v) == 4:
+                        key = v[3][0]
+                        if key is not None:
+                            follow_up_events[key] = k
+                self.yaas.follow_up_events = follow_up_events
+                self.log.verbose("Found follow up events " + str(follow_up_events))
+                
                 for k, v in self.midi_note_definitions_temporarily.iteritems():
                     self.yaas.midi_note_definitions[k] = v  
                 for k, v in self.midi_cc_definitions_temporarily.iteritems():
@@ -108,23 +117,27 @@ class LightHouseOSCReceiver:
                 for k, v in self.midi_note_off_definitions_temporarily.iteritems():
                     self.yaas.midi_note_off_definitions[k] = v  
                 
-        if len(msg) == 9:
+        if len(msg) == 9 or len(msg) == 10:
             #self.log.debug('entry: ' + str(msg[2]))
             value1 = self.get_value(msg[6])
             value2 = self.get_value(msg[7])
             value3 = self.get_value(msg[8])
+            follow_up = None
+            if len(msg) == 10:
+                self.log.verbose("set follow up")
+                follow_up = self.get_value(msg[9])
             
             if msg[2] == 'Midi Note' or msg[2] == 'Midi Note On':
-                self.midi_note_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.midi_note_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
                 
             elif msg[2] == 'Midi Note Off':
-                self.midi_note_off_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.midi_note_off_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
 
             elif msg[2] == 'Midi CC':
-                self.midi_cc_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.midi_cc_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
 
             elif msg[2] == 'Midi Note LightHouse':
-                self.midi_note_definitions_for_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.midi_note_definitions_for_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
 
     
     def get_value(self, value):
