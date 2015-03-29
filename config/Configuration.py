@@ -193,7 +193,7 @@ class Configuration:
         
         for k, v in definitions.iteritems():
             params = definitions[k][2]
-            self.log.verbose('(Configuration) ' + str(params))
+            #self.log.verbose('(Configuration) ' + str(params))
             for i in range(len(params)):
                 if params[i] == 'CURRENT':
                     params[i] = CURRENT

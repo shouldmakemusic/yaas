@@ -107,15 +107,6 @@ class TrackHelper(YaasHelper):
         if value < min:
             value = min
         self._track.mixer_device.sends[index].value = value
-        
-    def arm(self):
-        """
-            Arms the track this track_helper represents
-        """
-        if self._track.arm == True:
-            self._track.arm = False
-        else:
-            self._track.arm = True;
             
     def fire(self, clip_number):
     	"""

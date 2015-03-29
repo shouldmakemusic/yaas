@@ -77,11 +77,12 @@ class TrackController (YaasController):
 			clip.muted = True
 			clip.muted = False
 		
-	def arm(self, params, value):
+	def toggle_arm(self, params, value):
 		"""
 			Arms the given track or switches it off
 			
 			@param params[0]: track_index
+			@return: show light on controller
 		"""
 
 		self.log.verbose("(TrackController) arm called")
@@ -89,7 +90,12 @@ class TrackController (YaasController):
 		self.log.verbose("(TrackController) for track " + str(track_index))
 
 		track_helper = self.track_helper(track_index)
-		track_helper.arm()
+		track = track_helper.get_track()
+		if track.arm:
+			track.arm = False
+		else:
+			track.arm = True;
+		return track.arm
 
 	def get_focus(self, params, value):
 		"""
@@ -110,6 +116,7 @@ class TrackController (YaasController):
 			Toggles the muted state for the given track
 			
 			@param params[0]: track_index
+			@return: show light on controller
 		"""
 		if value == 0:
 			return
@@ -119,17 +126,19 @@ class TrackController (YaasController):
 		self.log.verbose("(TrackController) for track " + str(track_index))
 		
 		track = self.track_helper(track_index).get_track()
-		muted = track.mute
-		if muted:
+		if track.mute:
 			track.mute = 0
+			return False
 		else:
 			track.mute = 1
+			return True
 
 	def toggle_solo_track(self, params, value):
 		"""
 			Toggles the soloed state for the given track
 			
 			@param params[0]: track_index
+			@return: show light on controller
 		"""
 		if value == 0:
 			return

@@ -103,6 +103,10 @@ class YAAS(ControlSurface):
 	midi_note_definitions = {}
 	midi_note_off_definitions = {}
 	midi_cc_definitions = {}
+	follow_up_events = {}
+	
+	oscReceiver = 0
+	last_midi_note = None
 	
 	def __init__(self, c_instance):
 
@@ -223,13 +227,7 @@ class YAAS(ControlSurface):
 			self._YAAS__main_script.send_midi(midi_bytes)
 		
 	def refresh_state(self):
-		self.log.verbose('(YAAS) refresh')
-		
-	def update_display(self):
-		"""
-			This is called really really often
-		"""
-		#self.log.verbose('(YAAS) update_display')		
+		self.log.verbose('(YAAS) refresh')	
 		
 	def build_midi_map(self, midi_map_handle):
 		"""
@@ -239,39 +237,18 @@ class YAAS(ControlSurface):
 			a rebuild is needed.
 		"""
 		self.log.debug("build_midi_map() called")
-		ControlSurface.build_midi_map(self, midi_map_handle)
-		self._lighthouse_receiver.build_midi_map(midi_map_handle)
-						
-		# midi_note_definitions from lighthouse
-		for k, v in self.midi_note_definitions_temporarily.iteritems():
-			self.log.verbose('registered midi note (lighthouse) ' + str(k))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
-		for k, v in self.midi_note_off_definitions_temporarily.iteritems():
-			self.log.verbose('registered midi note off (lighthouse) ' + str(k))
-			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
-		# midi_note_definitions
-		for k, v in self.midi_note_definitions.iteritems():
-			if not self.midi_note_definitions_temporarily.has_key(k):
-				self.log.verbose('registered midi note ' + str(k))
-				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
-		for k, v in self.midi_note_off_definitions.iteritems():
-			if not self.midi_note_off_definitions_temporarily.has_key(k):
-				self.log.verbose('registered midi note off ' + str(k))
-				Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, k)
-			
-		# midi_cc_definitions from lighthouse
-		for k, v in self.midi_cc_definitions_temporarily.iteritems():
-			self.log.verbose('registered midi cc (lighthouse) ' + str(k))
-			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
-		# midi_cc_definitions
-		for k, v in self.midi_cc_definitions.iteritems():
-			if not self.midi_cc_definitions_temporarily.has_key(k):
-				self.log.verbose('registered midi cc ' + str(k))
-				Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, k)
-			
+		for i in range(127):
+			Live.MidiMap.forward_midi_note(self.script_handle(), midi_map_handle, CHANNEL, i)
+			Live.MidiMap.forward_midi_cc(self.script_handle(), midi_map_handle, CHANNEL, i)
+		for i in range(16):
+			try:
+				Live.MidiMap.forward_midi_pitchbend(self.script_handle(), midi_map_handle, i)
+			except Exception, err:
+				self.log.error("channel " + str(i) + "could not be initialized")
+	
 	def receive_midi(self, midi_bytes):
 
-		self.log.verbose(str(midi_bytes))
+		self.log.verbose("(Yaas) received midi: " + str(midi_bytes))
 		try:
 			assert (midi_bytes != None)
 			assert isinstance(midi_bytes, tuple)
@@ -282,7 +259,7 @@ class YAAS(ControlSurface):
 				midi_note = midi_bytes[1]
 				value = midi_bytes[2]
 	
-				if (message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED):
+				if message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED:
 					
 					# definitions send from lighthouse only for this session
 					if (midi_note in self.midi_note_off_definitions_temporarily):	
@@ -297,9 +274,10 @@ class YAAS(ControlSurface):
 						self.log.verbose("For the control surface (note off): " + str(midi_bytes))
 						ControlSurface.receive_midi(self, midi_bytes)
 	
-				elif (message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED):
+				elif message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED:
 					
 					self.log.debug("Received Midi Note: " + str(midi_note))
+					self.last_midi_note = midi_note
 					
 					# definitions send from lighthouse only for this session
 					if (midi_note in self.midi_note_definitions_temporarily):	
@@ -314,7 +292,7 @@ class YAAS(ControlSurface):
 						self.log.verbose("For the control surface: " + str(midi_bytes))
 						ControlSurface.receive_midi(self, midi_bytes)
 						
-				elif (message_type == MESSAGE_TYPE_MIDI_CC):
+				elif message_type == MESSAGE_TYPE_MIDI_CC:
 					
 					self.log.verbose("Received Midi CC: " + str(midi_note))
 					
@@ -329,12 +307,17 @@ class YAAS(ControlSurface):
 						self.log.debug("CC for the control surface: " + str(midi_bytes))
 						ControlSurface.receive_midi(self, midi_bytes)				
 				
-				elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED):
-					
+				elif message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_PRESSED:					
 					self._lighthouse_receiver.receive_midi(midi_bytes)
-				elif (message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED):
 					
+				elif message_type == MESSAGE_TYPE_LIGHTHOUSE_MIDI_NOTE_RELEASED:					
 					self._lighthouse_receiver.receive_midi(midi_bytes)
+					
+				elif message_type in self.follow_up_events.keys():
+					midi_note = self.follow_up_events[message_type]
+					self.log.verbose("Received follow up event for " + str(midi_note))
+					self.handle_parametered_function(self.midi_note_definitions, midi_note, value, midi_bytes);
+					
 				else:
 					self.log.debug("Midi for the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)
@@ -460,9 +443,19 @@ class YAAS(ControlSurface):
 				self.log.verbose("(Yaas) scene_offset: " + str(session._scene_offset))
 		
 	def init_midi_config(self):
-		self.midi_note_definitions = self.config.get_midi_note_definitions()
+		
+		self.midi_note_definitions = self.config.get_midi_note_definitions()		
+		self.follow_up_events = {}
+		for k, v in self.midi_note_definitions.iteritems():
+			if len(v) == 4:
+				#self.log.verbose("(Yaas) found follow up note " + str(v[3]))
+				key = v[3][0]
+				self.follow_up_events[key] = k
+		self.log.verbose("(Yaas) follow up events: " + str(self.follow_up_events))
+			
 		self.midi_note_off_definitions = self.config.get_midi_note_off_definitions()
 		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
+		
 		self.midi_note_definitions_temporarily = {}
 		self.midi_note_off_definitions_temporarily = {}
 		self.midi_cc_definitions_temporarily = {}
