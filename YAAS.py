@@ -97,9 +97,6 @@ class YAAS(ControlSurface):
 	__doc__ = " yet another ableton controller script "
 	
 	midi_note_definitions_for_lighthouse = {}
-	midi_note_definitions_temporarily = {}  
-	midi_note_off_definitions_temporarily = {} 
-	midi_cc_definitions_temporarily = {} 
 	midi_note_definitions = {}
 	midi_note_off_definitions = {}
 	midi_cc_definitions = {}
@@ -261,13 +258,8 @@ class YAAS(ControlSurface):
 	
 				if message_type == MESSAGE_TYPE_MIDI_NOTE_RELEASED:
 					
-					# definitions send from lighthouse only for this session
-					if (midi_note in self.midi_note_off_definitions_temporarily):	
-						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_note_off_definitions_temporarily, midi_note, value, midi_bytes);
-					
 					# definitions from config_midi.py
-					elif (midi_note in self.midi_note_off_definitions):					
+					if (midi_note in self.midi_note_off_definitions):					
 						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value, midi_bytes);
 	
 					else:
@@ -279,13 +271,7 @@ class YAAS(ControlSurface):
 					self.log.debug("Received Midi Note: " + str(midi_note))
 					self.last_midi_note = midi_note
 					
-					# definitions send from lighthouse only for this session
-					if (midi_note in self.midi_note_definitions_temporarily):	
-						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_note_definitions_temporarily, midi_note, value, midi_bytes);
-					
-					# definitions from config_midi.py
-					elif (midi_note in self.midi_note_definitions):					
+					if (midi_note in self.midi_note_definitions):					
 						self.handle_parametered_function(self.midi_note_definitions, midi_note, value, midi_bytes);
 	
 					else:
@@ -296,11 +282,7 @@ class YAAS(ControlSurface):
 					
 					self.log.verbose("Received Midi CC: " + str(midi_note))
 					
-					if (midi_note in self.midi_cc_definitions_temporarily):	
-						self.log.debug('Found it in lighthouse definitions')				
-						self.handle_parametered_function(self.midi_cc_definitions_temporarily, midi_note, value, midi_bytes);
-
-					elif (midi_note in self.midi_cc_definitions):					
+					if (midi_note in self.midi_cc_definitions):					
 						self.handle_parametered_function(self.midi_cc_definitions, midi_note, value, midi_bytes);
 					
 					else:
@@ -455,10 +437,6 @@ class YAAS(ControlSurface):
 			
 		self.midi_note_off_definitions = self.config.get_midi_note_off_definitions()
 		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
-		
-		self.midi_note_definitions_temporarily = {}
-		self.midi_note_off_definitions_temporarily = {}
-		self.midi_cc_definitions_temporarily = {}
 		
 # Connections to ligthhouse	
 	def send_available_methods_to_lighthouse(self):

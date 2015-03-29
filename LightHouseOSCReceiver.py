@@ -99,11 +99,14 @@ class LightHouseOSCReceiver:
                 self.log.debug('end receiving')
                 self.log.verbose('midi from lighthouse: ' + str(self.midi_note_definitions_temporarily))
 
-                self.yaas.midi_note_definitions_temporarily = self.midi_note_definitions_temporarily   
-                self.yaas.midi_cc_definitions_temporarily = self.midi_cc_definitions_temporarily
-                self.yaas.midi_note_definitions_for_lighthouse = self.midi_note_definitions_for_lighthouse
-                self.yaas.midi_note_off_definitions_temporarily = self.midi_note_off_definitions_temporarily
-                self.yaas.request_rebuild_midi_map()
+                for k, v in self.midi_note_definitions_temporarily.iteritems():
+                    self.yaas.midi_note_definitions[k] = v  
+                for k, v in self.midi_cc_definitions_temporarily.iteritems():
+                    self.yaas.midi_cc_definitions[k] = v  
+                for k, v in self.midi_note_definitions_for_lighthouse.iteritems():
+                    self.yaas.midi_note_definitions_for_lighthouse[k] = v  
+                for k, v in self.midi_note_off_definitions_temporarily.iteritems():
+                    self.yaas.midi_note_off_definitions[k] = v  
                 
         if len(msg) == 9:
             #self.log.debug('entry: ' + str(msg[2]))
