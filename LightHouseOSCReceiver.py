@@ -142,7 +142,7 @@ class LightHouseOSCReceiver:
     
     def get_value(self, value):
         
-        if value.isdigit():
+        if value.isdigit() or (value.startswith('-') and value[1:].isdigit()):
             return int(value)
         elif value == 'CURRENT':
             return CURRENT
@@ -150,8 +150,7 @@ class LightHouseOSCReceiver:
             return PREV
         elif value == 'NEXT':
             return NEXT
-        return value
-            
+        return value        
 
 
     def sensorX(self, msg):
