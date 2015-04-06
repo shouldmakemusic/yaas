@@ -44,10 +44,12 @@ class TrackHelper(YaasHelper):
             self._track = track
             
         # get the index of this track
-        all_tracks = self.song_helper().get_all_tracks()
+        all_tracks = self.song_helper().get_all_tracks_including_return_and_master()
+        self.log.verbose('looking for track ' + self._track.name)
         for i in range(len(all_tracks)):
             if all_tracks[i].name == self._track.name:
                 self._track_index = i
+                return
     
     def get_track(self):
         return self._track

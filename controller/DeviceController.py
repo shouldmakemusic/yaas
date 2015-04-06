@@ -20,6 +20,7 @@
 	Control everything that can happen with or inside a device
 """
 from YaasController import *
+from ..consts import CURRENT
 
 class DeviceController (YaasController):
 	"""
@@ -215,21 +216,34 @@ class DeviceController (YaasController):
 			If the name of the appointed device starts with '#' find a new '#'-device
 			Store this device - from now on the first call selects this one		
 				 
-			@param params[0]: track_index to start search from
+			@param params[0]: track_index to start search from (optional)
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
-		track_index = params[0]
+		if len(params) == 0:
+			track_index = 0
+		else: 
+			track_index = params[0]
+			if track_index == '':
+				track_index = 0
 		self.log.verbose("(DeviceController) for track " + str(track_index))
-		
-		
+				
 		self.device_helper().select_current_then_select_next_hash_device(track_index)
 		
-	def handle_effect_slider(self, params, value):
-		
-		track_id = params[0]
-		parameter_id = params[1]
-		
+	def connect_to_rack_parameter(self, params, value):
+		"""
+			Use the current active hash device and connects to the given parameter
+			
+			0 -> enable/disable device
+			1-8 -> device params
+			9 -> chain selector if not mapped
+			
+			@param params[0]: parameter_id
+		"""
+		self.log.verbose("(DeviceController) connect_to_rack_parameter called")
+		parameter_id = params[0]
+				
 		device = self.device_helper().get_hash_device()
+		self.log.verbose("(DeviceController) for device " + device.name + ", parameter " + str(parameter_id))
 					
 		if device is not None:
 			

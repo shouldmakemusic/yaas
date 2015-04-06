@@ -422,7 +422,7 @@ class YAAS(ControlSurface):
 		global session
 		
 		selected_track = self.song().view.selected_track #this is how to get the currently selected track, using the Live API
-		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
+		all_tracks = self._song_helper.get_all_tracks_including_return_and_master() #this is from the MixerComponent's _next_track_value method
 		track_index = list(all_tracks).index(selected_track) #and so is this
 		self.log.debug("(Yaas) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 

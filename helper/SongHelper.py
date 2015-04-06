@@ -50,7 +50,9 @@ class SongHelper(YaasHelper):
         if (track_index == CURRENT):
             return self.get_selected_track()
 
-        track = self.song().tracks[int(track_index)]
+        all_tracks = self.song_helper().get_all_tracks_including_return_and_master()
+        track = all_tracks[int(track_index)]
+        self.log.verbose('(SongHelper) found track ' + track.name)
         return self.getOrCreateTrackHelper(track)
     
     def get_track_for_name(self, name):
