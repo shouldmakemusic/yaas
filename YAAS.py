@@ -227,14 +227,14 @@ class YAAS(ControlSurface):
 			that this script is assigned to.
 		"""
 		if midi_bytes is not None:
-			self.log.debug('(Yaas) send_midi' + str(midi_bytes))
+			self.log.verbose('(Yaas) send_midi' + str(midi_bytes))
 			self._YAAS__main_script.send_midi(midi_bytes)
 		
 	def refresh_state(self):
 		#self.log.verbose('(Yaas) refresh')
 		# this will be called about every three seconds
 		self._refresh_state_next_time = 30
-		self.update_play_button_led()
+		#self.update_play_button_led()
 
 		
 	def build_midi_map(self, midi_map_handle):
@@ -407,8 +407,8 @@ class YAAS(ControlSurface):
 	
 	def _setup_light_control(self):
 		self.song().add_is_playing_listener(self.update_play_button_led)
+		self.song().add_record_mode_listener(self.update_record_button_led)
 		"""
-		self.song().add_record_mode_listener(self.__update_record_button_led)
 		self.song().add_loop_listener(self.__update_loop_button_led)
 		self.song().add_punch_out_listener(self.__update_punch_out_button_led)
 		self.song().add_punch_in_listener(self.__update_punch_in_button_led)
@@ -539,26 +539,28 @@ class YAAS(ControlSurface):
 
 # Light control methods
 	def update_play_button_led(self):
-		self.log.verbose('(Yaas) update play buttton')
+		#self.log.verbose('(Yaas) update play buttton')
 		
 		if PLAY in self.light_definitions:
-			self.log.verbose('(Yaas) play ' + str(self.light_definitions[PLAY]))
+			#self.log.verbose('(Yaas) play ' + str(self.light_definitions[PLAY]))
 			if self.song().is_playing:
-				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], 127))
+				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], BUTTON_STATE_ON))
 			else:
-				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], 0))
+				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], BUTTON_STATE_OFF))
 		if STOP in self.light_definitions:
-			self.log.verbose('(Yaas) stop ' + str(self.light_definitions[STOP]))
+			#self.log.verbose('(Yaas) stop ' + str(self.light_definitions[STOP]))
 			if self.song().is_playing:
-				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], 0))
+				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], BUTTON_STATE_OFF))
 			else:
-				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], 127))
+				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], BUTTON_STATE_ON))
 			
-	def __update_record_button_led(self):
-		if self.song().record_mode:
-			self.send_midi((NOTE_ON_STATUS, SID_TRANSPORT_RECORD, BUTTON_STATE_ON))
-		else:
-			self.send_midi((NOTE_ON_STATUS, SID_TRANSPORT_RECORD, BUTTON_STATE_OFF))
+	def update_record_button_led(self):
+		if RECORD in self.light_definitions:
+			#self.log.verbose('(Yaas) play ' + str(self.light_definitions[PLAY]))
+			if self.song().record_mode:
+				self.send_midi((self.light_definitions[RECORD][0], self.light_definitions[RECORD][1], BUTTON_STATE_ON))
+			else:
+				self.send_midi((self.light_definitions[RECORD][0], self.light_definitions[RECORD][1], BUTTON_STATE_OFF))
 
 	def __update_follow_song_button_led(self):
 		if self.song().follow_song:
