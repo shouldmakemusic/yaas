@@ -148,8 +148,17 @@ class DeviceController (YaasController):
 	def set_chain_selector(self, params, value):
 		"""
 			Use the current active hash device and if it is a rack
-			select the chain with the given index
-			Save the values from device knobs 1-4
+			select the chain with the given chain selector value
+			
+			You can also define a button that sets the chain selector to a given value.
+
+			One button is wired to a certain chain (or multiple if you add them at the 
+			given chain selector position)
+
+			When switching between chain positions for each position the values of 
+			parameters 1-4 are saved (persistantly, that means for every device with 
+			this exact name and in a file, so it will be restored when reopening the 
+			set and selecting a chain with this method)
 			
 			@param params[0]: chain_index
 		"""
