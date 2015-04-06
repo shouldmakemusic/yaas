@@ -312,7 +312,7 @@ class YAAS(ControlSurface):
 					self.handle_parametered_function(self.midi_note_definitions, midi_note, value, midi_bytes);
 					
 				else:
-					self.log.debug("Midi for the control surface: " + str(midi_bytes))
+					#self.log.debug("Midi for the control surface: " + str(midi_bytes))
 					ControlSurface.receive_midi(self, midi_bytes)
 	
 			else:
