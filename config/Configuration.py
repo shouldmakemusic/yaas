@@ -220,5 +220,7 @@ class Configuration:
                     params[i] = False
                 elif isinstance(params[i], ( int, long ) ):
                     params[i] = int(params[i])
+                elif params[i].isdigit() or (params[i].startswith('-') and params[i][1:].isdigit()):
+                    params[i] = int(params[i])
         return definitions
         
