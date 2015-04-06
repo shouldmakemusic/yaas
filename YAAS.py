@@ -131,7 +131,7 @@ class YAAS(ControlSurface):
 		
 		try:
 			osc_receive = self.config.get_osc_receive()
-			self.log.verbose('(YAAS) osc_receive: ' + str(osc_receive))
+			self.log.verbose('(Yaas) osc_receive: ' + str(osc_receive))
 			if osc_receive:
 				incoming_port = self.config.get_yaas_port()
 			else:
@@ -172,7 +172,7 @@ class YAAS(ControlSurface):
 			You can connect yourself to other running scripts here, as we do it
 			connect the extension modules
 		"""
-		self.log.debug('(YAAS) connect_script_instances')
+		self.log.debug('(Yaas) connect_script_instances')
 		return
 
 	def update_display(self):
@@ -227,14 +227,14 @@ class YAAS(ControlSurface):
 			that this script is assigned to.
 		"""
 		if midi_bytes is not None:
-			self.log.debug('(YAAS) send_midi' + str(midi_bytes))
+			self.log.debug('(Yaas) send_midi' + str(midi_bytes))
 			self._YAAS__main_script.send_midi(midi_bytes)
 		
 	def refresh_state(self):
-		#self.log.verbose('(YAAS) refresh')
+		#self.log.verbose('(Yaas) refresh')
 		# this will be called about every three seconds
 		self._refresh_state_next_time = 30
-		self.__update_play_button_led()
+		self.update_play_button_led()
 
 		
 	def build_midi_map(self, midi_map_handle):
@@ -321,7 +321,7 @@ class YAAS(ControlSurface):
 				ControlSurface.receive_midi(self, midi_bytes)
 				
 		except Exception, err:
-			self.log.error("(YAAS) receive_midi")
+			self.log.error("(Yaas) receive_midi")
 			self.log.error("Could not execute midi " + str(midi_bytes))
 			self.log.error("Because of " + str(err))
 		
@@ -339,9 +339,9 @@ class YAAS(ControlSurface):
 
 			if (hasattr(controller, method)):
 				found = True
-				self.log.debug("(YAAS) Calling " + name + "." + method)
+				self.log.debug("(Yaas) Calling " + name + "." + method)
 				show_light = getattr(controller, method)(param, value)
-				self.log.verbose("(YAAS) Lights " + str(show_light))
+				self.log.verbose("(Yaas) Lights " + str(show_light))
 				if show_light is not None:
 					if show_light is False:
 						midi_bytes = list(midi_bytes)
@@ -349,11 +349,11 @@ class YAAS(ControlSurface):
 					self.send_midi(tuple(midi_bytes))
 	
 			if not found:
-				self.log.error("(YAAS) Could not find controller for " + name + "." + method)
+				self.log.error("(Yaas) Could not find controller for " + name + "." + method)
 				
 		except Exception, err:
-			self.log.error("(YAAS) Error executing " + name + "." + method)
-			self.log.error("(YAAS) Message: " + str(err))	
+			self.log.error("(Yaas) Error executing " + name + "." + method)
+			self.log.error("(Yaas) Message: " + str(err))	
 			traceback.print_exc(file=sys.stderr)
 	
 	controller_dict = {}	
@@ -372,7 +372,7 @@ class YAAS(ControlSurface):
 			try:
 				controller = globals()[name](self)
 			except Exception, err:
-				self.log.error("(YAAS) get_controller problem: " + str(err))
+				self.log.error("(Yaas) get_controller problem: " + str(err))
 		if controller is not None:
 			self.log.log_object_attributes(controller)
 			self.controller_dict[name] = controller
@@ -406,7 +406,15 @@ class YAAS(ControlSurface):
 			session.set_mixer(mixer) #Bind the mixer to the session so that they move together
 	
 	def _setup_light_control(self):
-		self.song().add_is_playing_listener(self.__update_play_button_led)
+		self.song().add_is_playing_listener(self.update_play_button_led)
+		"""
+		self.song().add_record_mode_listener(self.__update_record_button_led)
+		self.song().add_loop_listener(self.__update_loop_button_led)
+		self.song().add_punch_out_listener(self.__update_punch_out_button_led)
+		self.song().add_punch_in_listener(self.__update_punch_in_button_led)
+		self.song().add_can_jump_to_prev_cue_listener(self.__update_prev_cue_button_led)
+		self.song().add_can_jump_to_next_cue_listener(self.__update_next_cue_button_led)
+		"""
 
 	def _on_selected_track_changed(self):
 
@@ -416,7 +424,7 @@ class YAAS(ControlSurface):
 		selected_track = self.song().view.selected_track #this is how to get the currently selected track, using the Live API
 		all_tracks = self._song_helper.get_all_tracks() #this is from the MixerComponent's _next_track_value method
 		track_index = list(all_tracks).index(selected_track) #and so is this
-		self.log.debug("(YAAS) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
+		self.log.debug("(Yaas) Track " + str(track_index) + " selected (Scene " + str(sceneindex) + " still active)")
 
 		if self.config.red_frame_visible():
 			mixer.channel_strip(0).set_track(selected_track)
@@ -430,7 +438,7 @@ class YAAS(ControlSurface):
 		selected_scene = self.song().view.selected_scene #this is how we get the currently selected scene, using the Live API
 		all_scenes = self.song().scenes #then get all of the scenes
 		sceneindex = list(all_scenes).index(selected_scene) #then identify where the selected scene sits in relation to the full list
-		self.log.debug("(YAAS) Scene " + str(sceneindex) + " selected")
+		self.log.debug("(Yaas) Scene " + str(sceneindex) + " selected")
 
 		if self.config.red_frame_visible():
 			if not self.config.red_frame_fixed_on_top():
@@ -448,6 +456,17 @@ class YAAS(ControlSurface):
 				key = v[3][0]
 				self.follow_up_events[key] = k
 		self.log.verbose("(Yaas) follow up events: " + str(self.follow_up_events))
+		
+		self.light_definitions = self.config.get_midi_light_definitions()
+		if self.light_definitions is not None:
+			for k, v in self.light_definitions.iteritems():
+				
+				midi_command = self.light_definitions[k][0]
+				if midi_command == 'Midi CC':
+					midi_command = 176
+				else:
+					midi_command = 144
+				self.light_definitions[k] = [midi_command, self.light_definitions[k][1]]
 			
 		self.midi_note_off_definitions = self.config.get_midi_note_off_definitions()
 		self.midi_cc_definitions = self.config.get_midi_cc_definitions()
@@ -457,7 +476,7 @@ class YAAS(ControlSurface):
 		"""
 			All controllers and their commands will send to lighthouse (OSC)			
 		"""
-		self.log.verbose("(YAAS) send_available_methods_to_lighthouse called")
+		self.log.verbose("(Yaas) send_available_methods_to_lighthouse called")
 		
 		self.oscServer.sendOSC('/yaas/commands/clear', 1)
 		
@@ -519,11 +538,60 @@ class YAAS(ControlSurface):
 		return False
 
 # Light control methods
-	def __update_play_button_led(self):
-		self.log.verbose('(Yaas) update play buttton)')
-		if self.song().is_playing:
-			self.send_midi((144, 94, 127))
-			self.send_midi((144, 93, 0))
+	def update_play_button_led(self):
+		self.log.verbose('(Yaas) update play buttton')
+		
+		if PLAY in self.light_definitions:
+			self.log.verbose('(Yaas) play ' + str(self.light_definitions[PLAY]))
+			if self.song().is_playing:
+				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], 127))
+			else:
+				self.send_midi((self.light_definitions[PLAY][0], self.light_definitions[PLAY][1], 0))
+		if STOP in self.light_definitions:
+			self.log.verbose('(Yaas) stop ' + str(self.light_definitions[STOP]))
+			if self.song().is_playing:
+				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], 0))
+			else:
+				self.send_midi((self.light_definitions[STOP][0], self.light_definitions[STOP][1], 127))
+			
+	def __update_record_button_led(self):
+		if self.song().record_mode:
+			self.send_midi((NOTE_ON_STATUS, SID_TRANSPORT_RECORD, BUTTON_STATE_ON))
 		else:
-			self.send_midi((144, 94, 0))
-			self.send_midi((144, 93, 127))
+			self.send_midi((NOTE_ON_STATUS, SID_TRANSPORT_RECORD, BUTTON_STATE_OFF))
+
+	def __update_follow_song_button_led(self):
+		if self.song().follow_song:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_PREV, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_PREV, BUTTON_STATE_OFF))
+
+	def __update_prev_cue_button_led(self):
+		if self.song().can_jump_to_prev_cue:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_PREV, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_PREV, BUTTON_STATE_OFF))
+
+	def __update_next_cue_button_led(self):
+		if self.song().can_jump_to_next_cue:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_NEXT, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_FROM_NEXT, BUTTON_STATE_OFF))
+
+	def __update_loop_button_led(self):
+		if self.song().loop:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_LOOP, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_LOOP, BUTTON_STATE_OFF))
+
+	def __update_punch_in_button_led(self):
+		if self.song().punch_in:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_PI, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_PI, BUTTON_STATE_OFF))
+
+	def __update_punch_out_button_led(self):
+		if self.song().punch_out:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_PO, BUTTON_STATE_ON))
+		else:
+			self.send_midi((NOTE_ON_STATUS, SID_MARKER_PO, BUTTON_STATE_OFF))

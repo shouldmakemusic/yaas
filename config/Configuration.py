@@ -28,6 +28,9 @@ from ..consts import DEFAULT_SHOW_RED_FRAME
 from ..consts import PREV
 from ..consts import NEXT
 from ..consts import CURRENT
+from ..consts import PLAY
+from ..consts import STOP
+from ..consts import RECORD
 
 # https://wiki.python.org/moin/ConfigParserExamples
 class Configuration:
@@ -133,6 +136,16 @@ class Configuration:
             return definitions
         except Exception, err:
             self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+
+    def get_midi_light_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            definitions = eval(config.get('Addons', 'controller_definitions'))
+            self.log.verbose('(Configuration) loaded midi light definitions ' + str(definitions))
+            return definitions
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg (light): " + str(err))
 
     def get_midi_cc_definitions(self):
         try:

@@ -128,6 +128,10 @@ class LightHouseOSCReceiver:
             midi_note = self.get_value(msg[4])
             self.log.verbose('Midi command ' + str(midi_command))
             self.log.verbose('Midi note ' + str(midi_note))
+            if midi_command == 'Midi CC':
+                midi_command = 176
+            else:
+                midi_command = 144
             self.light_definitions_temporarily[command] = [midi_command, midi_note]
 
         elif len(msg) == 9 or len(msg) == 10:
