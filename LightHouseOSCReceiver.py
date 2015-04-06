@@ -41,6 +41,7 @@ class LightHouseOSCReceiver:
     midi_cc_definitions_temporarily = {} 
     midi_note_definitions_for_lighthouse = {}
     midi_note_off_definitions_temporarily = {}
+    light_definitions_temporarily = {}
 
     def __init__(self, oscServer, logger):
         
@@ -95,6 +96,7 @@ class LightHouseOSCReceiver:
                 self.midi_note_definitions_temporarily = {}
                 self.midi_note_definitions_for_lighthouse = {}
                 self.midi_note_off_definitions_temporarily= {}
+                self.light_definitions_temporarily = {}
             if msg[2] == 'end':
                 self.log.debug('end receiving')
                 self.log.verbose('midi from lighthouse: ' + str(self.midi_note_definitions_temporarily))
@@ -115,9 +117,20 @@ class LightHouseOSCReceiver:
                 for k, v in self.midi_note_definitions_for_lighthouse.iteritems():
                     self.yaas.midi_note_definitions_for_lighthouse[k] = v  
                 for k, v in self.midi_note_off_definitions_temporarily.iteritems():
-                    self.yaas.midi_note_off_definitions[k] = v  
-                
-        if len(msg) == 9 or len(msg) == 10:
+                    self.yaas.midi_note_off_definitions[k] = v
+                for k, v in self.light_definitions_temporarily.iteritems():
+                    self.yaas.light_definitions[k] = v
+                    
+        elif len(msg) == 5:
+            self.log.verbose('(OCSReceiver) got ' + str(msg))
+            command = self.get_value(msg[2])
+            midi_command = self.get_value(msg[3])
+            midi_note = self.get_value(msg[4])
+            self.log.verbose('Midi command ' + str(midi_command))
+            self.log.verbose('Midi note ' + str(midi_note))
+            self.light_definitions_temporarily[command] = [midi_command, midi_note]
+
+        elif len(msg) == 9 or len(msg) == 10:
             #self.log.debug('entry: ' + str(msg[2]))
             value1 = self.get_value(msg[6])
             value2 = self.get_value(msg[7])
@@ -138,7 +151,8 @@ class LightHouseOSCReceiver:
 
             elif msg[2] == 'Midi Note LightHouse':
                 self.midi_note_definitions_for_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
-
+        else:
+            self.log.verbose('Unknown message received ' + str(msg))
     
     def get_value(self, value):
         

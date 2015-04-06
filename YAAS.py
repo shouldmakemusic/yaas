@@ -87,6 +87,7 @@ from _Framework.SessionComponent import SessionComponent # Class encompassing se
 session = None #Global session object - global so that we can manipulate the same session object from within any of our methods
 mixer = None #Global mixer object - global so that we can manipulate the same mixer object from within any of our methods
 track = None
+transport = None
 
 # these are for session and mixer handling
 sceneindex = None
@@ -101,6 +102,7 @@ class YAAS(ControlSurface):
 	midi_note_off_definitions = {}
 	midi_cc_definitions = {}
 	follow_up_events = {}
+	light_definitions = {}
 	
 	oscReceiver = 0
 	last_midi_note = None
@@ -152,6 +154,7 @@ class YAAS(ControlSurface):
 			
 			self._setup_mixer_control() # Setup the mixer object
 			self._setup_session_control()  # Setup the session object
+			self._setup_light_control()
 			
 			# Initialize the possible helpers
 			self._device_helper = DeviceHelper(self)			
@@ -161,7 +164,7 @@ class YAAS(ControlSurface):
 
 		# store and retrieve values
 		self._value_container = ValueContainer(self)
-		
+		self._refresh_state_next_time = 0
 		
 	def connect_script_instances(self, instanciated_scripts):
 		"""
@@ -212,6 +215,10 @@ class YAAS(ControlSurface):
 			
 		# END OSC LISTENER SETUP
 		######################################################
+		if self._refresh_state_next_time > 0:
+			self._refresh_state_next_time -= 1
+			if self._refresh_state_next_time == 0:
+				self.refresh_state()
 
 			
 	def send_midi(self, midi_bytes):
@@ -224,7 +231,11 @@ class YAAS(ControlSurface):
 			self._YAAS__main_script.send_midi(midi_bytes)
 		
 	def refresh_state(self):
-		self.log.verbose('(YAAS) refresh')	
+		#self.log.verbose('(YAAS) refresh')
+		# this will be called about every three seconds
+		self._refresh_state_next_time = 30
+		self.__update_play_button_led()
+
 		
 	def build_midi_map(self, midi_map_handle):
 		"""
@@ -393,6 +404,9 @@ class YAAS(ControlSurface):
 			sceneindex = 0;
 	
 			session.set_mixer(mixer) #Bind the mixer to the session so that they move together
+	
+	def _setup_light_control(self):
+		self.song().add_is_playing_listener(self.__update_play_button_led)
 
 	def _on_selected_track_changed(self):
 
@@ -504,3 +518,12 @@ class YAAS(ControlSurface):
 	def can_lock_to_devices(self):
 		return False
 
+# Light control methods
+	def __update_play_button_led(self):
+		self.log.verbose('(Yaas) update play buttton)')
+		if self.song().is_playing:
+			self.send_midi((144, 94, 127))
+			self.send_midi((144, 93, 0))
+		else:
+			self.send_midi((144, 94, 0))
+			self.send_midi((144, 93, 127))
