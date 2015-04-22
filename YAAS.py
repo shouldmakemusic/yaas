@@ -272,11 +272,7 @@ class YAAS(ControlSurface):
 					# definitions from config_midi.py
 					if (midi_note in self.midi_note_off_definitions):					
 						self.handle_parametered_function(self.midi_note_off_definitions, midi_note, value, midi_bytes);
-	
-					else:
-						self.log.verbose("For the control surface (note off): " + str(midi_bytes))
-						ControlSurface.receive_midi(self, midi_bytes)
-	
+		
 				elif message_type == MESSAGE_TYPE_MIDI_NOTE_PRESSED:
 					
 					self.log.debug("Received Midi Note: " + str(midi_note))
@@ -341,7 +337,7 @@ class YAAS(ControlSurface):
 				found = True
 				self.log.debug("(Yaas) Calling " + name + "." + method)
 				show_light = getattr(controller, method)(param, value)
-				self.log.verbose("(Yaas) Lights " + str(show_light))
+				#self.log.verbose("(Yaas) Lights " + str(show_light))
 				if show_light is not None:
 					if show_light is False:
 						midi_bytes = list(midi_bytes)

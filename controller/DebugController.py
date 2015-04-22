@@ -34,3 +34,17 @@ class DebugController (YaasController):
     def send_available_methods_to_lighthouse(self, params, value):
         
         self.yaas.send_available_methods_to_lighthouse()
+        
+    def show_parameters_for_device(self, params, value):
+        
+        track_index = params[0]
+        device_name = params[1]
+        
+        #self.log.verbose('Track ' + str(track_index))
+        #self.log.verbose('Device ' + str(device_name))
+        track_helper = self.song_helper().get_track(track_index)
+        device = track_helper.get_device(device_name)
+        #self.log.verbose('Device ' + str(device))
+        #self.log.verbose('DeviceHelper ' + str(self.device_helper()))
+        
+        self.device_helper().log_parameters_for_device(device)

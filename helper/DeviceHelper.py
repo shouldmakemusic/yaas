@@ -38,8 +38,9 @@ class DeviceHelper(YaasHelper):
     hash_device = None
 
     def __init__(self, yaas):
+        
         YaasHelper.__init__(self, yaas)
-        self.log.debug("(SongHelper) init")
+        self.log.debug("(DeviceHelper) init")
     
     
     def log_parameters_for_device(self, device):
@@ -48,9 +49,12 @@ class DeviceHelper(YaasHelper):
             
             @param device: device to debug
         """
-        for index in range(len(device.parameters)):
-            self.log.debug("Param " + str(index) + " = " + device.parameters[index].name)
-                
+        if device is not None:
+            self.log.verbose('(DeviceHelper) log parameters for ' + device.name)
+            for index in range(len(device.parameters)):
+                self.log.debug("Param " + str(index) + " = " + device.parameters[index].name)
+        else:
+            self.log.error('(DeviceHelper) no device given')
 
     def get_currently_selected_device(self, track_index):
         """
