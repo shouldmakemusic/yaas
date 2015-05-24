@@ -202,25 +202,34 @@ class Configuration:
         red_frame_height = self.get_yaas_config('red_frame_height')
         return int(red_frame_height)
         
-    def replace_constants(self, definitions):
+    def replace_constants(self, definitions):                
         
         for k, v in definitions.iteritems():
-            params = definitions[k][2]
-            #self.log.verbose('(Configuration) ' + str(params))
-            for i in range(len(params)):
-                if params[i] == 'CURRENT':
-                    params[i] = CURRENT
-                elif params[i] == 'PREV':
-                    params[i] = PREV
-                elif params[i] == 'NEXT':
-                    params[i] = NEXT
-                elif params[i] == 'True' or params[i] == 'true':
-                    params[i] = True
-                elif params[i] == 'False' or params[i] == 'false':
-                    params[i] = False
-                elif isinstance(params[i], ( int, long ) ):
-                    params[i] = int(params[i])
-                elif params[i].isdigit() or (params[i].startswith('-') and params[i][1:].isdigit()):
-                    params[i] = int(params[i])
+            
+            if isinstance(definitions[k][0], (list, tuple)):
+                self.log.verbose('(Configuration) found list ' + str(definitions[k][0]))
+                for i in range(len(definitions[k])):
+                    self.log.verbose('(Configuration) replacing ' + str(definitions[k][i]))                    
+                    self.replace_constants_intern(definitions[k][i][2])
+            else:
+                self.replace_constants_intern(definitions[k][2])
         return definitions
-        
+
+    def replace_constants_intern(self, entry):
+        params = entry
+        #self.log.verbose('(Configuration) ' + str(params))
+        for i in range(len(params)):
+            if params[i] == 'CURRENT':
+                params[i] = CURRENT
+            elif params[i] == 'PREV':
+                params[i] = PREV
+            elif params[i] == 'NEXT':
+                params[i] = NEXT
+            elif params[i] == 'True' or params[i] == 'true':
+                params[i] = True
+            elif params[i] == 'False' or params[i] == 'false':
+                params[i] = False
+            elif isinstance(params[i], ( int, long ) ):
+                params[i] = int(params[i])
+            elif params[i].isdigit() or (params[i].startswith('-') and params[i][1:].isdigit()):
+                params[i] = int(params[i])

@@ -325,6 +325,14 @@ class YAAS(ControlSurface):
 	def handle_parametered_function(self, definitions, button, value, midi_bytes):
 		
 		function_and_param = definitions[button]
+		if isinstance(function_and_param, list):
+			for i in range(len(function_and_param)):
+				self.handle_parametered_function_intern(function_and_param[i], value)
+		else: 
+			self.handle_parametered_function_intern(function_and_param, value)
+		
+	def handle_parametered_function_intern(self, function_and_param, value):
+		
 		name = function_and_param[0]
 		method =  function_and_param[1]
 		params =  function_and_param[2]
@@ -453,7 +461,8 @@ class YAAS(ControlSurface):
 		
 	def init_midi_config(self):
 		
-		self.midi_note_definitions = self.config.get_midi_note_definitions()		
+		self.midi_note_definitions = self.config.get_midi_note_definitions()	
+		self.log.verbose("(Yaas) midi note defs: " + str(self.midi_note_definitions))	
 		self.follow_up_events = {}
 		for k, v in self.midi_note_definitions.iteritems():
 			if len(v) == 4:
