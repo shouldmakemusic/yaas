@@ -47,7 +47,7 @@ class LooperController(YaasController):
     def activate_looper(self, param, value):
         
         index = param[0]
-        selected_track = self._parent._song_helper.get_selected_track()
+        selected_track = self.song_helper().get_selected_track()
         looperindex = self.get_looper_index_in_returns(index)
         if selected_track.get_send_value(looperindex) == MAX_LOOPER:
             selected_track.set_send_value(looperindex, MIN_LOOPER)
@@ -75,7 +75,7 @@ class LooperController(YaasController):
             
     def clipLooper(self, params, value):
         """ 
-            Records a clip in the current track.
+            Records a clip in the given track.
             First press is record.
             Second is play
             
@@ -87,7 +87,7 @@ class LooperController(YaasController):
 
         track_helper = self.track_helper(track_index)
         track_helper.get_track().arm = True
-        track_helper.get_track_index()
+        track_index = track_helper.get_track_index()
         
         saved_slot = None;
         
@@ -96,7 +96,7 @@ class LooperController(YaasController):
         
         self.log.debug("Click Looper for track " + str(track_index) + " with slot " + str(saved_slot))
         
-        track = self.song().tracks[track_index]
+        track = track_helper.get_track()
         i = 0
         found_empty_clip = None
         while i<50:            
@@ -121,7 +121,7 @@ class LooperController(YaasController):
                     track.clip_slots[saved_slot].fire()
                     del self.emulatedLoopClip[str(track_index)]
                 else:
-                    self.verbose('current slot is not recording')
+                    self.log.verbose('current slot is not recording')
                     # record
                     i = saved_slot
                     while i<50:            
