@@ -146,27 +146,34 @@ class LightHouseOSCReceiver:
                 follow_up = self.get_value(msg[9])
             
             if msg[2] == 'Midi Note' or msg[2] == 'Midi Note On':
-                if int(msg[3]) in self.midi_note_definitions_temporarily:
-                    self.log.verbose("(LightHouseOSCReceiver) found double entry " + msg[3])
-                    existing = self.midi_note_definitions_temporarily[int(msg[3])]
-                    if isinstance(existing[0], list):
-                        existing.append( [msg[4], msg[5], [value1, value2, value3], [follow_up]] )
-                    else:
-                        self.midi_note_definitions_temporarily[int(msg[3])] = [existing, [msg[4], msg[5], [value1, value2, value3], [follow_up]]]
-                else:
-                    self.midi_note_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
+                self.add_value_intern(self.midi_note_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
                 
             elif msg[2] == 'Midi Note Off':
-                self.midi_note_off_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
+                self.add_value_intern(self.midi_note_off_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
 
             elif msg[2] == 'Midi CC':
-                self.midi_cc_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
+                self.add_value_intern(self.midi_cc_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
 
             elif msg[2] == 'Midi Note LightHouse':
-                self.midi_note_definitions_for_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
+                self.add_value_intern(self.midi_note_definitions_for_lighthouse, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
         else:
             self.log.verbose('Unknown message received ' + str(msg))
-    
+            
+    def add_value_intern(self, definition, key, value):
+        if int(key) in definition:
+            self.log.verbose("(LightHouseOSCReceiver) found double entry " + key)
+            existing = definition[int(key)]
+            if isinstance(existing[0], list):
+                existing.append( value )
+            else:
+                definition[int(key)] = [existing, value]
+        else:
+            definition[int(key)] = value
+
     def get_value(self, value):
         
         if value.isdigit() or (value.startswith('-') and value[1:].isdigit()):
