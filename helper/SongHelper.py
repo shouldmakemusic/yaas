@@ -38,6 +38,8 @@ class SongHelper(YaasHelper):
     def get_selected_track(self):
         """
             Returns a track_helper for the currently selected track
+            
+            @return: track_helper
         """
         selected_track = self.song().view.selected_track
         return self.getOrCreateTrackHelper(selected_track)
@@ -56,6 +58,14 @@ class SongHelper(YaasHelper):
         return self.getOrCreateTrackHelper(track)
     
     def get_track_for_name(self, name):
+        """
+            If there is an track with the given name return it
+            Else None is returned
+            
+            @param name: name of the wanted track
+            @return: track_helper
+        """
+        
         for i in range(len(self.song().tracks)):
             if self.song().tracks[i].name == name:
                 return self.get_track(i)
@@ -69,7 +79,13 @@ class SongHelper(YaasHelper):
         return all_tracks
     
     def getOrCreateTrackHelper(self, track):                
-        
+        """
+            If there is an existing track_helper for this track return it
+            Else create a new and return it
+            
+            @param track: track_index
+            @return: track_helper
+        """
         with self.yaas.component_guard():
             new_track_helper = TrackHelper(self.yaas, track)
         index = new_track_helper.get_track_index()
