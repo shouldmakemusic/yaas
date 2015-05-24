@@ -74,8 +74,9 @@ from LiveOSC.LiveOSC import LiveOSC
 # YAAS OSC
 from LightHouseOSCReceiver import LightHouseOSCReceiver
 
-# Logger
+# Utils
 from util.Logger import Logger
+from util.RangeUtil import RangeUtil
 
 """ Framework classes """
 from _Framework.ControlSurface import ControlSurface # Central base class for scripts based on the new Framework
@@ -326,7 +327,7 @@ class YAAS(ControlSurface):
 		function_and_param = definitions[button]
 		name = function_and_param[0]
 		method =  function_and_param[1]
-		param =  function_and_param[2]
+		params =  function_and_param[2]
 
 		found = False
 		try:
@@ -336,7 +337,15 @@ class YAAS(ControlSurface):
 			if (hasattr(controller, method)):
 				found = True
 				self.log.debug("(Yaas) Calling " + name + "." + method)
-				show_light = getattr(controller, method)(param, value)
+				self.log.verbose("(Yaas) with params " + str(params) + " and value " + str(value))
+				if len(params) == 3 and params[2].find(";") >= 0:
+					minmax = params[2].split(";")
+					range_util = RangeUtil(0, 127)
+					#self.log.verbose('(Yaas) normalize value min: ' + minmax[0] + ':' + minmax[1])
+					range_util.set_target_min_max(int(minmax[0]), int(minmax[1]))
+					value = int(range_util.get_target_value(value))
+					self.log.verbose('(Yaas) normalize value: ' + str(value))
+				show_light = getattr(controller, method)(params, value)
 				#self.log.verbose("(Yaas) Lights " + str(show_light))
 				if show_light is not None:
 					if show_light is False:

@@ -48,3 +48,6 @@ class DebugController (YaasController):
         #self.log.verbose('DeviceHelper ' + str(self.device_helper()))
         
         self.device_helper().log_parameters_for_device(device)
+        
+    def show_value(self, params, value):
+        self.log.debug("(DebugController) show_value: " + str(value))

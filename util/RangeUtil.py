@@ -27,13 +27,25 @@ class RangeUtil:
     
     def __init__(self, source_min_value, source_max_value):
         
-        self.source_min_value = source_min_value
-        self.source_max_value = source_max_value
-    
+        self.source_max_value = source_max_value - source_min_value
+        self.source_min_value = 0
+        self.source_offset = source_min_value
+        
+        if source_min_value < source_max_value:
+            self.source_direction = 1
+        else:
+            self.source_direction = -1
+
     def set_target_min_max(self, target_min_value, target_max_value):
         
-        self.target_min_value = target_min_value
-        self.target_max_value = target_max_value
+        self.target_min_value = 0
+        self.target_max_value = target_max_value - target_min_value
+        self.target_offset = target_min_value
+        
+        if target_min_value < target_max_value:
+            self.target_direction = 1
+        else:
+            self.target_direction = -1
         
     def get_factor(self):
         
@@ -47,8 +59,9 @@ class RangeUtil:
         
     def get_target_value(self, source_value):
         
-        factor = self.get_factor()
-        return (source_value * factor) + abs(factor * self.source_min_value) - abs(self.target_min_value)
+        factor = self.get_factor()        
+        #return (source_value * factor) + abs(factor * self.source_min_value) - abs(self.target_min_value)
+        return (source_value * factor) + self.target_offset - (factor * self.source_offset)
     
     def get_value(self, device_parameter, source_value):
         #print('Setting min: ' + str(device_parameter.min)) 
@@ -72,7 +85,7 @@ if __name__ == "__main__":
     print("val: 10, exp: 5, is " + str(target_value))
      
     target_value = range_util.get_target_value(0)
-    print("val: 0, exp: 2.5, is " + str(target_value))
+    print("val: 0, exp: 0, is " + str(target_value))
      
     range_util = RangeUtil(-10, 10)
     range_util.set_target_min_max(0, 5)
@@ -125,11 +138,31 @@ if __name__ == "__main__":
     target_value = range_util.get_target_value(-0.670376479626)
     print("val: -0.670376479626, exp: ?, is " + str(target_value))
 
-    range_util = RangeUtil(-10, 10)
-    range_util.set_target_min_max(0, 127)
-    print("Setup source range from -10 to 10")
-    print("target range is from 0 to 127")
+    range_util = RangeUtil(0, 127)
+    range_util.set_target_min_max(50, 100)
+    print("Setup source range from 0 to 127")
+    print("target range is from 50 to 100")
 
-    target_value = range_util.get_target_value(9.65342140198)
-    print("val: 9.65342140198, exp: ?, is " + str(target_value))
+    target_value = range_util.get_target_value(0)
+    print("val: 0, exp: 50, is " + str(target_value))
+    
+    target_value = range_util.get_target_value(127)
+    print("val: 127, exp: 100, is " + str(target_value))
+
+    target_value = range_util.get_target_value(63)
+    print("val: 63, exp: 75, is " + str(target_value))
+
+    range_util = RangeUtil(0, 127)
+    range_util.set_target_min_max(100, 50)
+    print("Setup source range from 0 to 127")
+    print("target range is from 100 to 50")
+
+    target_value = range_util.get_target_value(0)
+    print("val: 0, exp: 100, is " + str(target_value))
+    
+    target_value = range_util.get_target_value(127)
+    print("val: 127, exp: 50, is " + str(target_value))
+
+    target_value = range_util.get_target_value(63)
+    print("val: 63, exp: 75, is " + str(target_value))
 
