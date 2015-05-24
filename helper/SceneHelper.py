@@ -35,6 +35,8 @@ class SceneHelper(YaasHelper):
             Returns the scene with the given index
             Starting at 0
             Can also be CURRENT
+            
+            @return: ableton live scene
         """
         if (scene_index == CURRENT):
             return self.song().view.selected_scene
@@ -44,6 +46,8 @@ class SceneHelper(YaasHelper):
     def get_selected_scene(self):
         """
             Returns the selected scene
+            
+            @return: ableton live scene
         """
         return self.get_scene(CURRENT)
         
@@ -58,6 +62,9 @@ class SceneHelper(YaasHelper):
             Returns the scene_index of the given scene
             This is only accomplished by the name.
             It finds the first scene with the same name
+            
+            @param scene: ableton live scene
+            @return: index
         """
         for i in range(len(self.song().scenes)):
             current_scene = self.song().scenes[i]
@@ -72,6 +79,10 @@ class SceneHelper(YaasHelper):
             Works also for '# ' track names (that are replaced by numbers)
             If this clipslot has no clip but a stop button -> stop
             If this clip is playing -> stop
+            
+            @param scene_index: index of the scene
+            @param name: use tracks that start with this prefix
+
         """        
     	for i in range(len(self.song().tracks)):
             

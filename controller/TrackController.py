@@ -204,4 +204,28 @@ class TrackController (YaasController):
 		selected_track = track_helper.get_track()
 		selected_track.mixer_device.volume.value = value
 
+	def switch_between_tracks(self, params, value):
+		"""
+			Switches the view between two tracks.
+			If you want to use a return track use 'return#' and of
+			course replace '#' with the index of the wanted return.
+			
+			@param params[0]: track_index
+			@param params[1]: track_index
+		"""
+		self.log.verbose("(TrackController) set_volume called")
+		track_index1 = params[0]
+		track_index2 = params[1]
+		self.log.verbose("(TrackController) for track " + str(track_index1) + " and track " + str(track_index2))
+
+		track_helper1 = self.song_helper().get_track(track_index1)
+		track_helper2 = self.song_helper().get_track(track_index2)
+		selected = self.song_helper().get_selected_track()
+		
+		if selected.get_track_index() == track_helper1.get_track_index():
+			self.view_helper().focus_on_track_helper(track_helper2)
+		elif selected.get_track_index() == track_helper2.get_track_index():
+			self.view_helper().focus_on_track_helper(track_helper1)
+		else:
+			self.view_helper().focus_on_track_helper(track_helper1)
 

@@ -158,10 +158,10 @@ class YAAS(ControlSurface):
 			self._setup_light_control()
 			
 			# Initialize the possible helpers
-			self._device_helper = DeviceHelper(self)			
 			self._scene_helper = SceneHelper(self)			
 			self._song_helper = SongHelper(self)			
 			self._view_helper = ViewHelper(self)
+			self._device_helper = DeviceHelper(self)			
 
 		# store and retrieve values
 		self._value_container = ValueContainer(self)

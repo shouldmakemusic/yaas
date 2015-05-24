@@ -41,16 +41,27 @@ class SongHelper(YaasHelper):
             
             @return: track_helper
         """
-        selected_track = self.song().view.selected_track
+        selected_track = self.view_helper().get_selected_track()
         return self.getOrCreateTrackHelper(selected_track)
 
     def set_selected_track(self, track_helper):
         self.song().view.selected_track = track_helper.get_track()
         
     def get_track(self, track_index):
+        """
+            If there is an track with the index return it
+            Can hande 'CURRENT' and 'return#'
+            
+            @param track_index: index of the wanted track
+            @return: track_helper
+        """
         
         if (track_index == CURRENT):
             return self.get_selected_track()
+        
+        if not isinstance( track_index, ( int, long ) ) and 'return' in track_index:
+            return_index = track_index[6:]
+            return self.getOrCreateTrackHelper(self.song().return_tracks[int(return_index)])
 
         all_tracks = self.song_helper().get_all_tracks_including_return_and_master()
         track = all_tracks[int(track_index)]

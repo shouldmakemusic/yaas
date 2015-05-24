@@ -42,7 +42,6 @@ class DeviceHelper(YaasHelper):
         YaasHelper.__init__(self, yaas)
         self.log.debug("(DeviceHelper) init")
     
-    
     def log_parameters_for_device(self, device):
         """
             Takes a live device and debugs all parameters and settings

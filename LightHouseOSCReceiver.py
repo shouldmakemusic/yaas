@@ -184,6 +184,10 @@ class LightHouseOSCReceiver:
             return PREV
         elif value == 'NEXT':
             return NEXT
+        elif value == 'True' or value == 'true':
+            value = True
+        elif value == 'False' or value == 'false':
+            value = False
         return value        
 
 

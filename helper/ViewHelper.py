@@ -60,6 +60,14 @@ class ViewHelper (YaasHelper):
         """
         self.focus_on_track(track_helper.get_track())
         
+    def get_selected_track(self):
+        """
+            Returns the currently selected track
+            
+            @return: ableton live track
+        """
+        return self.song().view.selected_track
+        
     def focus_on_track(self, track):
         """
             Sets the view to the given track and shows the devices
