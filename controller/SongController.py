@@ -161,6 +161,6 @@ class SongController (YaasController):
 			self.song().loop = False
 		else:
 			self.song().loop = True;
-		return track.arm
+		return self.song().loop
 
 		

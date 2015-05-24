@@ -183,7 +183,7 @@ class TrackController (YaasController):
 		self.log.verbose("(TrackController) for track " + str(track_index) + " and send " + str(send_index))
 		
 		track_helper = self.song_helper().get_track(track_index)
-		new_value = self.range_util.get_value(track_helper.get_track().mixer_device.sends[send_id], value);		
+		new_value = self.range_util.get_value(track_helper.get_track().mixer_device.sends[send_index], value);		
 		#self.log.verbose("set send " + str(send_index) + " for track " + str(track_index) + " to value " + str(new_value))
 		track_helper.set_send_value(send_index, new_value)
 		

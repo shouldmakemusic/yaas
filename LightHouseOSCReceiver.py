@@ -112,6 +112,7 @@ class LightHouseOSCReceiver:
                 
                 for k, v in self.midi_note_definitions_temporarily.iteritems():
                     self.yaas.midi_note_definitions[k] = v  
+                self.log.verbose("set midi cc definitions: " + str(self.midi_cc_definitions_temporarily))
                 for k, v in self.midi_cc_definitions_temporarily.iteritems():
                     self.yaas.midi_cc_definitions[k] = v  
                 for k, v in self.midi_note_definitions_for_lighthouse.iteritems():
@@ -145,7 +146,15 @@ class LightHouseOSCReceiver:
                 follow_up = self.get_value(msg[9])
             
             if msg[2] == 'Midi Note' or msg[2] == 'Midi Note On':
-                self.midi_note_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
+                if int(msg[3]) in self.midi_note_definitions_temporarily:
+                    self.log.verbose("(LightHouseOSCReceiver) found double entry " + msg[3])
+                    existing = self.midi_note_definitions_temporarily[int(msg[3])]
+                    if isinstance(existing[0], list):
+                        existing.append( [msg[4], msg[5], [value1, value2, value3], [follow_up]] )
+                    else:
+                        self.midi_note_definitions_temporarily[int(msg[3])] = [existing, [msg[4], msg[5], [value1, value2, value3], [follow_up]]]
+                else:
+                    self.midi_note_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]
                 
             elif msg[2] == 'Midi Note Off':
                 self.midi_note_off_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3], [follow_up]]

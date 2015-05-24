@@ -35,6 +35,8 @@ class RangeUtil:
             self.source_direction = 1
         else:
             self.source_direction = -1
+            
+        self.target_offset = 0
 
     def set_target_min_max(self, target_min_value, target_max_value):
         

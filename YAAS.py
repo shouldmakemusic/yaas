@@ -325,13 +325,14 @@ class YAAS(ControlSurface):
 	def handle_parametered_function(self, definitions, button, value, midi_bytes):
 		
 		function_and_param = definitions[button]
-		if isinstance(function_and_param, list):
+		if isinstance(function_and_param[0], list):
+			self.log.verbose("(Yaas) think i found list " + str(function_and_param))
 			for i in range(len(function_and_param)):
-				self.handle_parametered_function_intern(function_and_param[i], value)
+				self.handle_parametered_function_intern(function_and_param[i], value, midi_bytes)
 		else: 
-			self.handle_parametered_function_intern(function_and_param, value)
+			self.handle_parametered_function_intern(function_and_param, value, midi_bytes)
 		
-	def handle_parametered_function_intern(self, function_and_param, value):
+	def handle_parametered_function_intern(self, function_and_param, value, midi_bytes):
 		
 		name = function_and_param[0]
 		method =  function_and_param[1]
