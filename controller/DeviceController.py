@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,17 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+	Control everything that can happen with or inside a device
+"""
 from YaasController import *
+from ..consts import CURRENT
 
 class DeviceController (YaasController):
-	__module__ = __name__
-	__doc__ = "Control everything that can happen with or inside a device"
+	"""
+		Control everything that can happen with or inside a device
+	"""
+
+	_parameter_names_for_device_in_set = {}
 
 	def __init__(self, yaas):
 
@@ -32,8 +37,9 @@ class DeviceController (YaasController):
 	def navigate_device_focus(self, params, value):
 		"""
 			Selects next or previous device
-			0 -> track_index
-			1 -> next? True : False
+			
+			@param params[0]: track_index
+			@param params[1]: next? True : False
 		"""
 		self.log.verbose("(DeviceController) navigate_device_focus called")
 		track_index = params[0]
@@ -66,8 +72,9 @@ class DeviceController (YaasController):
 	def toggle_device(self, params, value):
 		"""
 			Switches defined device on/off
-			0 -> track_index
-			1 -> device_index
+			
+			@param params[0]: track_index
+			@param params[1]: device_index
 		"""
 
 		track_index = params[0]
@@ -100,8 +107,8 @@ class DeviceController (YaasController):
 			exclusive means only one chain is not muted
 			inclusive means the selected chain gets switched
 
-			0 -> chain_index
-			1 -> True means Exclusive / False means Inclusive
+			@param params[0]: chain_index
+			@param params[1]: True means Exclusive / False means Inclusive
 		"""
 		self.log.verbose("(DeviceController) trigger_device_chain called")
 		chain_index = params[0]
@@ -141,9 +148,19 @@ class DeviceController (YaasController):
 	def set_chain_selector(self, params, value):
 		"""
 			Use the current active hash device and if it is a rack
-			select the chain with the given index
-			Save the values from device knobs 1-4
-			0 -> chain_index
+			select the chain with the given chain selector value
+			
+			You can also define a button that sets the chain selector to a given value.
+
+			One button is wired to a certain chain (or multiple if you add them at the 
+			given chain selector position)
+
+			When switching between chain positions for each position the values of 
+			parameters 1-4 are saved (persistantly, that means for every device with 
+			this exact name and in a file, so it will be restored when reopening the 
+			set and selecting a chain with this method)
+			
+			@param params[0]: chain_index
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
 		chain_index = params[0]
@@ -206,12 +223,68 @@ class DeviceController (YaasController):
 		""" 
 			First call select first device that starts with '#'
 			If the name of the appointed device starts with '#' find a new '#'-device
-			Store this device - from now on the first call selects this one			 
-			0 -> track_index to start search from
+			Store this device - from now on the first call selects this one		
+				 
+			@param params[0]: track_index to start search from (optional)
 		"""
 		self.log.verbose("(DeviceController) set_chain_selector called")
-		track_index = params[0]
+		if len(params) == 0:
+			track_index = 0
+		else: 
+			track_index = params[0]
+			if track_index == '':
+				track_index = 0
 		self.log.verbose("(DeviceController) for track " + str(track_index))
-		
-		
+				
 		self.device_helper().select_current_then_select_next_hash_device(track_index)
+		
+	def connect_to_rack_parameter(self, params, value):
+		"""
+			Use the current active hash device and connects to the given parameter
+			
+			0 -> enable/disable device
+			1-8 -> device params
+			9 -> chain selector if not mapped
+			
+			@param params[0]: parameter_id
+		"""
+		self.log.verbose("(DeviceController) connect_to_rack_parameter called")
+		parameter_id = params[0]
+				
+		device = self.device_helper().get_hash_device()
+		self.log.verbose("(DeviceController) for device " + device.name + ", parameter " + str(parameter_id))
+					
+		if device is not None:
+			
+			set_name = 'default'
+			name = set_name + '_' + device.name
+			parameter = device.parameters[parameter_id]
+			
+			if not(name in self._parameter_names_for_device_in_set.keys()):
+				parameter_names = {}
+				for index in range(len(device.parameters)):
+					parameter_name = device.parameters[index].name
+					parameter_names[parameter_name] = index
+					self.log.verbose("added param " + parameter_name + " with index " + str(index))
+					
+				self._parameter_names_for_device_in_set[name] = parameter_names
+				self.log.debug("stored parameters for " + name)
+
+			min = parameter.min
+			max = parameter.max
+			
+			max_name = "Max " + parameter.name
+			self.log.verbose("max name " + max_name)
+			if max_name in self._parameter_names_for_device_in_set[name]:
+				#self.log.debug("found")
+				index = self._parameter_names_for_device_in_set[name][max_name]
+				#self.log.debug("index " + str(index))
+				max = device.parameters[index].value + 1
+			#self.log.debug("max value " + str(max))
+			
+			# TODO same fix as in trackconroller (use rangeutil)
+			#value = self.get_normalized_value(min, max, value)	
+			self.range_util.set_target_min_max(min, max)
+			new_value = self.range_util.get_target_value(value);		
+			parameter.value = new_value
+				

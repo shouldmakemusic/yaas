@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Control every action around scenes
+"""
 from YaasController import *
 
 class SceneController (YaasController):
-    __module__ = __name__
-    __doc__ = "Control every action around scenes"
+    """
+        Control every action around scenes
+    """
     
     def __init__(self, yaas):
 
@@ -32,8 +34,9 @@ class SceneController (YaasController):
         
     def play_scene(self, params, value):
         """
-            Plays the given scene            
-            0 -> scene_index
+            Plays the given scene     
+                   
+            @param params[0]: scene_index
         """
         self.log.verbose("(SceneController) play_scene called")
         
@@ -45,7 +48,8 @@ class SceneController (YaasController):
     def play_scene_select_next(self, params, value):
         """
             Plays the given scene and then selects the next scene            
-            0 -> scene_index
+            
+            @param params[0]: scene_index
         """
         self.log.verbose("(SceneController) play_scene_select_next called")
         
@@ -58,8 +62,9 @@ class SceneController (YaasController):
         """
             Plays the given scene but only clips in tracks whose name
             start with the given prefix 
-            0 -> scene_index
-            1 -> name
+            
+            @param params[0]: scene_index
+            @param params[1]: name
         """
         self.log.verbose("(SceneController) play_scene_only_tracks_with called")
         
@@ -73,9 +78,11 @@ class SceneController (YaasController):
         """
             Plays the current scene but only clips in tracks whose name
             start with 'i<number> '
+            
             If this clipslot has no clip but a stop button -> stop
             If this clip is playing -> stop
-            0 -> number
+            
+            @param params[0]: number
         """
         self.log.verbose("(SceneController) play_i_tracks_in_current called")
         
@@ -88,11 +95,13 @@ class SceneController (YaasController):
         """
             Plays the current scene but only clips in tracks whose name
             start with 'e<number> '
+            
             If this clipslot has no clip but a stop button -> stop
             If this clip is playing -> stop
-            0 -> number
+            
+            @param params[0]: number
         """
-        self.log.verbose("(SceneController) play_i_tracks_in_current called")
+        self.log.verbose("(SceneController) play_e_tracks_in_current called")
         
         number = params[0]
         self.log.verbose("(SceneController) with number " + str(number))
@@ -102,7 +111,8 @@ class SceneController (YaasController):
     def stop(self, params, value):
         """
             Stops all clips in the given scene
-            0 -> scene_index
+            
+            @param params[0]: scene_index
         """
         self.log.verbose("(SceneController) stop called")
 
@@ -119,6 +129,7 @@ class SceneController (YaasController):
     def scene_down(self, params, value):
         """
             The next scene will be selected
+            
         """
         self.log.verbose("(SceneController) scene_down called")
         self.view_helper().move_scene_view(True)
@@ -126,6 +137,7 @@ class SceneController (YaasController):
     def scene_up(self, params, value):
         """
             The previous scene will be selected
+            
         """
         self.log.verbose("(SceneController) scene_up called")
         self.view_helper().move_scene_view(False)

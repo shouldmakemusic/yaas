@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    SceneHelper provides easy access to the scene functions
+"""
 from YaasHelper import *
 
 class SceneHelper(YaasHelper):
-    __module__ = __name__
-    __doc__ = 'SceneHelper provides easy access to the scene functions'
+    """
+        SceneHelper provides easy access to the scene functions
+    """
     
     def __init__(self, yaas):
 
@@ -33,6 +35,8 @@ class SceneHelper(YaasHelper):
             Returns the scene with the given index
             Starting at 0
             Can also be CURRENT
+            
+            @return: ableton live scene
         """
         if (scene_index == CURRENT):
             return self.song().view.selected_scene
@@ -42,6 +46,8 @@ class SceneHelper(YaasHelper):
     def get_selected_scene(self):
         """
             Returns the selected scene
+            
+            @return: ableton live scene
         """
         return self.get_scene(CURRENT)
         
@@ -56,6 +62,9 @@ class SceneHelper(YaasHelper):
             Returns the scene_index of the given scene
             This is only accomplished by the name.
             It finds the first scene with the same name
+            
+            @param scene: ableton live scene
+            @return: index
         """
         for i in range(len(self.song().scenes)):
             current_scene = self.song().scenes[i]
@@ -70,6 +79,10 @@ class SceneHelper(YaasHelper):
             Works also for '# ' track names (that are replaced by numbers)
             If this clipslot has no clip but a stop button -> stop
             If this clip is playing -> stop
+            
+            @param scene_index: index of the scene
+            @param name: use tracks that start with this prefix
+
         """        
     	for i in range(len(self.song().tracks)):
             
@@ -83,7 +96,8 @@ class SceneHelper(YaasHelper):
                     clip_slot_index = self.get_scene_index(scene)
 
                 clip_slot = track.clip_slots[clip_slot_index]
-                if clip_slot.is_playing:
+
+                if clip_slot.is_playing or clip_slot.is_recording or clip_slot.is_triggered:
                 	clip_slot.stop()
                 elif (clip_slot.has_clip or track.is_foldable) and not clip_slot.will_record_on_start:
                     clip_slot.fire()

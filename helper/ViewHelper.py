@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Control the view
+"""
 from YaasHelper import *
 
 class ViewHelper (YaasHelper):
-    __module__ = __name__
-    __doc__ = "Control the view"
+    """
+        Control the view
+    """
      
     def __init__(self, yaas):
 
@@ -57,6 +59,14 @@ class ViewHelper (YaasHelper):
             Sets the view to the given track and shows the devices
         """
         self.focus_on_track(track_helper.get_track())
+        
+    def get_selected_track(self):
+        """
+            Returns the currently selected track
+            
+            @return: ableton live track
+        """
+        return self.song().view.selected_track
         
     def focus_on_track(self, track):
         """

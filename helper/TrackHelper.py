@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,11 +17,14 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    TrackHelper provides easy access to the track functions
+"""
 from YaasHelper import *
 
 class TrackHelper(YaasHelper):
-    __module__ = __name__
-    __doc__ = 'TrackHelper provides easy access to the track functions'
+    """
+        TrackHelper provides easy access to the track functions
+    """
     
     def __init__(self, yaas, track):
 
@@ -42,10 +44,12 @@ class TrackHelper(YaasHelper):
             self._track = track
             
         # get the index of this track
-        all_tracks = self.song_helper().get_all_tracks()
+        all_tracks = self.song_helper().get_all_tracks_including_return_and_master()
+        self.log.verbose('looking for track ' + self._track.name)
         for i in range(len(all_tracks)):
             if all_tracks[i].name == self._track.name:
                 self._track_index = i
+                return
     
     def get_track(self):
         return self._track
@@ -105,15 +109,6 @@ class TrackHelper(YaasHelper):
         if value < min:
             value = min
         self._track.mixer_device.sends[index].value = value
-        
-    def arm(self):
-        """
-            Arms the track this track_helper represents
-        """
-        if self._track.arm == True:
-            self._track.arm = False
-        else:
-            self._track.arm = True;
             
     def fire(self, clip_number):
     	"""
@@ -121,6 +116,16 @@ class TrackHelper(YaasHelper):
     	"""
         if clip_number < len(self._track.clip_slots):
     	       self._track.clip_slots[clip_number].fire()
+               
+    def get_playing_clip(self):
+        """
+            Returns the currently playing clip
+        """
+        track = self._track
+        for i in range(len(track.clip_slots)):
+            if track.clip_slots[i].is_playing or track.clip_slots[i].is_recording or track.clip_slots[i].is_triggered:
+                return track.clip_slots[i].clip
+        return None
             
     def stop_or_restart_clip(self):
         """
@@ -152,4 +157,4 @@ class TrackHelper(YaasHelper):
             if self.last_played_clip is not None:
                 track.clip_slots[self.last_played_clip].fire()            
 
-        
+    

@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,17 +17,23 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Base class for controllers
+"""
 import Live
+from ..util.RangeUtil import RangeUtil
 
 CURRENT = -1
 
 class YaasController:
-    __module__ = __name__
-    __doc__ = "Base class for controllers"
+    """
+        Base class for controllers
+    """
     
     def __init__(self, yaas):
         self.yaas = yaas
         self.log = yaas.log
+        
+        self.range_util = RangeUtil(0, 127)
         
     def application(self):
         """

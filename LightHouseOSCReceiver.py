@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -17,6 +16,7 @@
 #
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
+"""
 """
 import Live
 import os
@@ -37,9 +37,11 @@ import LiveOSC.UDPServer
 
 class LightHouseOSCReceiver:
     
-    midi_notes_definitions_temporarily = {}   
+    midi_note_definitions_temporarily = {}   
     midi_cc_definitions_temporarily = {} 
     midi_note_definitions_for_lighthouse = {}
+    midi_note_off_definitions_temporarily = {}
+    light_definitions_temporarily = {}
 
     def __init__(self, oscServer, logger):
         
@@ -91,36 +93,90 @@ class LightHouseOSCReceiver:
         if len(msg) == 3:
             if msg[2] == 'start':
                 self.log.debug('start receiving')
-                self.midi_notes_definitions_temporarily = {}
+                self.midi_note_definitions_temporarily = {}
                 self.midi_note_definitions_for_lighthouse = {}
+                self.midi_note_off_definitions_temporarily= {}
+                self.light_definitions_temporarily = {}
             if msg[2] == 'end':
                 self.log.debug('end receiving')
-                self.log.verbose('midi from lighthouse: ' + str(self.midi_notes_definitions_temporarily))
+                self.log.verbose('midi from lighthouse: ' + str(self.midi_note_definitions_temporarily))
 
-                self.yaas.midi_notes_definitions_temporarily = self.midi_notes_definitions_temporarily   
-                self.yaas.midi_cc_definitions_temporarily = self.midi_cc_definitions_temporarily
-                self.yaas.midi_note_definitions_for_lighthouse = self.midi_note_definitions_for_lighthouse
-                self.yaas.request_rebuild_midi_map()
+                follow_up_events = {}
+                for k, v in self.midi_note_definitions_temporarily.iteritems():
+                    if len(v) == 4:
+                        key = v[3][0]
+                        if key is not None:
+                            follow_up_events[key] = k
+                self.yaas.follow_up_events = follow_up_events
+                self.log.verbose("Found follow up events " + str(follow_up_events))
                 
-        if len(msg) == 9:
+                for k, v in self.midi_note_definitions_temporarily.iteritems():
+                    self.yaas.midi_note_definitions[k] = v  
+                self.log.verbose("set midi cc definitions: " + str(self.midi_cc_definitions_temporarily))
+                for k, v in self.midi_cc_definitions_temporarily.iteritems():
+                    self.yaas.midi_cc_definitions[k] = v  
+                for k, v in self.midi_note_definitions_for_lighthouse.iteritems():
+                    self.yaas.midi_note_definitions_for_lighthouse[k] = v  
+                for k, v in self.midi_note_off_definitions_temporarily.iteritems():
+                    self.yaas.midi_note_off_definitions[k] = v
+                for k, v in self.light_definitions_temporarily.iteritems():
+                    self.yaas.light_definitions[k] = v
+                    
+        elif len(msg) == 5:
+            self.log.verbose('(OCSReceiver) got ' + str(msg))
+            command = self.get_value(msg[2])
+            midi_command = self.get_value(msg[3])
+            midi_note = self.get_value(msg[4])
+            self.log.verbose('Midi command ' + str(midi_command))
+            self.log.verbose('Midi note ' + str(midi_note))
+            if midi_command == 'Midi CC':
+                midi_command = 176
+            else:
+                midi_command = 144
+            self.light_definitions_temporarily[command] = [midi_command, midi_note]
+
+        elif len(msg) == 9 or len(msg) == 10:
             #self.log.debug('entry: ' + str(msg[2]))
             value1 = self.get_value(msg[6])
             value2 = self.get_value(msg[7])
             value3 = self.get_value(msg[8])
+            follow_up = None
+            if len(msg) == 10:
+                self.log.verbose("set follow up")
+                follow_up = self.get_value(msg[9])
             
-            if msg[2] == 'Midi Note':
-                self.midi_notes_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+            if msg[2] == 'Midi Note' or msg[2] == 'Midi Note On':
+                self.add_value_intern(self.midi_note_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
                 
+            elif msg[2] == 'Midi Note Off':
+                self.add_value_intern(self.midi_note_off_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
+
             elif msg[2] == 'Midi CC':
-                self.midi_cc_definitions_temporarily[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.add_value_intern(self.midi_cc_definitions_temporarily, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
 
             elif msg[2] == 'Midi Note LightHouse':
-                self.midi_note_definitions_for_lighthouse[int(msg[3])] = [msg[4], msg[5], [value1, value2, value3]]
+                self.add_value_intern(self.midi_note_definitions_for_lighthouse, msg[3], 
+                                      [msg[4], msg[5], [value1, value2, value3], [follow_up]])
+        else:
+            self.log.verbose('Unknown message received ' + str(msg))
+            
+    def add_value_intern(self, definition, key, value):
+        if int(key) in definition:
+            self.log.verbose("(LightHouseOSCReceiver) found double entry " + key)
+            existing = definition[int(key)]
+            if isinstance(existing[0], list):
+                existing.append( value )
+            else:
+                definition[int(key)] = [existing, value]
+        else:
+            definition[int(key)] = value
 
-    
     def get_value(self, value):
         
-        if value.isdigit():
+        if value.isdigit() or (value.startswith('-') and value[1:].isdigit()):
             return int(value)
         elif value == 'CURRENT':
             return CURRENT
@@ -128,8 +184,11 @@ class LightHouseOSCReceiver:
             return PREV
         elif value == 'NEXT':
             return NEXT
-        return value
-            
+        elif value == 'True' or value == 'true':
+            value = True
+        elif value == 'False' or value == 'false':
+            value = False
+        return value        
 
 
     def sensorX(self, msg):

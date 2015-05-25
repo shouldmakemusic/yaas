@@ -1,4 +1,3 @@
-"""
 # Copyright (C) 2015 Manuel Hirschauer (manuel@hirschauer.net)
 #
 # This library is free software; you can redistribute it and/or
@@ -18,6 +17,8 @@
 # For questions regarding this module contact
 # Manuel Hirschauer <manuel@hirschauer.net> 
 """
+    Loads configurations and makes it available
+"""
 import os
 import ConfigParser
 
@@ -27,6 +28,9 @@ from ..consts import DEFAULT_SHOW_RED_FRAME
 from ..consts import PREV
 from ..consts import NEXT
 from ..consts import CURRENT
+from ..consts import PLAY
+from ..consts import STOP
+from ..consts import RECORD
 
 # https://wiki.python.org/moin/ConfigParserExamples
 class Configuration:
@@ -123,6 +127,26 @@ class Configuration:
         except Exception, err:
             self.log.error("Could not read from midi_mapping.cfg: " + str(err))
 
+    def get_midi_note_off_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            definitions = eval(config.get('MidiIn', 'midi_note_off_definitions'))
+            definitions = self.replace_constants(definitions)
+            return definitions
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg: " + str(err))
+
+    def get_midi_light_definitions(self):
+        try:
+            config = ConfigParser.ConfigParser()
+            config.readfp(open(os.path.join(os.path.dirname(__file__), 'midi_mapping.cfg')))
+            definitions = eval(config.get('Addons', 'controller_definitions'))
+            self.log.verbose('(Configuration) loaded midi light definitions ' + str(definitions))
+            return definitions
+        except Exception, err:
+            self.log.error("Could not read from midi_mapping.cfg (light): " + str(err))
+
     def get_midi_cc_definitions(self):
         try:
             config = ConfigParser.ConfigParser()
@@ -178,23 +202,34 @@ class Configuration:
         red_frame_height = self.get_yaas_config('red_frame_height')
         return int(red_frame_height)
         
-    def replace_constants(self, definitions):
+    def replace_constants(self, definitions):                
         
         for k, v in definitions.iteritems():
-            params = definitions[k][2]
-            self.log.verbose('(Configuration) ' + str(params))
-            for i in range(len(params)):
-                if params[i] == 'CURRENT':
-                    params[i] = CURRENT
-                elif params[i] == 'PREV':
-                    params[i] = PREV
-                elif params[i] == 'NEXT':
-                    params[i] = NEXT
-                elif params[i] == 'True' or params[i] == 'true':
-                    params[i] = True
-                elif params[i] == 'False' or params[i] == 'false':
-                    params[i] = False
-                elif isinstance(params[i], ( int, long ) ):
-                    params[i] = int(params[i])
+            
+            if isinstance(definitions[k][0], (list, tuple)):
+                self.log.verbose('(Configuration) found list ' + str(definitions[k][0]))
+                for i in range(len(definitions[k])):
+                    self.log.verbose('(Configuration) replacing ' + str(definitions[k][i]))                    
+                    self.replace_constants_intern(definitions[k][i][2])
+            else:
+                self.replace_constants_intern(definitions[k][2])
         return definitions
-        
+
+    def replace_constants_intern(self, entry):
+        params = entry
+        #self.log.verbose('(Configuration) ' + str(params))
+        for i in range(len(params)):
+            if params[i] == 'CURRENT':
+                params[i] = CURRENT
+            elif params[i] == 'PREV':
+                params[i] = PREV
+            elif params[i] == 'NEXT':
+                params[i] = NEXT
+            elif params[i] == 'True' or params[i] == 'true':
+                params[i] = True
+            elif params[i] == 'False' or params[i] == 'false':
+                params[i] = False
+            elif isinstance(params[i], ( int, long ) ):
+                params[i] = int(params[i])
+            elif params[i].isdigit() or (params[i].startswith('-') and params[i][1:].isdigit()):
+                params[i] = int(params[i])
