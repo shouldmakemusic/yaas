@@ -62,7 +62,9 @@ class PedalController(YaasController):
         return new_value
     
     def handle_volume(self, params, value):
-        
+        """
+        	sets the volume for the given track
+        """
         track_id = params[0]        
         track_helper = self.song_helper().get_track(track_id)
         #self.log.debug("Volume note code " + str(value) + " and value " + str(midi_bytes[2]))
